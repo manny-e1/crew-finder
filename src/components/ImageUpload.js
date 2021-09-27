@@ -5,7 +5,7 @@ import { updateUserProfile } from '../store/user/api.user';
 
 function ImageUpload() {
   const [avat, setAvat] = useState(null);
-  const [file, setFile] = useState(null);
+  const [file, setFile] = useState('');
   const dispatch = useDispatch();
 
   const imageHandler = (event) => {
@@ -13,7 +13,6 @@ function ImageUpload() {
     setFile(event.target.files[0]);
     setAvat(URL.createObjectURL(event.target.files[0]));
     // formData.append('avatar', file);
-    dispatch(updateUserProfile({ avatar: event.target.files[0] }));
     // console.log(formData);
   };
 
@@ -22,9 +21,9 @@ function ImageUpload() {
   // console.log(file);
 
   const submitHandler = (e) => {
-    const formdata = new FormData();
-    formdata.append('avatar', file);
-    console.log(formdata.get('avatar'));
+    const formData = new FormData();
+    formData.append('avatar', file);
+    dispatch(updateUserProfile(formData));
   };
 
   return (
@@ -43,13 +42,9 @@ function ImageUpload() {
             className="border-2 border-blue-500 flex items-center justify-center rounded-full h-40 w-40"
           />
         </div>
-        <input
-          type="file"
-          name="image"
-          accept="image/*"
-          multiple={false}
-          onChange={imageHandler}
-        />
+        <form>
+          <input type="file" onChange={imageHandler} />
+        </form>
       </div>
       <div className="flex justify-end py-3 border-b px-5">
         <button
