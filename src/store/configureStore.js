@@ -20,10 +20,12 @@ import {
 import { postDataReducer } from './post_data_local/reducers.post_data';
 import { hideDivReducer } from './ui/hideDiv';
 import {
+  getAllUsersReducer,
   getUsersReducer,
   userDetailsReducer,
   userLoginReducer,
   userRegisterReducer,
+  userUpdateProfileReducer,
 } from './user/reducer.user';
 const currentUserFromStorage = localStorage.getItem('currentUser')
   ? JSON.parse(localStorage.getItem('currentUser'))
@@ -34,7 +36,9 @@ const reducer = combineReducers({
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
   userDetail: userDetailsReducer,
+  userUpdate: userUpdateProfileReducer,
   getUsers: getUsersReducer,
+  getAllUsers: getAllUsersReducer,
   auditionPostList: auditionPostListReducer,
   auditionPostDetail: auditionPostDetailReducer,
   applicationPost: postApplicationReducer,

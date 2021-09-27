@@ -9,10 +9,13 @@ import PostCard from '../components/PostCard';
 import { listAuditionPosts } from '../store/auditionPost/api.auditionpost';
 import { RegionDropdown } from 'react-country-region-selector';
 import { logout } from '../store/user/api.user';
+import { Tabs } from '../components/Tab';
 
 function Homepage() {
   const location = useLocation();
   const dispatch = useDispatch();
+  const search = location.search;
+  const tab = new URLSearchParams(search);
 
   let [query, setQuery] = useState('');
   const [applicationCount, setApplicationCount] = useState('');
@@ -20,11 +23,16 @@ function Homepage() {
 
   // const [talents, setTalents] = useState(location.search && location.search.split("=")[1].split(',').map(talent => talent));
   const auditionPostList = useSelector((state) => state.auditionPostList);
+  const { currentUser } = useSelector((state) => state.userLogin);
   const { loading, error, auditionPosts } = auditionPostList;
   // const removeTag = (tag) => {
   //     setTalents([...talents.filter(tobeRemoved => tobeRemoved !== tag.replace(" ", "%20").toLowerCase())])
   //     location.search = location.search.replace(tag.replace(" ", "%20").toLowerCase(), "")
   // }
+
+  const filteredAuditionPosts = auditionPosts?.filter((auditionPost) =>
+    auditionPost?.talents?.includes(currentUser.talent)
+  );
 
   const [d, setdd] = useState([]);
   const options = [
@@ -89,9 +97,9 @@ function Homepage() {
   console.log(query);
   const [hidden, setHidden] = useState('hidden');
   useEffect(() => {
-    location?.search && setQuery(location.search);
+    // location?.search && setQuery(location.search);
     dispatch(listAuditionPosts(query !== '' ? query : ''));
-  }, [dispatch, location.search, query]);
+  }, [dispatch, query]);
 
   // const ClearIndicator = props => {
   //     const {
@@ -266,7 +274,6 @@ function Homepage() {
             </form>
           </section>
           <section className="w-full pt-5 md:mx-2 md:rounded-2xl  lg:w-3/6 bg-white">
-            <h4 className="text-2xl font-semibold pb-5 pl-8 ">Recent Posts</h4>
             {/* <div className="flex flex-wrap">
                             {query && talents?.map(talent => (
                                 <Tag text={talent.replace(/%20/g, " ").toUpperCase()} removeTag={removeTag} />
@@ -279,14 +286,24 @@ function Homepage() {
             ) : error && error !== 'Not Authenticated' ? (
               <div>{error}</div>
             ) : (
-              <div>
-                {auditionPosts?.map((auditionPost) => (
-                  <PostCard
-                    key={auditionPost._id}
-                    auditionPost={auditionPost}
-                  />
-                ))}
-              </div>
+              <Tabs initialTab={tab.get('tab')}>
+                <div label="recent">
+                  {auditionPosts?.map((auditionPost) => (
+                    <PostCard
+                      key={auditionPost._id}
+                      auditionPost={auditionPost}
+                    />
+                  ))}
+                </div>
+                <div label="for you">
+                  {filteredAuditionPosts?.map((auditionPost) => (
+                    <PostCard
+                      key={auditionPost._id}
+                      auditionPost={auditionPost}
+                    />
+                  ))}
+                </div>
+              </Tabs>
             )}
           </section>
           <section className="w-1/6 hidden lg:flex "></section>

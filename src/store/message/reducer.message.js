@@ -20,7 +20,7 @@ export const getMessagesReducer = (state = { messages: [] }, action) => {
   }
 };
 
-export const sendMessageReducer = (state, action) => {
+export const sendMessageReducer = (state = { message: {} }, action) => {
   switch (action.type) {
     case MESSAGE_SEND_REQUEST:
       return { loading: true };

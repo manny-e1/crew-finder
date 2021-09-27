@@ -6,6 +6,7 @@ import {
   CONVERSATION_GET_REQUEST,
   CONVERSATION_GET_SUCCESS,
 } from './types.conversation';
+import axios from '../../axios';
 
 export const createConversation = (convo) => async (dispatch, getState) => {
   try {

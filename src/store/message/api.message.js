@@ -6,6 +6,7 @@ import {
   MESSAGE_GET_REQUEST,
   MESSAGE_GET_SUCCESS,
 } from './types.message';
+import axios from '../../axios';
 
 export const sendMessage = (message) => async (dispatch, getState) => {
   try {

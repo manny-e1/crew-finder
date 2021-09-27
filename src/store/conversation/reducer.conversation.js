@@ -23,7 +23,10 @@ export const getConversationsReducer = (
   }
 };
 
-export const createConversationReducer = (state, action) => {
+export const createConversationReducer = (
+  state = { conversation: {} },
+  action
+) => {
   switch (action.type) {
     case CONVERSATION_CREATE_REQUEST:
       return { loading: true };
