@@ -23,10 +23,12 @@ export const sendMessage = (message) => async (dispatch, getState) => {
       },
     };
     const { data } = await axios.post('/messages', message, config);
+    // console.log(message.conversationId);
     dispatch({
       type: MESSAGE_SEND_SUCCESS,
       payload: data,
     });
+    dispatch(getMessages(message.conversationId));
   } catch (error) {
     dispatch({
       type: MESSAGE_SEND_FAIL,

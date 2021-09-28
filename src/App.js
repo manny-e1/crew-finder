@@ -1,5 +1,9 @@
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import { PaginationTable } from './components/Admin/AdminUsersList';
+import AdminApplicationsList from './components/Admin/AdminApplicationsList';
+import AdminPostsList from './components/Admin/AdminPostsList';
+import AdminUsersList, {
+  PaginationTable,
+} from './components/Admin/AdminUsersList';
 import Authenticated from './components/Authenticated';
 import Apply from './pages/Apply';
 import AuditionPostDetailPage from './pages/AuditionPostDetailPage';
@@ -46,7 +50,13 @@ function App() {
           component={TitleAndDescriptionPage}
           exact
         />
-        <Route path="/admin" component={PaginationTable} exact />
+        <Route path="/admin" component={AdminUsersList} exact />
+        <Route path="/admin/posts" component={AdminPostsList} exact />
+        <Route
+          path="/admin/applications"
+          component={AdminApplicationsList}
+          exact
+        />
         <Route path="/users" component={UserSearchPage} exact />
         <Route path="/auditionposts" component={AuditionPostSearchPage} exact />
         <Route path="/chat" component={ChatPage} exact />

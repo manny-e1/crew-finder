@@ -11,6 +11,11 @@ import {
   APPLY_REQUEST,
   APPLY_SUCCESS,
   APPLY_FAIL,
+  APPLICATION_LIST_ALL_REQUEST,
+  APPLICATION_LIST_ALL_SUCCESS,
+  APPLICATION_LIST_ALL_FAIL,
+  APPLICATION_DELETE_REQUEST,
+  APPLICATION_DELETE_SUCCESS,
 } from './types.application';
 
 export const applicationListReducer = (
@@ -66,6 +71,35 @@ export const updateApplicationReducer = (state = {}, action) => {
     case APPLICATION_UPDATE_SUCCESS:
       return { loading: false, data: action.payload };
     case APPLICATION_UPDATE_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const allApplicationListReducer = (
+  state = { applications: [] },
+  action
+) => {
+  switch (action.type) {
+    case APPLICATION_LIST_ALL_REQUEST:
+      return { loading: true, applications: [] };
+    case APPLICATION_LIST_ALL_SUCCESS:
+      return { loading: false, applications: action.payload };
+    case APPLICATION_LIST_ALL_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const applicationDeleteReducer = (state = {}, action) => {
+  switch (action.type) {
+    case APPLICATION_DELETE_REQUEST:
+      return { loading: true };
+    case APPLICATION_DELETE_SUCCESS:
+      return { loading: false };
+    case APPLICATION_DETAIL_FAIL:
       return { loading: false, error: action.payload };
     default:
       return state;

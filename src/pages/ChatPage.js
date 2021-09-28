@@ -21,7 +21,7 @@ function ChatPage() {
     dispatch(getConversations());
   }, []);
   useEffect(() => {
-    dispatch(getMessages(currentChat?._id));
+    if (currentChat?._id) dispatch(getMessages(currentChat?._id));
   }, [currentChat]);
   const handleSubmit = async (e) => {
     e.preventDefault();

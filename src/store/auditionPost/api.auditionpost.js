@@ -1,4 +1,5 @@
 import axios from '../../axios';
+import { logout } from '../user/api.user';
 import {
   AUDITIONPOST_LIST_REQUEST,
   AUDITIONPOST_LIST_SUCCESS,
@@ -6,6 +7,9 @@ import {
   AUDITIONPOST_DETAIL_REQUEST,
   AUDITIONPOST_DETAIL_SUCCESS,
   AUDITIONPOST_DETAIL_FAIL,
+  AUDITIONPOST_DELETE_REQUEST,
+  AUDITIONPOST_DELETE_SUCCESS,
+  AUDITIONPOST_DELETE_FAIL,
   POSTAUDITION_REQUEST,
   POSTAUDITION_SUCCESS,
   POSTAUDITION_FAIL,
@@ -102,6 +106,44 @@ export const auditionPostDetail = (id) => async (dispatch, getState) => {
         error.response && error.response.data.message
           ? error.response.data.message
           : error.message,
+    });
+  }
+};
+
+export const deleteAuditionPost = (id) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: AUDITIONPOST_DELETE_REQUEST,
+    });
+
+    const {
+      userLogin: { currentUser },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${currentUser.token}`,
+      },
+    };
+
+    const { data } = await axios.delete(`/auditionPosts/${id}`, config);
+
+    dispatch({
+      type: AUDITIONPOST_DELETE_SUCCESS,
+      payload: data,
+    });
+    dispatch(listAuditionPosts(''));
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    if (message === 'Not authorized, no token') {
+      dispatch(logout());
+    }
+    dispatch({
+      type: AUDITIONPOST_DELETE_FAIL,
+      payload: message,
     });
   }
 };

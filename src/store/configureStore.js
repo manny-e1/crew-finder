@@ -1,11 +1,14 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import {
+  allApplicationListReducer,
+  applicationDeleteReducer,
   applicationDetailReducer,
   applicationListReducer,
   postApplicationReducer,
   updateApplicationReducer,
 } from './application/reducer.application';
 import {
+  auditionPostDeleteReducer,
   auditionPostDetailReducer,
   auditionPostListReducer,
 } from './auditionPost/reducer.auditionpost';
@@ -13,6 +16,11 @@ import {
   createConversationReducer,
   getConversationsReducer,
 } from './conversation/reducer.conversation';
+import {
+  endoreUserReducer,
+  givenEndorsementsReducer,
+  receivedEndorsementsReducer,
+} from './endorsement/reducer.endorsement';
 import {
   getMessagesReducer,
   sendMessageReducer,
@@ -26,6 +34,7 @@ import {
 import {
   getAllUsersReducer,
   getUsersReducer,
+  userDeleteReducer,
   userDetailsReducer,
   userLoginReducer,
   userRegisterReducer,
@@ -45,17 +54,24 @@ const reducer = combineReducers({
   userUpdate: userUpdateProfileReducer,
   getUsers: getUsersReducer,
   getAllUsers: getAllUsersReducer,
+  userDelete: userDeleteReducer,
   auditionPostList: auditionPostListReducer,
   auditionPostDetail: auditionPostDetailReducer,
+  deleteAuditionPost: auditionPostDeleteReducer,
   applicationPost: postApplicationReducer,
   applicationList: applicationListReducer,
   applicationDetail: applicationDetailReducer,
+  allApplications: allApplicationListReducer,
+  deleteApplication: applicationDeleteReducer,
   updateApplication: updateApplicationReducer,
   postData: postDataReducer,
   createConversation: createConversationReducer,
   getConversations: getConversationsReducer,
   sendMessage: sendMessageReducer,
   getMessages: getMessagesReducer,
+  givenEndorsements: givenEndorsementsReducer,
+  receivedEndorsements: receivedEndorsementsReducer,
+  endorseUser: endoreUserReducer,
 });
 
 const talentsFromLocalStorage = localStorage.getItem('talents')
