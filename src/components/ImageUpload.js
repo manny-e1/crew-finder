@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
+import { hideImageUpload } from '../store/ui/hideDiv';
 import { updateUserProfile } from '../store/user/api.user';
 
 function ImageUpload() {
@@ -22,15 +23,23 @@ function ImageUpload() {
 
   const submitHandler = (e) => {
     const formData = new FormData();
-    formData.append('avatar', file);
+    formData.append('showcasePics', file);
     dispatch(updateUserProfile(formData));
+    dispatch(hideImageUpload());
   };
 
+  const hide = () => {};
+
   return (
-    <div className="">
+    <div className="absolute inset-x-6 md:inset-x-10 lg:inset-x-1/3 bg-white">
       <div className="flex justify-between border-b p-5 ">
         <h2>Edit Photo</h2>
-        <h2>X</h2>
+        <div
+          onClick={() => dispatch(hideImageUpload())}
+          className="cursor-pointer text-xl"
+        >
+          X
+        </div>
       </div>
       <div className="border-b h-80 flex flex-col justify-center space-y-5 items-center">
         <div className="">

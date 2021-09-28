@@ -21,10 +21,10 @@ function AuditionPost({
         .toLowerCase()
         .includes(search.toLowerCase())
   );
-
+  console.log(currentUser?._id !== auditionPost?.author?._id);
   let flex = 'flex';
   let width = '';
-  if (currentUser?.id === auditionPost?.author?._id) {
+  if (currentUser?._id === auditionPost?.author?._id) {
     flex = 'inline-block';
     width = 'lg:w-full';
   } else flex = 'flex';
@@ -142,7 +142,7 @@ function AuditionPost({
           </div>
         </div>
       </div>
-      {currentUser?.id !== auditionPost?.author?._id && (
+      {currentUser?._id !== auditionPost?.author?._id && (
         <div className="bg-white  py-5 px-5 border rounded-r-xl">
           <div className="flex py-3 justify-around lg:inline-block lg:space-y-5 lg:pt-5 lg:pb-8 w-full  border-b">
             <Link to={`/auditions/${auditionPost._id}/apply`}>
@@ -185,7 +185,7 @@ function AuditionPost({
           </div>
         </div>
       )}
-      {currentUser?.id === auditionPost?.author?._id &&
+      {currentUser?._id === auditionPost?.author?._id &&
         (loading ? (
           <p>Loading...</p>
         ) : (

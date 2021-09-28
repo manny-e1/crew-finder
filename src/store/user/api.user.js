@@ -225,6 +225,7 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
       payload: data,
     });
     localStorage.setItem('currentUser', JSON.stringify(data));
+    dispatch(getUserDetails(data._id));
   } catch (error) {
     const message =
       error.response && error.response.data.message

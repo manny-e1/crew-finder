@@ -18,7 +18,11 @@ import {
   sendMessageReducer,
 } from './message/reducer.message';
 import { postDataReducer } from './post_data_local/reducers.post_data';
-import { hideDivReducer } from './ui/hideDiv';
+import {
+  hideDivReducer,
+  hideEditReducer,
+  hideImageUploadReducer,
+} from './ui/hideDiv';
 import {
   getAllUsersReducer,
   getUsersReducer,
@@ -33,6 +37,8 @@ const currentUserFromStorage = localStorage.getItem('currentUser')
 
 const reducer = combineReducers({
   hideDiv: hideDivReducer,
+  hideImageUpload: hideImageUploadReducer,
+  hideEdit: hideEditReducer,
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
   userDetail: userDetailsReducer,

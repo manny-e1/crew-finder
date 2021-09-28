@@ -26,7 +26,7 @@ function AuditionPostDetailPage() {
 
   let width = 'max-w-7xl';
 
-  if (currentUser?.id === auditionPost?.author?._id) {
+  if (currentUser?._id === auditionPost?.author?._id) {
     width = 'max-w-5xl';
   }
   return (
