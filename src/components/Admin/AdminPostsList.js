@@ -19,26 +19,34 @@ function AdminPostsList() {
 
   return (
     <div>
-      <table id="users" class="display">
-        <thead>
+      <table>
+        <thead className="bg-green-200 w-full">
           <tr>
-            <th>id</th>
-            <th>title</th>
-            <th>application count</th>
-            <th>author</th>
-            <th>delete</th>
+            <th className="border-r px-3 py-2">id</th>
+            <th className="border-r px-3 py-2">title</th>
+            <th className="border-r px-3 py-2">application count</th>
+            <th className="border-r px-3 py-2">author</th>
+            <th className="border-r px-3 py-2">delete</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className="bg-yellow-100">
           {auditionPosts?.map((auditionPost) => (
             <tr>
-              <td>{auditionPost?._id}</td>
-              <td>{auditionPost?.title}</td>
-              <td>{auditionPost?.applicationCount}</td>
-              <td>{auditionPost?.author?.fullName}</td>
-              <td>
+              <td className="border-r px-3 py-1 text-size-sm">
+                {auditionPost?._id}
+              </td>
+              <td className="border-r px-3 py-1 text-size-sm">
+                {auditionPost?.title}
+              </td>
+              <td className="border-r px-3 py-1 text-size-sm">
+                {auditionPost?.applicationCount}
+              </td>
+              <td className="border-r px-3 py-1 text-size-sm">
+                {auditionPost?.author?.fullName}
+              </td>
+              <td className="border-r px-3 py-1 text-size-sm">
                 <button
-                  className="text-red-500 py-1 px-5"
+                  className="text-red-500 py-1 text-size-sm px-5"
                   onClick={() => submitHandler(auditionPost?._id)}
                 >
                   delete

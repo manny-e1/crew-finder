@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import AdminApplicationsList from './components/Admin/AdminApplicationsList';
+import AdminPage from './components/Admin/AdminPage';
 import AdminPostsList from './components/Admin/AdminPostsList';
 import AdminUsersList from './components/Admin/AdminUsersList';
 import AdminRole from './components/AdminRole';
@@ -57,6 +58,9 @@ function App() {
         </Route>
         <Route exact path="/admin/applications">
           <AdminRole Component={AdminApplicationsList} />
+        </Route>
+        <Route exact path="/adminpage">
+          <AdminRole Component={AdminPage} />
         </Route>
         <Route path="/users" component={UserSearchPage} exact />
         <Route path="/auditionposts" component={AuditionPostSearchPage} exact />

@@ -20,28 +20,38 @@ function AdminApplicationsList() {
 
   return (
     <div>
-      <table id="users" class="display">
-        <thead>
-          <tr>
-            <th>id</th>
-            <th>applicant</th>
-            <th>audition title</th>
-            <th>audition author</th>
-            <th>status</th>
-            <th>delete</th>
+      <table>
+        <thead className="bg-green-200 w-full">
+          <tr className=" ">
+            <th className="border-r px-3 py-2">id</th>
+            <th className="border-r px-3 py-2">applicant</th>
+            <th className="border-r px-3 py-2">audition title</th>
+            <th className="border-r px-3 py-2">audition author</th>
+            <th className="border-r px-3 py-2">status</th>
+            <th className="border-r px-3 py-2">delete</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className="bg-yellow-100">
           {applications?.map((application) => (
             <tr>
-              <td>{application?._id}</td>
-              <td>{application?.applicantId?.fullName}</td>
-              <td>{application?.auditionPostId?.title}</td>
-              <td>{application?.auditionPostId?.author?.fullName}</td>
-              <td>{capitalizeFirstLetter(application?.applicationStatus)}</td>
-              <td>
+              <td className="border-r px-3 py-1 text-size-sm">
+                {application?._id}
+              </td>
+              <td className="border-r px-3 py-1 text-size-sm">
+                {application?.applicantId?.fullName}
+              </td>
+              <td className="border-r px-3 py-1 text-size-sm">
+                {application?.auditionPostId?.title}
+              </td>
+              <td className="border-r px-3 py-1 text-size-sm">
+                {application?.auditionPostId?.author?.fullName}
+              </td>
+              <td className="border-r px-3 py-1 text-size-sm">
+                {capitalizeFirstLetter(application?.applicationStatus)}
+              </td>
+              <td className="border-r px-3 py-1 text-size-sm">
                 <button
-                  className="text-red-500 py-1 px-5"
+                  className="text-red-500 py-1 text-size-sm px-5"
                   onClick={() => submitHandler(application?._id)}
                 >
                   delete
