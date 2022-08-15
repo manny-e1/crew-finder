@@ -202,9 +202,19 @@ function Profile() {
       {givenEndorsements?.some(
         (given) => given.endorseeId.toString() === id.toString()
       ) ? (
-        ''
+        <button
+          className="flex mx-auto py-2 px-4 rounded-full bg-red-500"
+          // onClick={() => dispatch(endorseDele)}
+        >
+          remove Endorse
+        </button>
       ) : (
-        <button onClick={() => endorseHandler()}>Endorse</button>
+        <button
+          className="flex mx-auto py-2 px-4 rounded-full bg-green-500"
+          onClick={() => endorseHandler()}
+        >
+          Endorse
+        </button>
       )}
     </div>
   );

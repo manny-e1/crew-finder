@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router';
+import { useNavigate } from 'react-router';
 import PostSteps from '../components/PostSteps';
 import { saveTitleAndDescription } from '../store/post_data_local/actions.post_data';
 
 function TitleAndDescriptionPage() {
-  const history = useHistory();
+  const history = useNavigate();
   const dispatch = useDispatch();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');

@@ -2,6 +2,9 @@ import {
   ENDORSE_USER_REQUEST,
   ENDORSE_USER_SUCCESS,
   ENDORSE_USER_FAIL,
+  ENDORSE_DELETE_REQUEST,
+  ENDORSE_DELETE_SUCCESS,
+  ENDORSE_DELETE_FAIL,
   GET_GIVEN_ENDORSEMENT_REQUEST,
   GET_GIVEN_ENDORSEMENT_SUCCESS,
   GET_GIVEN_ENDORSEMENT_FAIL,
@@ -49,6 +52,19 @@ export const endoreUserReducer = (state = { endorsement: {} }, action) => {
       // console.log("success");
       return { loading: false, endorsement: action.payload };
     case ENDORSE_USER_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+export const endoreDeleteReducer = (state = { endorsement: {} }, action) => {
+  switch (action.type) {
+    case ENDORSE_DELETE_REQUEST:
+      return { loading: true };
+    case ENDORSE_DELETE_SUCCESS:
+      // console.log("success");
+      return { loading: false, endorsement: action.payload };
+    case ENDORSE_DELETE_FAIL:
       return { loading: false, error: action.payload };
     default:
       return state;

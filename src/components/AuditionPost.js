@@ -1,6 +1,6 @@
 import { HeartIcon, SearchIcon } from '@heroicons/react/outline';
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { capitalizeFirstLetter } from '../util/firstLetterCapitalizer';
 import ApplicationList from './ApplicationList';
 import CatagoryButton from './CatagoryButton';
@@ -10,6 +10,7 @@ function AuditionPost({
   currentUser,
   applicationList: { applications, loading, error },
 }) {
+  const history = useNavigate();
   const [search, setSearch] = useState('');
 
   const searchApplication = applications?.filter(
@@ -118,9 +119,14 @@ function AuditionPost({
           <h2 className="text-sm sm:text-base mb-2 font-medium">
             About the author
           </h2>
-          <div className="flex justify-between sm:justify-start sm:space-x-2">
+          <div
+            className="flex justify-between sm:justify-start sm:space-x-2 cursor-pointer "
+            onClick={() =>
+              history.push(`/profile/${auditionPost?.author?._id}`)
+            }
+          >
             <p className="font-light text-sm sm:text-base">Name:</p>
-            <p className="text-sm sm:text-base">
+            <p className="text-sm sm:text-base ">
               {auditionPost.author?.fullName}
             </p>
           </div>
@@ -160,7 +166,12 @@ function AuditionPost({
             <h2 className="text-sm sm:text-base mb-2 font-medium">
               About the author
             </h2>
-            <div className="flex justify-between sm:justify-start sm:space-x-2">
+            <div
+              className="flex justify-between sm:justify-start sm:space-x-2 cursor-pointer"
+              onClick={() =>
+                history.push(`/profile/${auditionPost?.author?._id}`)
+              }
+            >
               <p className="font-light text-sm sm:text-base">Name:</p>
               <p className="text-sm sm:text-base">
                 {auditionPost.author?.fullName}

@@ -17,6 +17,7 @@ import {
   getConversationsReducer,
 } from './conversation/reducer.conversation';
 import {
+  endoreDeleteReducer,
   endoreUserReducer,
   givenEndorsementsReducer,
   receivedEndorsementsReducer,
@@ -72,6 +73,7 @@ const reducer = combineReducers({
   givenEndorsements: givenEndorsementsReducer,
   receivedEndorsements: receivedEndorsementsReducer,
   endorseUser: endoreUserReducer,
+  endorseDelete: endoreDeleteReducer,
 });
 
 const talentsFromLocalStorage = localStorage.getItem('talents')

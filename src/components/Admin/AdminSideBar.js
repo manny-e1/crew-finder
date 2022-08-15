@@ -2,12 +2,12 @@ import { useState, useEffect } from 'react';
 // import styles from "./Tabs.module.css";
 
 import { slugify } from '../../util/slugify';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const SideBar = ({ children, initialTab }) => {
   const [activeTab, setActiveTab] = useState(children[0].props.label);
   //   const router = useRouter();
-  const history = useHistory();
+  const history = useNavigate();
 
   const handleClick = (e, newActiveTab) => {
     e.preventDefault();

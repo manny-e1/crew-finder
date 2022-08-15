@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import AdminApplicationsList from './components/Admin/AdminApplicationsList';
 import AdminPage from './components/Admin/AdminPage';
 import AdminPostsList from './components/Admin/AdminPostsList';
@@ -14,6 +14,7 @@ import HH from './pages/HH';
 
 import Homepage from './pages/Homepage';
 import Login from './pages/Login';
+import Mark from './pages/Markdown';
 import OthersPage from './pages/OthersPage';
 import Post from './pages/Post';
 import Profile from './pages/Profile';
@@ -24,53 +25,48 @@ import UserSearchPage from './pages/UserSearchPage';
 
 function App() {
   return (
-    <Router>
-      <main className="">
-        <Route exact path="/">
-          <Authenticated Component={Homepage} />
-        </Route>
-        <Route exact path="/profile/:id">
-          <Authenticated Component={Profile} />
-        </Route>
-        <Route exact path="/post">
-          <Authenticated Component={Post} />
-        </Route>
-        <Route exact path="/hh">
-          <Authenticated Component={HH} />
-        </Route>
-        <Route exact path="/auditions/:id">
-          <Authenticated Component={AuditionPostDetailPage} />
-        </Route>
-        <Route exact path="/auditions/:id/apply">
-          <Authenticated Component={Apply} />
-        </Route>
-        <Route path="/checkbox" component={Checkbox} exact />
-        <Route
-          path="/post/title-description"
-          component={TitleAndDescriptionPage}
-          exact
-        />
-        <Route exact path="/admin">
-          <AdminRole Component={AdminUsersList} />
-        </Route>
-        <Route exact path="/admin/posts">
-          <AdminRole Component={AdminPostsList} />
-        </Route>
-        <Route exact path="/admin/applications">
-          <AdminRole Component={AdminApplicationsList} />
-        </Route>
-        <Route exact path="/adminpage">
-          <AdminRole Component={AdminPage} />
-        </Route>
-        <Route path="/users" component={UserSearchPage} exact />
-        <Route path="/auditionposts" component={AuditionPostSearchPage} exact />
-        <Route path="/chat" component={ChatPage} exact />
-        <Route path="/post/others" component={OthersPage} exact />
-        <Route path="/post/talents" component={TalentsPage} exact />
-        <Route path="/login" component={Login} exact />
-        <Route path="/signup" component={Signup} exact />
-      </main>
-    </Router>
+    <Routes>
+      <Route path="/" element={<Authenticated Component={Homepage} />} />
+
+      <Route
+        path="/profile/:id"
+        element={<Authenticated Component={Profile} />}
+      />
+      <Route path="/hh" element={<Authenticated Component={HH} />} />
+
+      <Route
+        path="/auditions/:id"
+        element={<Authenticated Component={AuditionPostDetailPage} />}
+      />
+
+      <Route
+        path="/auditions/:id/apply"
+        element={<Authenticated Component={Apply} />}
+      />
+      <Route path="/checkbox" element={<Checkbox />} />
+      <Route
+        path="/post/title-description"
+        element={<TitleAndDescriptionPage />}
+      />
+      <Route path="/admin" element={<AdminRole Component={AdminUsersList} />} />
+      <Route
+        path="/admin/posts"
+        element={<AdminRole Component={AdminPostsList} />}
+      />
+      <Route
+        path="/admin/applications"
+        element={<AdminRole Component={AdminApplicationsList} />}
+      />
+      <Route path="/adminpage" element={<AdminRole Component={AdminPage} />} />
+      <Route path="/users" element={<UserSearchPage />} />
+      <Route path="/mark" element={<Mark />} />
+      <Route path="/auditionposts" element={<AuditionPostSearchPage />} />
+      <Route path="/chat" element={<ChatPage />} />
+      <Route path="/post/others" element={<OthersPage />} />
+      <Route path="/post/talents" element={<TalentsPage />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/signup" element={<Signup />} />
+    </Routes>
   );
 }
 

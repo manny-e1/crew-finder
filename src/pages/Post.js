@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import Tag from '../components/Tag';
 import { applicant, pro_director } from '../constants/talents';
 import { postAudition } from '../store/auditionPost/api.auditionpost';
@@ -26,7 +26,7 @@ function Post() {
 
   const submitHandler = () => {
     dispatch(postAudition({ title, text, talents: tags }));
-    return <Redirect to="/" />;
+    return <Navigate to="/" />;
   };
 
   const items = ['male', 'female'];

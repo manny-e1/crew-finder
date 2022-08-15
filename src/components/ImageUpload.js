@@ -52,7 +52,7 @@ function ImageUpload() {
           />
         </div>
         <form>
-          <input type="file" onChange={imageHandler} />
+          <input type="file" name="image" onChange={imageHandler} />
         </form>
       </div>
       <div className="flex justify-end py-3 border-b px-5">

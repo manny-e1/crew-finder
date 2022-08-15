@@ -1,11 +1,11 @@
 import { useSelector } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
 function AdminRole({ Component }) {
   const { currentUser } = useSelector((state) => state.userLogin);
-  if (!currentUser) return <Redirect to="/login" />;
+  if (!currentUser) return <Navigate to="/login" />;
   else if (currentUser && currentUser?.role === 'ADMIN') return <Component />;
-  else return <Redirect to="/" />;
+  else return <Navigate to="/" />;
 }
 
 export default AdminRole;

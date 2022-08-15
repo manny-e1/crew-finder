@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router';
+import { useNavigate } from 'react-router';
 import PostSteps from '../components/PostSteps';
 import Tag from '../components/Tag';
 import { applicant, pro_director } from '../constants/talents';
@@ -8,7 +8,7 @@ import { saveTalents } from '../store/post_data_local/actions.post_data';
 
 function TalentsPage() {
   const dispatch = useDispatch();
-  const history = useHistory();
+  const history = useNavigate();
   const [tags, setTags] = useState([]);
   const [catagories, setCatagories] = useState([...pro_director, ...applicant]);
 
