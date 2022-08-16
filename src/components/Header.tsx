@@ -1,9 +1,38 @@
-import { UserIcon, ClipboardDocumentListIcon } from '@heroicons/react/24/solid';
+import { UserIcon, DocumentIcon } from '@heroicons/react/24/solid';
 import { useAtom } from 'jotai';
-import { FormEvent, MouseEvent, useState } from 'react';
+import {
+  ComponentProps,
+  FormEvent,
+  MouseEvent,
+  ReactElement,
+  useState,
+} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { currentUserAtom } from '../atoms/localStorageAtoms';
+import { Role } from '../enums';
+
+function SearchDropdownRow({
+  type,
+  description,
+  onClick,
+  icon: Icon,
+}: {
+  type: string;
+  description: string;
+  onClick: (e: MouseEvent<HTMLElement>) => void;
+  icon: (props: ComponentProps<'svg'>) => ReactElement;
+}) {
+  return (
+    <div className="flex gap-2 p-2 items-center " onClick={onClick}>
+      <Icon className="h-5" />
+      <div>
+        <p className="font-light text-size-sm">{type}</p>
+        <p className="text-sm font-light">{description}</p>
+      </div>
+    </div>
+  );
+}
 
 function Header() {
   const [searchInput, setSearchInput] = useState('');
@@ -15,7 +44,7 @@ function Header() {
     setCurrentUser(null);
   };
 
-  const userSeachHandler = (e: MouseEvent<HTMLElement>) => {
+  const userSearchHandler = (e: MouseEvent<HTMLElement>) => {
     e.preventDefault();
     navigate({
       pathname: '/users',
@@ -54,27 +83,19 @@ function Header() {
             placeholder="start your search"
           />
           {searchInput && (
-            <div className="w-1/4 rounded-md absolute top-12 bg-white mx-auto p-3 ">
-              <div
-                className="flex space-x-1 p-2 "
-                onClick={(e) => userSeachHandler(e)}
-              >
-                <UserIcon className="h-4" />
-                <div>
-                  <p className="font-light text-size-sm">Talent</p>
-                  <p className="text-sm font-light">lorem ipsum orem ipsum</p>
-                </div>
-              </div>
-              <div
-                className="flex space-x-1 p-2"
-                onClick={(e) => auditionPostSeachHandler(e)}
-              >
-                <ClipboardDocumentListIcon className="h-4" />
-                <div>
-                  <p className="font-light text-size-sm">Audition posts</p>
-                  <p className="text-sm font-light">lorem ipsum orem ipsum</p>
-                </div>
-              </div>
+            <div className="w-1/4 rounded-sm absolute top-14 bg-white mx-auto p-3 ">
+              <SearchDropdownRow
+                type="Talent"
+                description="lorem ipsum"
+                onClick={userSearchHandler}
+                icon={UserIcon}
+              />
+              <SearchDropdownRow
+                type="Audition posts"
+                description="lorem ipsum"
+                onClick={auditionPostSeachHandler}
+                icon={DocumentIcon}
+              />
             </div>
           )}
         </div>
@@ -84,19 +105,17 @@ function Header() {
 
       {currentUser ? (
         <div className="flex items-center space-x-4 justify-end text-gray-500">
-          {currentUser.role === 'PRO_DIRECTOR' && (
+          {currentUser.role === Role.proDirector && (
             <Link to="/post/title-description">
-              <button className="hidden md:inline-flex text-red-400">
-                Post
-              </button>
+              <a className="hidden md:inline-flex text-red-400">Post</a>
             </Link>
           )}
-          <button
+          <a
             className="hidden md:inline-flex text-red-400"
             onClick={logoutHandler}
           >
             Logout
-          </button>
+          </a>
         </div>
       ) : (
         <div className="flex items-center space-x-4 justify-end text-gray-500">
