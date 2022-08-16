@@ -125,8 +125,6 @@ function Homepage() {
 
   return (
     <div>
-      <Header />
-
       <main className="max-w-7xl h-screen mx-auto">
         <section
           className="text-xl lg:hidden text-center cursor-pointer"

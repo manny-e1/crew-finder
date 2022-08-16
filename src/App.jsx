@@ -24,12 +24,15 @@ import Signup from './pages/Signup';
 // import UserSearchPage from './pages/UserSearchPage';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useRef } from 'react';
+import Header from './components/Header';
 
 function App() {
   const queryClient = useRef(new QueryClient());
 
   return (
     <QueryClientProvider client={queryClient.current}>
+      <Header />
+
       <Routes>
         <Route path="/" element={<Authenticated Component={Homepage} />} />
 
