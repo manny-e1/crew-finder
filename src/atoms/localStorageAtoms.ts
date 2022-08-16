@@ -1,12 +1,12 @@
 import { atom } from 'jotai';
 
-type CurrentUser = {
+export type CurrentUser = {
   token: string;
   role: string;
 };
 
-const currentUser = localStorage.getItem('currentUser');
+const userData = localStorage.getItem('currentUser');
 
-export const currentUserAtom = atom<CurrentUser | null>(
-  currentUser ? JSON.parse(currentUser) : null
-);
+const currentUser: CurrentUser | null = userData ? JSON.parse(userData) : null;
+
+export const currentUserAtom = atom<CurrentUser | null>(currentUser);

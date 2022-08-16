@@ -1,8 +1,7 @@
 import {
-  ClipboardListIcon,
-  SearchIcon,
   UserIcon,
-} from '@heroicons/react/solid';
+  // ClipboardListIcon,
+} from '@heroicons/react/24/solid';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
@@ -76,7 +75,7 @@ function Header() {
                   className="flex space-x-1 p-2"
                   onClick={(e) => auditionPostSeachHandler(e)}
                 >
-                  <ClipboardListIcon className="h-4" />
+                  {/* <ClipboardListIcon className="h-4" /> */}
                   <div>
                     <p className="font-light text-size-sm">Audition posts</p>
                     <p className="text-sm font-light">lorem ipsum orem ipsum</p>

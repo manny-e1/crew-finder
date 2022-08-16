@@ -7,7 +7,9 @@ import { StrictMode } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 const store = configureStore();
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const element: HTMLElement = document.getElementById('root') as HTMLElement;
+
+const root = ReactDOM.createRoot(element);
 root.render(
   <StrictMode>
     <BrowserRouter>
