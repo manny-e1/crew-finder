@@ -8,7 +8,7 @@ import { SetStateAction, useAtom } from 'jotai';
 import { useMutation } from '@tanstack/react-query';
 import { ISignInParams, IUser, signInUser } from '../services/authService';
 import { CurrentUser, currentUserAtom } from '../atoms/localStorageAtoms';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function Login(): ReactElement {
   const [email, setEmail] = useState('');
@@ -18,6 +18,8 @@ function Login(): ReactElement {
     SetStateAction<CurrentUser | null>,
     void
   >(currentUserAtom);
+  const navigate = useNavigate();
+
   const {
     isLoading,
     error,
@@ -30,7 +32,7 @@ function Login(): ReactElement {
     onSuccess: (data) => {
       localStorage.setItem('currentUser', JSON.stringify(data));
       setCurrentUser(data);
-      <Navigate to="/" />;
+      navigate('/');
     },
   });
 

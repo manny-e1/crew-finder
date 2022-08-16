@@ -75,8 +75,9 @@ function App() {
         <Route path="/chat" element={<ChatPage />} />
         <Route path="/post/others" element={<OthersPage />} />
         <Route path="/post/talents" element={<TalentsPage />} />*/}
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
+
+        <Route path="/login" element={<Authenticated Component={Login} />} />
+        <Route path="/signup" element={<Authenticated Component={Signup} />} />
       </Routes>
     </QueryClientProvider>
   );
