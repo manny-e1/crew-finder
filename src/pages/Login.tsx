@@ -6,7 +6,11 @@ import { login } from '../store/user/api.user';
 import type { UseMutationResult } from '@tanstack/react-query';
 import { SetStateAction, useAtom } from 'jotai';
 import { useMutation } from '@tanstack/react-query';
-import { ISignInParams, IUser, signInUser } from '../services/authService';
+import {
+  ISignInParams,
+  IAuthResponse,
+  signInUser,
+} from '../services/authService';
 import { CurrentUser, currentUserAtom } from '../atoms/localStorageAtoms';
 import { useNavigate } from 'react-router-dom';
 
@@ -24,8 +28,8 @@ function Login(): ReactElement {
     isLoading,
     error,
     mutate,
-  }: UseMutationResult<IUser, Error, ISignInParams> = useMutation<
-    IUser,
+  }: UseMutationResult<IAuthResponse, Error, ISignInParams> = useMutation<
+    IAuthResponse,
     Error,
     ISignInParams
   >(signInUser, {

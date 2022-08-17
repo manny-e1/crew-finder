@@ -79,8 +79,8 @@ function App() {
         <Route path="/post/others" element={<OthersPage />} />
         <Route path="/post/talents" element={<TalentsPage />} />*/}
 
-        <Route path="/login" element={<Authenticated Component={Login} />} />
-        <Route path="/signup" element={<Authenticated Component={Signup} />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
       </Routes>
     </QueryClientProvider>
   );

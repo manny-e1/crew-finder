@@ -5,8 +5,10 @@ import Header from '../components/Header';
 import UsersList from '../components/UsersList';
 import { getUsers } from '../store/user/api.user';
 import { format } from 'timeago.js';
+import { useLocation } from 'react-router-dom';
 
-function UserSearchPage({ location }) {
+function UserSearchPage() {
+  const location = useLocation();
   const search = new URLSearchParams(location.search).get('search') ?? '';
 
   const [min, setMin] = useState(0);

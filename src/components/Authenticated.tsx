@@ -13,7 +13,6 @@ function Authenticated({ Component }: { Component: FC }) {
   useEffect(() => {
     if (!currentUser) navigate('/login');
     else if (currentUser && currentUser.role === Role.admin) navigate('/admin');
-    else if (currentUser && location.pathname === '/login') navigate('/');
   }, [currentUser]);
 
   if (currentUser && currentUser.role !== Role.admin) return <Component />;

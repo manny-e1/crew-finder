@@ -23,10 +23,8 @@ export const listAuditionPosts = (query) => async (dispatch, getState) => {
       type: AUDITIONPOST_LIST_REQUEST,
     });
 
-    const {
-      userLogin: { currentUser },
-    } = getState();
-
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    console.log(currentUser.token);
     const config = {
       headers: {
         Authorization: `Bearer ${currentUser.token}`,

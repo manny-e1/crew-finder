@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { ChangeEvent, FormEvent, MouseEvent, ReactNode, useState } from 'react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
@@ -10,6 +10,13 @@ import { listAuditionPosts } from '../store/auditionPost/api.auditionpost';
 import { RegionDropdown } from 'react-country-region-selector';
 import { logout } from '../store/user/api.user';
 import { Tabs } from '../components/Tab';
+import { useQuery } from '@tanstack/react-query';
+import {
+  getAuditionPosts,
+  IAuditionPost,
+} from '../services/auditionPostService';
+import { useAtom } from 'jotai';
+import { currentUserAtom } from '../atoms/localStorageAtoms';
 
 function Homepage() {
   const location = useLocation();
@@ -20,21 +27,17 @@ function Homepage() {
   let [query, setQuery] = useState('');
   const [applicationCount, setApplicationCount] = useState('');
   const [region, setRegion] = useState('');
-
   // const [talents, setTalents] = useState(location.search && location.search.split("=")[1].split(',').map(talent => talent));
-  const auditionPostList = useSelector((state) => state.auditionPostList);
-  const { currentUser } = useSelector((state) => state.userLogin);
-  const { loading, error, auditionPosts } = auditionPostList;
+  // const auditionPostList = useSelector((state) => state.auditionPostList);
+  const [currentUser] = useAtom(currentUserAtom);
+  // const { loading, error, auditionPosts } = auditionPostList;
   // const removeTag = (tag) => {
   //     setTalents([...talents.filter(tobeRemoved => tobeRemoved !== tag.replace(" ", "%20").toLowerCase())])
   //     location.search = location.search.replace(tag.replace(" ", "%20").toLowerCase(), "")
   // }
+  // console.log(auditionPosts);
 
-  const filteredAuditionPosts = auditionPosts?.filter((auditionPost) =>
-    auditionPost?.talents?.includes(currentUser.talent)
-  );
-
-  const [d, setdd] = useState([]);
+  const [d, setDD] = useState<string[]>([]);
   const options = [
     { value: 'Actor', label: 'Actor' },
     { value: 'Make-up Artist', label: 'Make-up Artist' },
@@ -42,17 +45,19 @@ function Homepage() {
     { value: 'va', label: 'Va' },
   ];
 
+  type Options = typeof options[0];
+
   const items = ['male', 'female'];
-  const [gender, setGender] = useState([]);
+  const [gender, setGender] = useState<string[]>([]);
   if (gender.length > 0) {
-    gender.forEach((gen) => {
+    gender.forEach((gen: string) => {
       query =
         query !== ''
           ? query + `&gender[in]=${gen.toUpperCase()}`
           : `?gender[in]=${gen.toUpperCase()}`;
     });
   }
-  const onChangeItem = (id) => {
+  const onChangeItem = (id: string) => {
     let selected = gender;
     let find = selected.indexOf(id);
 
@@ -96,11 +101,20 @@ function Homepage() {
   }
   console.log(query);
   const [hidden, setHidden] = useState('hidden');
-  useEffect(() => {
-    // location?.search && setQuery(location.search);
-    dispatch(listAuditionPosts(query !== '' ? query : ''));
-  }, [dispatch, query]);
+  // useEffect(() => {
+  //   // location?.search && setQuery(location.search);
+  //   dispatch(listAuditionPosts(query !== '' ? query : ''));
+  // }, [dispatch, query]);
 
+  const { isLoading, error, isSuccess, data } = useQuery<
+    IAuditionPost[],
+    Error
+  >(['auditionPosts', query !== '' ? query : ''], () =>
+    getAuditionPosts(query !== '' ? query : '')
+  );
+  const filteredAuditionPosts = data?.filter((auditionPost) =>
+    auditionPost?.talents?.includes(currentUser!.talent)
+  );
   // const ClearIndicator = props => {
   //     const {
   //         children = <CustomClearText />,
@@ -158,11 +172,9 @@ function Homepage() {
                       className="lg:w-64 w-full"
                       isMulti
                       onChange={(e) =>
-                        setdd(
-                          Array.isArray(e)
-                            ? e.map((x) => x.value.toUpperCase())
-                            : []
-                        )
+                        Array.isArray(e)
+                          ? setDD(e.map((x: Options) => x.value.toUpperCase()))
+                          : setDD([])
                       }
                     />
                   </div>
@@ -177,10 +189,9 @@ function Homepage() {
                   </label>
                   <div className="mt-1">
                     <RegionDropdown
-                      required
                       disableWhenEmpty={false}
                       countryValueType="short"
-                      className='block appearance-none lg:w-64 w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"'
+                      classes='block appearance-none lg:w-64 w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"'
                       country="ET"
                       value={region}
                       onChange={(val) => setRegion(val)}
@@ -203,7 +214,9 @@ function Homepage() {
                           className="form-radio"
                           name="radio"
                           value="0-10"
-                          onClick={(e) => setApplicationCount(e.target.value)}
+                          onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                            setApplicationCount(e.target.value)
+                          }
                         />
                         <p className="mx-2">0 - 10</p>
                       </label>
@@ -215,7 +228,9 @@ function Homepage() {
                           className="form-radio"
                           name="radio"
                           value="10-20"
-                          onClick={(e) => setApplicationCount(e.target.value)}
+                          onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                            setApplicationCount(e.target.value)
+                          }
                         />
                         <p className="mx-2">10 - 20</p>
                       </label>
@@ -227,7 +242,9 @@ function Homepage() {
                           className="form-radio"
                           name="radio"
                           value="20-30"
-                          onClick={(e) => setApplicationCount(e.target.value)}
+                          onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                            setApplicationCount(e.target.value)
+                          }
                         />
                         <p className="mx-2">20 - 30</p>
                       </label>
@@ -239,7 +256,9 @@ function Homepage() {
                           className="form-radio"
                           name="radio"
                           value="30+"
-                          onClick={(e) => setApplicationCount(e.target.value)}
+                          onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                            setApplicationCount(e.target.value)
+                          }
                         />
                         <p className="mx-2">30+</p>
                       </label>
@@ -277,30 +296,30 @@ function Homepage() {
                                 <Tag text={talent.replace(/%20/g, " ").toUpperCase()} removeTag={removeTag} />
                             ))}
                         </div> */}
-            {loading ? (
+            {isLoading ? (
               <h1>Loading...</h1>
-            ) : error && error === 'Not Authenticated' ? (
-              dispatch(logout())
-            ) : error && error !== 'Not Authenticated' ? (
-              <div>{error}</div>
+            ) : error && error.message.includes('Not Authenticated') ? (
+              <div>{error.message}</div>
             ) : (
               <Tabs initialTab={tab.get('tab')}>
-                <div label="recent">
-                  {auditionPosts?.map((auditionPost) => (
+                <Label label="Recent">
+                  {data?.map((auditionPost) => (
                     <PostCard
-                      key={auditionPost._id}
+                      key={auditionPost.id}
                       auditionPost={auditionPost}
+                      fromSearch=""
                     />
                   ))}
-                </div>
-                <div label="for you">
+                </Label>
+                <Label label="For You">
                   {filteredAuditionPosts?.map((auditionPost) => (
                     <PostCard
-                      key={auditionPost._id}
+                      key={auditionPost.id}
                       auditionPost={auditionPost}
+                      fromSearch=""
                     />
                   ))}
-                </div>
+                </Label>
               </Tabs>
             )}
           </section>
@@ -316,3 +335,7 @@ export default Homepage;
 // const CustomClearText = () => 'clear all';
 
 //   hidden + " left:30 justify-center lg:justify-end lg:flex bg-blue-300 mr-5
+
+function Label({ label, children }: { label: string; children: ReactNode }) {
+  return <>{children}</>;
+}

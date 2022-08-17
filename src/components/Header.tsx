@@ -70,7 +70,7 @@ function Header() {
         className="relative flex items-center 
                 h-10 cursor-pointer my-auto"
       >
-        <a className="text-xl">Crew Finder</a>
+        <p className="text-xl">Crew Finder</p>
       </Link>
       {currentUser ? (
         <div className="md:flex md:flex-col hidden  items-center py-2 ">
@@ -107,23 +107,23 @@ function Header() {
         <div className="flex items-center space-x-4 justify-end text-gray-500">
           {currentUser.role === Role.proDirector && (
             <Link to="/post/title-description">
-              <a className="hidden md:inline-flex text-red-400">Post</a>
+              <p className="hidden md:inline-flex text-red-400">Post</p>
             </Link>
           )}
-          <a
+          <p
             className="hidden md:inline-flex text-red-400"
             onClick={logoutHandler}
           >
             Logout
-          </a>
+          </p>
         </div>
       ) : (
         <div className="flex items-center space-x-4 justify-end text-gray-500">
           <Link to="/login">
-            <a className="flex md:inline text-red-400">Sign In</a>
+            <p className="flex md:inline text-red-400">Sign In</p>
           </Link>
           <Link to="/signup">
-            <a className="flex text-red-400">Sign up</a>
+            <p className="flex text-red-400">Sign up</p>
           </Link>
         </div>
       )}
