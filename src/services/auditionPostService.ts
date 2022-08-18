@@ -42,6 +42,13 @@ export const getAuditionPosts = async (
   return res.data;
 };
 
+export const getAuditionPostById = async (
+  id: string
+): Promise<IAuditionPost> => {
+  let res = await axios.get(`/auditionPosts/${id}`);
+  return res.data;
+};
+
 export const createAuditionPost = async (
   auditionPost: ICreateAuditionPostParams
 ): Promise<IAuditionPost> => {

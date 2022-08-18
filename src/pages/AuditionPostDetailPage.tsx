@@ -1,8 +1,15 @@
+import { useQuery } from '@tanstack/react-query';
+import { useAtom } from 'jotai';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { currentUserAtom } from '../atoms/localStorageAtoms';
 import ApplicationDetail from '../components/ApplicationDetail';
 import AuditionPost from '../components/AuditionPost';
+import {
+  getAuditionPostById,
+  IAuditionPost,
+} from '../services/auditionPostService';
 import { listApplications } from '../store/application/api.application';
 import { auditionPostDetail } from '../store/auditionPost/api.auditionpost';
 import { hideDiv } from '../store/ui/hideDiv';
@@ -11,13 +18,19 @@ import { logout } from '../store/user/api.user';
 function AuditionPostDetailPage() {
   const dispatch = useDispatch();
   const { id } = useParams();
+  const [currentUser] = useAtom(currentUserAtom);
+  const {
+    isLoading,
+    error,
+    data: auditionPost,
+  } = useQuery<IAuditionPost, Error>([`auditionPost${id}`, id ?? ''], () =>
+    getAuditionPostById(id ?? '')
+  );
 
-  const detailAuditionPost = useSelector((state) => state.auditionPostDetail);
-  const { currentUser } = useSelector((state) => state.userLogin);
-  const applicationList = useSelector((state) => state.applicationList);
+  const applicationList = [];
   const { hidden, application } = useSelector((state) => state.hideDiv);
 
-  const { loading, error, auditionPost } = detailAuditionPost;
+  // const { loading, error, auditionPost } = detailAuditionPost;
   useEffect(() => {
     dispatch(auditionPostDetail(id));
     dispatch(listApplications(id));
@@ -26,7 +39,7 @@ function AuditionPostDetailPage() {
 
   let width = 'max-w-7xl';
 
-  if (currentUser?._id === auditionPost?.author?._id) {
+  if (currentUser?.id === auditionPost?.author?.id) {
     width = 'max-w-5xl';
   }
   return (
@@ -40,16 +53,16 @@ function AuditionPostDetailPage() {
       >
         <ApplicationDetail application={application} />
       </div>
-      {loading ? (
+      {isLoading ? (
         <h1>Loading...</h1>
-      ) : error && error === 'Not Authenticated' ? (
-        dispatch(logout())
-      ) : error && error !== 'Not Authenticated' ? (
-        <div>{error}</div>
+      ) : error && error.message === 'Not Authenticated' ? (
+        localStorage && localStorage.removeItem('currentUser')
+      ) : error && error.message !== 'Not Authenticated' ? (
+        <div>{error.message}</div>
       ) : (
         <div>
           <AuditionPost
-            key={auditionPost._id}
+            key={auditionPost?.id}
             auditionPost={auditionPost}
             currentUser={currentUser}
             applicationList={applicationList}

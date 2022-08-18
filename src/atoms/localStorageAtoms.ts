@@ -2,6 +2,7 @@ import { atom } from 'jotai';
 import { Talent } from '../util/enums';
 
 export type CurrentUser = {
+  id: string;
   token: string;
   talent: Talent;
   role: string;

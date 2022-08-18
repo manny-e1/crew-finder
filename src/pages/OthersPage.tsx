@@ -8,6 +8,7 @@ import { FormEvent, useState } from 'react';
 import { RegionDropdown } from 'react-country-region-selector';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { BeatLoader } from 'react-spinners';
 import {
   talentsAtom,
   titleAndDescriptionAtom,
@@ -100,17 +101,6 @@ function OthersPage() {
       gender,
       region,
     };
-    // dispatch(
-    //   postAudition({
-    //     ...titleAndDescription,
-    //     talents,
-    //     ageRange,
-    //     endorsementCount,
-    //     languages: addedLanguages,
-    //     gender,
-    //     region,
-    //   })
-    // );
     mutate(auditionPost);
   };
 
@@ -281,13 +271,15 @@ function OthersPage() {
               disabled={
                 gender.length <= 0 ||
                 region === '' ||
-                addedLanguages.length <= 0
+                addedLanguages.length <= 0 ||
+                isLoading
               }
             >
-              Submlit
+              {isLoading ? <BeatLoader size={10} color="white" /> : 'Submit'}
             </button>
           </div>
         </form>
+        <div className="text-red-500-text-sm">{error?.message}</div>
       </div>
     </div>
   );
