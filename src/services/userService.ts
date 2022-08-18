@@ -1,4 +1,4 @@
-import { Role, Verification } from '../enums';
+import { Role, Verification } from '../util/enums';
 
 export interface IUser {
   id: string;

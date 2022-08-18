@@ -10,7 +10,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { currentUserAtom } from '../atoms/localStorageAtoms';
-import { Role } from '../enums';
+import { Role } from '../util/enums';
 
 function SearchDropdownRow({
   type,

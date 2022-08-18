@@ -1,14 +1,10 @@
 import { ChangeEvent, FormEvent, MouseEvent, ReactNode, useState } from 'react';
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import Select from 'react-select';
-import Header from '../components/Header';
 import PostCard from '../components/PostCard';
 // import Tag from "../components/Tag";
-import { listAuditionPosts } from '../store/auditionPost/api.auditionpost';
 import { RegionDropdown } from 'react-country-region-selector';
-import { logout } from '../store/user/api.user';
 import { Tabs } from '../components/Tab';
 import { useQuery } from '@tanstack/react-query';
 import {
@@ -20,7 +16,6 @@ import { currentUserAtom } from '../atoms/localStorageAtoms';
 
 function Homepage() {
   const location = useLocation();
-  const dispatch = useDispatch();
   const search = location.search;
   const tab = new URLSearchParams(search);
 
@@ -101,10 +96,6 @@ function Homepage() {
   }
   console.log(query);
   const [hidden, setHidden] = useState('hidden');
-  // useEffect(() => {
-  //   // location?.search && setQuery(location.search);
-  //   dispatch(listAuditionPosts(query !== '' ? query : ''));
-  // }, [dispatch, query]);
 
   const { isLoading, error, isSuccess, data } = useQuery<
     IAuditionPost[],
@@ -157,7 +148,7 @@ function Homepage() {
             }
           >
             <h2 className="text-3xl lg:flex hidden justify-center">Filters</h2>
-            <form action="" className="w-full flex justify-center">
+            <form className="w-full flex justify-center">
               <div className="py-10 space-y-6">
                 <div>
                   <label
@@ -331,10 +322,6 @@ function Homepage() {
 }
 
 export default Homepage;
-
-// const CustomClearText = () => 'clear all';
-
-//   hidden + " left:30 justify-center lg:justify-end lg:flex bg-blue-300 mr-5
 
 function Label({ label, children }: { label: string; children: ReactNode }) {
   return <>{children}</>;

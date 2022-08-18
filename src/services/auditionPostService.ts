@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios';
 import axios from '../axios';
-import { Gender, Talent } from '../enums';
+import { Gender, Talent } from '../util/enums';
 import { IUser } from './userService';
 
 export interface IAuditionPost {
@@ -19,6 +19,17 @@ export interface IAuditionPost {
   createdAt: Date;
 }
 
+export interface ICreateAuditionPostParams {
+  title: string;
+  text: string;
+  talents: Talent[];
+  ageRange: { min: number; max: number };
+  languages: string[];
+  gender: Gender[];
+  region: string;
+  endorsementCount: number;
+}
+
 export const getAuditionPosts = async (
   query?: string
 ): Promise<IAuditionPost[]> => {
@@ -28,5 +39,12 @@ export const getAuditionPosts = async (
   } else {
     res = await axios.get(`/auditionPosts${query}`);
   }
+  return res.data;
+};
+
+export const createAuditionPost = async (
+  auditionPost: ICreateAuditionPostParams
+): Promise<IAuditionPost> => {
+  let res: AxiosResponse = await axios.post('/auditionPosts', auditionPost);
   return res.data;
 };

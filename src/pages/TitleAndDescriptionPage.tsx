@@ -1,29 +1,37 @@
-import { useState } from 'react';
+import { useAtom } from 'jotai';
+import { FormEvent, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
+import { titleAndDescriptionAtom } from '../atoms/localStorageAtoms';
 import PostSteps from '../components/PostSteps';
 import { saveTitleAndDescription } from '../store/post_data_local/actions.post_data';
 
 function TitleAndDescriptionPage() {
-  const history = useNavigate();
-  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  // const dispatch = useDispatch();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const submitHandler = (e) => {
+  const [_, setTitleAndDescription] = useAtom(titleAndDescriptionAtom);
+  const submitHandler = (e: FormEvent<HTMLElement>) => {
     e.preventDefault();
-    dispatch(
-      saveTitleAndDescription({
-        title,
-        text: description,
-      })
-    );
-    history.push('/post/talents');
+    setTitleAndDescription({ title, text: description });
+    // dispatch(
+    //   saveTitleAndDescription({
+    //     title,
+    //     text: description,
+    //   })
+    // );
+
+    navigate('/post/talents');
   };
 
   return (
     <div>
-      <PostSteps step1 />
-      <form className="px-5 md:max-w-4xl md:mx-auto md:mt-20 mt-10">
+      <PostSteps step1={true} />
+      <form
+        className="px-5 md:max-w-4xl md:mx-auto md:mt-20 mt-10"
+        onSubmit={submitHandler}
+      >
         <div className="mb-3">
           <label
             htmlFor="title"
@@ -77,10 +85,9 @@ function TitleAndDescriptionPage() {
             <textarea
               className="w-full border-gray-300  rounded-lg shadow-sm
                                         focus:border-indigo-500 focus:ring-indigo-500"
-              type="text"
               name="text"
               id="description"
-              rows="10"
+              rows={10}
               autoComplete="description"
               required
               value={description}
@@ -99,7 +106,6 @@ function TitleAndDescriptionPage() {
                                     disabled:opacity-50
                                     text-md"
             disabled={title.length <= 10 || description.length <= 20}
-            onClick={submitHandler}
           >
             Continue
           </button>

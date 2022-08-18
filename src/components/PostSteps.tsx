@@ -1,7 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const PostSteps = ({ step1, step2, step3 }) => {
+const PostSteps = ({
+  step1,
+  step2,
+  step3,
+}: {
+  step1?: boolean;
+  step2?: boolean;
+  step3?: boolean;
+}) => {
   return (
     <nav className="mt-5 mb-2">
       <ul className="flex justify-center space-x-10 mx-auto">
@@ -14,9 +22,8 @@ const PostSteps = ({ step1, step2, step3 }) => {
               Title and Description
             </Link>
           ) : (
-            <Link className="" disabled>
-              {' '}
-              Title and Description{' '}
+            <Link className="" aria-disabled to="">
+              Title and Description
             </Link>
           )}
         </li>
@@ -29,9 +36,8 @@ const PostSteps = ({ step1, step2, step3 }) => {
               Talents
             </Link>
           ) : (
-            <Link className="" disabled>
-              {' '}
-              Talents{' '}
+            <Link className="" aria-disabled to="">
+              Talents
             </Link>
           )}
         </li>
@@ -41,13 +47,11 @@ const PostSteps = ({ step1, step2, step3 }) => {
               className="text-indigo-700 border-b pb-2 border-indigo-800"
               to="/post/extra-requirements"
             >
-              {' '}
               Others
             </Link>
           ) : (
-            <Link className="" disabled={true}>
-              {' '}
-              Others{' '}
+            <Link className="" aria-disabled to="">
+              Others
             </Link>
           )}
         </li>

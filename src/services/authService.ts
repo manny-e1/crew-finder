@@ -1,5 +1,5 @@
 import axios from '../axios';
-import { Talent } from '../enums';
+import { Talent } from '../util/enums';
 
 export interface IAuthResponse {
   token: string;

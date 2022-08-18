@@ -1,5 +1,5 @@
 import { atom } from 'jotai';
-import { Talent } from '../enums';
+import { Talent } from '../util/enums';
 
 export type CurrentUser = {
   token: string;
@@ -7,8 +7,20 @@ export type CurrentUser = {
   role: string;
 };
 
+export type TitleAndDescription = {
+  title: string;
+  text: string;
+};
+
+export type TalentsType = {
+  talents: Talent[];
+};
+
 const userData = localStorage.getItem('currentUser');
 
 const currentUser: CurrentUser | null = userData ? JSON.parse(userData) : null;
 
 export const currentUserAtom = atom<CurrentUser | null>(currentUser);
+
+export const titleAndDescriptionAtom = atom<TitleAndDescription | null>(null);
+export const talentsAtom = atom<TalentsType | null>(null);
