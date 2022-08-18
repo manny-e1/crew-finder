@@ -25,6 +25,9 @@ import Signup from './pages/Signup';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useRef } from 'react';
 import Header from './components/Header';
+import TitleAndDescriptionPage from './pages/TitleAndDescriptionPage';
+import TalentsPage from './pages/TalentsPage';
+import OthersPage from './pages/OthersPage';
 
 function App() {
   const queryClient = useRef(new QueryClient());
@@ -36,6 +39,12 @@ function App() {
       <Routes>
         <Route path="/" element={<Authenticated Component={Homepage} />} />
 
+        <Route
+          path="/post/title-description"
+          element={<TitleAndDescriptionPage />}
+        />
+        <Route path="/post/talents" element={<TalentsPage />} />
+        <Route path="/post/others" element={<OthersPage />} />
         {/* <Route
           path="/profile/:id"
           element={<Authenticated Component={Profile} />}
@@ -52,10 +61,6 @@ function App() {
           element={<Authenticated Component={Apply} />}
         />
         <Route path="/checkbox" element={<Checkbox />} />
-        <Route
-          path="/post/title-description"
-          element={<TitleAndDescriptionPage />}
-        />
         <Route
           path="/admin"
           element={<AdminRole Component={AdminUsersList} />}
@@ -75,9 +80,7 @@ function App() {
         <Route path="/users" element={<UserSearchPage />} />
         <Route path="/mark" element={<Mark />} />
         <Route path="/auditionposts" element={<AuditionPostSearchPage />} />
-        <Route path="/chat" element={<ChatPage />} />
-        <Route path="/post/others" element={<OthersPage />} />
-        <Route path="/post/talents" element={<TalentsPage />} />*/}
+        <Route path="/chat" element={<ChatPage />} />*/}
 
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />

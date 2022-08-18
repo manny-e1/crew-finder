@@ -1,10 +1,27 @@
-import { useState } from 'react';
+import {
+  QueryClient,
+  useMutation,
+  UseMutationResult,
+} from '@tanstack/react-query';
+import { useAtom } from 'jotai';
+import { FormEvent, useState } from 'react';
 import { RegionDropdown } from 'react-country-region-selector';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import {
+  talentsAtom,
+  titleAndDescriptionAtom,
+} from '../atoms/localStorageAtoms';
 import PostSteps from '../components/PostSteps';
 import Tag from '../components/Tag';
 import { langs } from '../constants/languages';
+import {
+  createAuditionPost,
+  IAuditionPost,
+  ICreateAuditionPostParams,
+} from '../services/auditionPostService';
 import { postAudition } from '../store/auditionPost/api.auditionpost';
+import { Gender } from '../util/enums';
 import { capitalizeFirstLetter } from '../util/firstLetterCapitalizer';
 
 function OthersPage() {
@@ -14,27 +31,28 @@ function OthersPage() {
   });
   const [endorsementCount, setEndorsementCount] = useState(0);
   const [searchedLang, setSearchedLang] = useState('');
-  const [addedLanguages, setAddedLanguages] = useState([]);
-  const [languages, setLanguages] = useState([...langs]);
-  const [gender, setGender] = useState([]);
+  const [addedLanguages, setAddedLanguages] = useState<string[]>([]);
+  const [languages, setLanguages] = useState<string[]>([...langs]);
+  const [gender, setGender] = useState<Gender[]>([]);
   const [region, setRegion] = useState('');
-
-  const removeLanguage = (language) => {
+  const [titleAndDescription] = useAtom(titleAndDescriptionAtom);
+  const [talents] = useAtom(talentsAtom);
+  const navigate = useNavigate();
+  const removeLanguage = (language: string) => {
     setAddedLanguages([
       ...addedLanguages.filter((tobeRemoved) => tobeRemoved !== language),
     ]);
     setLanguages([...languages, language]);
   };
-  const items = ['MALE', 'FEMALE'];
 
-  const addLanguage = (language) => {
+  const addLanguage = (language: string) => {
     setAddedLanguages([...addedLanguages, language.toUpperCase()]);
     setLanguages([
       ...languages.filter((tobeRemoved) => tobeRemoved !== language),
     ]);
   };
 
-  const onChangeItem = (id) => {
+  const onChangeItem = (id: Gender) => {
     let selected = gender;
     let find = selected.indexOf(id);
 
@@ -46,16 +64,42 @@ function OthersPage() {
     setGender([...selected]);
   };
 
-  const dispatch = useDispatch();
-  const { titleAndDescription, talents } = useSelector(
-    (state) => state.postData
-  );
+  // const dispatch = useDispatch();
+  // const { titleAndDescription, talents } = useSelector(
+  //   (state) => state.postData
+  // );
 
   const filteredLangs = languages.filter((lang) =>
     lang.toLowerCase().includes(searchedLang.toLowerCase())
   );
-  const submitHandler = (e) => {
+
+  const {
+    isLoading,
+    error,
+    mutate,
+  }: UseMutationResult<IAuditionPost, Error, ICreateAuditionPostParams> =
+    useMutation<IAuditionPost, Error, ICreateAuditionPostParams>(
+      createAuditionPost,
+      {
+        onSuccess: () => {
+          const client = new QueryClient();
+          client.invalidateQueries(['auditionPosts']);
+          navigate('/?tab=recent');
+        },
+      }
+    );
+
+  const submitHandler = (e: FormEvent<HTMLElement>) => {
     e.preventDefault();
+    const auditionPost = {
+      ...titleAndDescription!,
+      talents: talents!,
+      ageRange,
+      endorsementCount,
+      languages: addedLanguages,
+      gender,
+      region,
+    };
     // dispatch(
     //   postAudition({
     //     ...titleAndDescription,
@@ -67,13 +111,14 @@ function OthersPage() {
     //     region,
     //   })
     // );
+    mutate(auditionPost);
   };
 
   return (
     <div>
       <PostSteps step1 step2 step3 />
       <div className="px-5 md:px-0 md:max-w-4xl md:mx-auto md:mt-20 mt-10">
-        <form action="">
+        <form onSubmit={submitHandler}>
           <div className="py-3 border-b border-indigo-300 space-y-2">
             <label htmlFor="ageRange" className="block font-medium ">
               Age range
@@ -185,7 +230,7 @@ function OthersPage() {
             </p>
 
             <div className="mt-1 flex lg:inline-block">
-              {items.map((item) => (
+              {Object.values(Gender).map((item) => (
                 <div key={item}>
                   <label className="inline-flex items-center">
                     <input
@@ -212,10 +257,9 @@ function OthersPage() {
 
             <div className="relative">
               <RegionDropdown
-                required
                 disableWhenEmpty={false}
                 countryValueType="short"
-                className='block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"'
+                classes='block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"'
                 country="ET"
                 value={region}
                 onChange={(val) => setRegion(val)}
@@ -239,7 +283,6 @@ function OthersPage() {
                 region === '' ||
                 addedLanguages.length <= 0
               }
-              onClick={submitHandler}
             >
               Submlit
             </button>

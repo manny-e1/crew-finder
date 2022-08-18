@@ -7,28 +7,29 @@ import PostSteps from '../components/PostSteps';
 import Tag from '../components/Tag';
 import { applicant, pro_director } from '../constants/talents';
 import { saveTalents } from '../store/post_data_local/actions.post_data';
+import { Talent } from '../util/enums';
 
 function TalentsPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [tags, setTags] = useState<string[]>([]);
-  const [catagories, setCatagories] = useState([...pro_director, ...applicant]);
+  const [tags, setTags] = useState<Talent[]>([]);
+  const [catagories, setCatagories] = useState([...Object.values(Talent)]);
   const [_, setTalents] = useAtom(talentsAtom);
 
-  const removeTag = (tag: string) => {
+  const removeTag = (tag: string | Talent) => {
     setTags([...tags.filter((tobeRemoved) => tobeRemoved !== tag)]);
-    setCatagories([...catagories, tag]);
+    setCatagories([...catagories, tag as Talent]);
   };
 
-  const addTag = (tag: string) => {
-    setTags([...tags, tag.toUpperCase()]);
+  const addTag = (tag: string | Talent) => {
+    setTags([...tags, tag as Talent]);
     setCatagories([...catagories.filter((tobeRemoved) => tobeRemoved !== tag)]);
   };
 
   const submitHandler = (e: MouseEvent<HTMLElement>) => {
     e.preventDefault();
     // dispatch(saveTalents(tags));
-    setTags(tags);
+    setTalents(tags);
     navigate('/post/others');
   };
 

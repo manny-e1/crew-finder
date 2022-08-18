@@ -1,11 +1,13 @@
+import { Talent } from '../util/enums';
+
 function Tag({
   removeTag,
   text,
   addTag,
 }: {
-  removeTag?: (tag: string) => void;
+  removeTag?: (tag: string | Talent) => void;
   text: string;
-  addTag?: (tag: string) => void;
+  addTag?: (tag: string | Talent) => void;
 }) {
   return (
     <div
