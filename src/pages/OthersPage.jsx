@@ -56,17 +56,17 @@ function OthersPage() {
   );
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(
-      postAudition({
-        ...titleAndDescription,
-        talents,
-        ageRange,
-        endorsementCount,
-        languages: addedLanguages,
-        gender,
-        region,
-      })
-    );
+    // dispatch(
+    //   postAudition({
+    //     ...titleAndDescription,
+    //     talents,
+    //     ageRange,
+    //     endorsementCount,
+    //     languages: addedLanguages,
+    //     gender,
+    //     region,
+    //   })
+    // );
   };
 
   return (

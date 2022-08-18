@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import { useAtom } from 'jotai';
+import { MouseEvent, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
+import { talentsAtom } from '../atoms/localStorageAtoms';
 import PostSteps from '../components/PostSteps';
 import Tag from '../components/Tag';
 import { applicant, pro_director } from '../constants/talents';
@@ -8,29 +10,31 @@ import { saveTalents } from '../store/post_data_local/actions.post_data';
 
 function TalentsPage() {
   const dispatch = useDispatch();
-  const history = useNavigate();
-  const [tags, setTags] = useState([]);
+  const navigate = useNavigate();
+  const [tags, setTags] = useState<string[]>([]);
   const [catagories, setCatagories] = useState([...pro_director, ...applicant]);
+  const [_, setTalents] = useAtom(talentsAtom);
 
-  const removeTag = (tag) => {
+  const removeTag = (tag: string) => {
     setTags([...tags.filter((tobeRemoved) => tobeRemoved !== tag)]);
     setCatagories([...catagories, tag]);
   };
 
-  const addTag = (tag) => {
+  const addTag = (tag: string) => {
     setTags([...tags, tag.toUpperCase()]);
     setCatagories([...catagories.filter((tobeRemoved) => tobeRemoved !== tag)]);
   };
 
-  const submitHandler = (e) => {
+  const submitHandler = (e: MouseEvent<HTMLElement>) => {
     e.preventDefault();
-    dispatch(saveTalents(tags));
-    history.push('/post/others');
+    // dispatch(saveTalents(tags));
+    setTags(tags);
+    navigate('/post/others');
   };
 
   return (
     <div>
-      <PostSteps step1 step2 />
+      <PostSteps step1={true} step2={true} />
       <div className="px-5 md:max-w-4xl md:mx-auto md:mt-20 mt-10">
         <div className="mb-3">
           <label htmlFor="text" className="block font-medium text-lg">
@@ -59,15 +63,14 @@ function TalentsPage() {
         <div className="mt-2 flex items-center justify-end">
           <button
             type="submit"
-            className="w-48 py-2 px-4 
-            
-                                    border border-transparent rounded-full shadow-sm 
-                                    font-medium text-white bg-indigo-600 
-                                    disabled:opacity-50
-                                    hover:bg-indigo-700 
-                                    focus:outline-none focus:ring-2 focus:ring-offset-2 
-                                    text-md
-                                    focus:ring-indigo-500"
+            className="w-48 py-2 px-4      
+              border border-transparent rounded-full shadow-sm 
+              font-medium text-white bg-indigo-600 
+              disabled:opacity-50
+              hover:bg-indigo-700 
+              focus:outline-none focus:ring-2 focus:ring-offset-2 
+              text-md
+              focus:ring-indigo-500"
             disabled={tags.length <= 0}
             onClick={submitHandler}
           >
