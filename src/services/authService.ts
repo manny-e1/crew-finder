@@ -1,12 +1,5 @@
+import { CurrentUser } from '../atoms/localStorageAtoms';
 import axios from '../axios';
-import { Talent } from '../util/enums';
-
-export interface IAuthResponse {
-  token: string;
-  isActive: boolean;
-  talent: Talent;
-  role: string;
-}
 
 export interface ISignInParams {
   email: string;
@@ -15,7 +8,7 @@ export interface ISignInParams {
 
 export const signInUser = async (
   signInData: ISignInParams
-): Promise<IAuthResponse> => {
+): Promise<CurrentUser> => {
   const res = await axios.post('/users/login', signInData);
   return res.data;
 };

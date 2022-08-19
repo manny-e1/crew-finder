@@ -6,11 +6,7 @@ import { login } from '../store/user/api.user';
 import type { UseMutationResult } from '@tanstack/react-query';
 import { SetStateAction, useAtom } from 'jotai';
 import { useMutation } from '@tanstack/react-query';
-import {
-  ISignInParams,
-  IAuthResponse,
-  signInUser,
-} from '../services/authService';
+import { ISignInParams, signInUser } from '../services/authService';
 import { CurrentUser, currentUserAtom } from '../atoms/localStorageAtoms';
 import { useNavigate } from 'react-router-dom';
 
@@ -28,12 +24,14 @@ function Login(): ReactElement {
     isLoading,
     error,
     mutate,
-  }: UseMutationResult<IAuthResponse, Error, ISignInParams> = useMutation<
-    IAuthResponse,
+  }: UseMutationResult<CurrentUser, Error, ISignInParams> = useMutation<
+    CurrentUser,
     Error,
     ISignInParams
   >(signInUser, {
     onSuccess: (data) => {
+      console.log('here');
+
       localStorage.setItem('currentUser', JSON.stringify(data));
       setCurrentUser(data);
       navigate('/');
@@ -105,7 +103,7 @@ function Login(): ReactElement {
                 {isLoading ? 'Loading...' : 'Sign in'}
               </button>
             </div>
-            {error && <p className="text-red-400">{error.message}</p>}
+            {error && <p className="text-red-400">{JSON.stringify(error)}</p>}
           </div>
         </div>
       </div>

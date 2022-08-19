@@ -5,7 +5,7 @@ import { Route, Routes } from 'react-router-dom';
 // import AdminUsersList from './components/Admin/AdminUsersList';
 // import AdminRole from './components/AdminRole';
 import Authenticated from './components/Authenticated';
-// import Apply from './pages/Apply';
+import Apply from './pages/Apply';
 import AuditionPostDetailPage, {
   loader as auditionPostDetailLoader,
 } from './pages/AuditionPostDetailPage';
@@ -49,6 +49,10 @@ function App() {
           element={<Authenticated Component={AuditionPostDetailPage} />}
           loader={auditionPostDetailLoader(queryClient)}
         />
+        <Route
+          path="/auditions/:id/apply"
+          element={<Authenticated Component={Apply} />}
+        />
         {/* <Route
           path="/profile/:id"
           element={<Authenticated Component={Profile} />}
@@ -56,10 +60,6 @@ function App() {
         <Route path="/hh" element={<Authenticated Component={HH} />} />
 
 
-        <Route
-          path="/auditions/:id/apply"
-          element={<Authenticated Component={Apply} />}
-        />
         <Route path="/checkbox" element={<Checkbox />} />
         <Route
           path="/admin"
