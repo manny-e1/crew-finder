@@ -40,7 +40,7 @@ function Apply() {
     });
   };
   return (
-    <div className="fixed top-[50%] left-[50%] transform -translate-x-[50%] -translate-y-[50%]">
+    <div className="fixed top-[50%] left-[50%] transform -translate-x-[50%] -translate-y-[50%] ">
       <form>
         <div className="space-y-3 mx-4">
           <label
@@ -94,15 +94,19 @@ function Apply() {
             className="w-full py-2 px-4 
                                     border border-transparent rounded-full shadow-sm 
                                     font-medium text-white bg-indigo-600 hover:bg-indigo-700 
+                                    disabled:opacity-50
                                     focus:outline-none focus:ring-2 focus:ring-offset-2 
                                     text-md
                                     focus:ring-indigo-500"
+            disabled={isLoading}
             onClick={(e) => submitHandler(e)}
           >
-            {isLoading ? '...Loading' : 'Apply'}
+            {isLoading ? 'Loading...' : 'Apply'}
           </button>
         </div>
       </form>
     </div>
   );
 }
+
+export default Apply;

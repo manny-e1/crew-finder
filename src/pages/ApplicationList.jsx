@@ -22,7 +22,7 @@ function ApplicationList({ application }) {
 
           <div>
             <div className="flex space-x-2">
-              <h4>{application?.applicantId?.currentUser?._id}</h4>
+              <h4>{application?.applicantId?.currentUser?.id}</h4>
               {/* <BadgeCheckIcon
                 className={
                   application?.applicantId?.verification === 'FAMOUS'

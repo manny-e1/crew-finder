@@ -1,20 +1,19 @@
 import // HeartIcon,
 // SearchIcon,
 '@heroicons/react/outline';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { capitalizeFirstLetter } from '../util/firstLetterCapitalizer';
 import ApplicationList from './ApplicationList';
-import CatagoryButton from './CatagoryButton';
+import CategoryButton from './CategoryButton';
 
 function AuditionPost({
   auditionPost,
   currentUser,
   applicationList: { applications, loading, error },
 }) {
-  const history = useNavigate();
+  const navigate = useNavigate();
   const [search, setSearch] = useState('');
-
   const searchApplication = applications?.filter(
     (application) =>
       application?.applicantId?.fullName
@@ -24,21 +23,21 @@ function AuditionPost({
         .toLowerCase()
         .includes(search.toLowerCase())
   );
-  console.log(currentUser?._id !== auditionPost?.author?._id);
-  let flex = 'flex';
-  let width = '';
-  if (currentUser?._id === auditionPost?.author?._id) {
-    flex = 'inline-block';
-    width = 'lg:w-full';
-  } else flex = 'flex';
+
   return (
-    <div className={'lg:' + flex + ' m-5 ' + width}>
+    <div
+      className={`${
+        currentUser?.id === auditionPost?.author?.id
+          ? 'lg:inline-block lg:w-full'
+          : 'lg:flex'
+      }`}
+    >
       <div className="bg-white border py-5 lg:w-full rounded-l-xl">
         <h2 className="text-xl border-b p-5">{auditionPost.title}</h2>
         <div className="border-b p-5">
           <div className="flex flex-wrap">
             {auditionPost?.talents?.map((talent) => (
-              <CatagoryButton keyy={talent} text={talent} />
+              <CategoryButton key={talent} text={talent} />
             ))}
           </div>
           <p className="font-light text-md">Posted 13 days ago</p>
@@ -46,91 +45,94 @@ function AuditionPost({
         <p className="text-sm sm:text-base font-light p-5 border-b">
           {auditionPost.text}
         </p>
-        <div className="p-5 text-sm space-y-2 border-b">
-          <h2 className="text-sm sm:text-base mb-2 font-medium">
-            Preffered Qualifications
-          </h2>
-          <div className="flex justify-between sm:justify-start sm:space-x-2">
-            <p className="font-light text-sm sm:text-base">Gender:</p>
-            <div className="flex x-space-2">
+        <div className="flex md:flex-row flex-col justify-between">
+          <div className="p-5 text-sm space-y-2 border-b">
+            <h2 className="text-sm sm:text-base mb-2 font-medium">
+              Preffered Qualifications
+            </h2>
+            <div className="flex justify-between sm:justify-start sm:space-x-2">
+              <p className="font-light text-sm sm:text-base">Gender:</p>
+              <div className="flex x-space-2">
+                <p className="text-sm sm:text-base">
+                  {' '}
+                  {capitalizeFirstLetter(auditionPost?.gender?.join(',  '))}
+                </p>
+              </div>
+            </div>
+            <div className="flex justify-between sm:justify-start sm:space-x-2">
+              <p className="font-light text-sm sm:text-base">Region:</p>
+              <p className="text-sm sm:text-base">{auditionPost?.region}</p>
+            </div>
+            <div className="flex justify-between sm:justify-start sm:space-x-2">
+              <p className="font-light text-sm sm:text-base">
+                Endorsment count:
+              </p>
               <p className="text-sm sm:text-base">
-                {' '}
-                {capitalizeFirstLetter(auditionPost?.gender?.join(',  '))}
+                {auditionPost?.endorsementCount}
+              </p>
+            </div>
+
+            <div className="flex justify-between sm:justify-start sm:space-x-2">
+              <p className="font-light text-sm sm:text-base">Language:</p>
+              <div className="flex x-space-2">
+                <p className="text-sm sm:text-base">
+                  {capitalizeFirstLetter(auditionPost?.languages?.join(',  '))}
+                </p>
+              </div>
+            </div>
+
+            <div className="flex justify-between sm:justify-start sm:space-x-2">
+              <p className="font-light text-sm sm:text-base">Age:</p>
+              <p className="text-sm sm:text-base">
+                {auditionPost?.ageRange?.min +
+                  '-' +
+                  auditionPost?.ageRange?.max}
               </p>
             </div>
           </div>
-          <div className="flex justify-between sm:justify-start sm:space-x-2">
-            <p className="font-light text-sm sm:text-base">Region:</p>
-            <p className="text-sm sm:text-base">{auditionPost?.region}</p>
-          </div>
-          <div className="flex justify-between sm:justify-start sm:space-x-2">
-            <p className="font-light text-sm sm:text-base">Endorsment count:</p>
-            <p className="text-sm sm:text-base">
-              {auditionPost?.endorsementCount}
-            </p>
-          </div>
-
-          <div className="flex justify-between sm:justify-start sm:space-x-2">
-            <p className="font-light text-sm sm:text-base">Language:</p>
-            <div className="flex x-space-2">
+          <div className="p-5 text-sm space-y-2 border-b lg:border-b-0">
+            <h2 className="text-sm sm:text-base mb-2 font-medium">
+              Activity on this audition
+            </h2>
+            <div className="flex justify-between sm:justify-start sm:space-x-2">
+              <p className="font-light text-sm sm:text-base">
+                Application Count:
+              </p>
               <p className="text-sm sm:text-base">
-                {capitalizeFirstLetter(auditionPost?.languages?.join(',  '))}
+                {auditionPost.applicationCount}
               </p>
             </div>
-          </div>
-
-          <div className="flex justify-between sm:justify-start sm:space-x-2">
-            <p className="font-light text-sm sm:text-base">Age:</p>
-            <p className="text-sm sm:text-base">
-              {auditionPost?.ageRange?.min + '-' + auditionPost?.ageRange?.max}
-            </p>
-          </div>
-        </div>
-        <div className="p-5 text-sm space-y-2 border-b lg:border-b-0">
-          <h2 className="text-sm sm:text-base mb-2 font-medium">
-            Activity on this audition
-          </h2>
-          <div className="flex justify-between sm:justify-start sm:space-x-2">
-            <p className="font-light text-sm sm:text-base">
-              Application Count:
-            </p>
-            <p className="text-sm sm:text-base">
-              {auditionPost.applicationCount}
-            </p>
-          </div>
-          <div className="flex justify-between sm:justify-start sm:space-x-2">
-            <p className="font-light text-sm sm:text-base">Interviewing:</p>
-            <p className="text-sm sm:text-base">0</p>
-          </div>
-          <div className="flex justify-between sm:justify-start sm:space-x-2">
-            <p className="font-light text-sm sm:text-base">
-              Cancelled Applications:
-            </p>
-            <p className="text-sm sm:text-base">0</p>
-          </div>
-          <div className="flex justify-between sm:justify-start sm:space-x-2">
-            <p className="font-light text-sm sm:text-base">
-              Accepting Applications:
-            </p>
-            <p className="text-sm sm:text-base">
-              {auditionPost.isAcceptingApplicatons ? 'No' : 'Yes'}
-            </p>
+            <div className="flex justify-between sm:justify-start sm:space-x-2">
+              <p className="font-light text-sm sm:text-base">Interviewing:</p>
+              <p className="text-sm sm:text-base">0</p>
+            </div>
+            <div className="flex justify-between sm:justify-start sm:space-x-2">
+              <p className="font-light text-sm sm:text-base">
+                Cancelled Applications:
+              </p>
+              <p className="text-sm sm:text-base">0</p>
+            </div>
+            <div className="flex justify-between sm:justify-start sm:space-x-2">
+              <p className="font-light text-sm sm:text-base">
+                Accepting Applications:
+              </p>
+              <p className="text-sm sm:text-base">
+                {auditionPost.isAcceptingApplicatons ? 'No' : 'Yes'}
+              </p>
+            </div>
           </div>
         </div>
         <div className="p-5 text-sm space-y-2  lg:hidden">
           <h2 className="text-sm sm:text-base mb-2 font-medium">
             About the author
           </h2>
-          <div
-            className="flex justify-between sm:justify-start sm:space-x-2 cursor-pointer "
-            onClick={() =>
-              history.push(`/profile/${auditionPost?.author?._id}`)
-            }
-          >
+          <div className="flex justify-between sm:justify-start sm:space-x-2 cursor-pointer ">
             <p className="font-light text-sm sm:text-base">Name:</p>
-            <p className="text-sm sm:text-base ">
-              {auditionPost.author?.fullName}
-            </p>
+            <Link to={`/profile/${auditionPost?.author?.id}`}>
+              <a className="text-sm sm:text-base text-blue-500">
+                {auditionPost.author?.fullName}
+              </a>
+            </Link>
           </div>
           <div className="flex justify-between sm:justify-start sm:space-x-2">
             <p className="font-light text-sm sm:text-base">posts' count:</p>
@@ -150,7 +152,7 @@ function AuditionPost({
           </div>
         </div>
       </div>
-      {currentUser?._id !== auditionPost?.author?._id && (
+      {currentUser?.id !== auditionPost?.author?.id && (
         <div className="bg-white  py-5 px-5 border rounded-r-xl">
           <div className="flex py-3 justify-around lg:inline-block lg:space-y-5 lg:pt-5 lg:pb-8 w-full  border-b">
             <Link to={`/auditions/${auditionPost._id}/apply`}>
@@ -171,7 +173,7 @@ function AuditionPost({
             <div
               className="flex justify-between sm:justify-start sm:space-x-2 cursor-pointer"
               onClick={() =>
-                history.push(`/profile/${auditionPost?.author?._id}`)
+                history.push(`/profile/${auditionPost?.author?.id}`)
               }
             >
               <p className="font-light text-sm sm:text-base">Name:</p>
@@ -198,7 +200,7 @@ function AuditionPost({
           </div>
         </div>
       )}
-      {currentUser?._id === auditionPost?.author?._id &&
+      {currentUser?.id === auditionPost?.author?.id &&
         (loading ? (
           <p>Loading...</p>
         ) : (

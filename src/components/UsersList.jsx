@@ -1,6 +1,6 @@
 // import { BadgeCheckIcon } from "@heroicons/react/solid";
 import { capitalizeFirstLetter } from '../util/firstLetterCapitalizer';
-import CatagoryButton from './CatagoryButton';
+import CatagoryButton from './CategoryButton';
 
 function UsersList({ user }) {
   return (

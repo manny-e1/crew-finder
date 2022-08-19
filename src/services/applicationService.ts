@@ -23,6 +23,7 @@ export const getApplicationsForAuditionPosts = async (
   auditionPostId: string
 ): Promise<IApplication[]> => {
   const res = await axios.get(`/applications/audition/${auditionPostId}`);
+  console.log(res.data);
 
   return res.data;
 };

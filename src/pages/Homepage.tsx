@@ -76,7 +76,6 @@ function Homepage() {
         ? query +
           `&applicationCount[gte]=${count[0]}&applicationCount[lte]=${count[1]}`
         : `?applicationCount[gte]=${count[0]}&applicationCount[lte]=${count[1]}`;
-    console.log(query);
   }
   if (region !== '')
     query = query !== '' ? query + `&region=${region}` : `?region=${region}`;
@@ -94,7 +93,6 @@ function Homepage() {
     query =
       query !== '' ? query + `&talents[in]=${str}` : `?talents[in]=${str}`;
   }
-  console.log(query);
   const [hidden, setHidden] = useState('hidden');
 
   const { isLoading, error, isSuccess, data } = useQuery<

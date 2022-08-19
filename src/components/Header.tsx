@@ -1,13 +1,6 @@
 import { UserIcon, DocumentIcon } from '@heroicons/react/24/solid';
 import { useAtom } from 'jotai';
-import {
-  ComponentProps,
-  FormEvent,
-  MouseEvent,
-  ReactElement,
-  useState,
-} from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { ComponentProps, MouseEvent, ReactElement, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { currentUserAtom } from '../atoms/localStorageAtoms';
 import { Role } from '../util/enums';

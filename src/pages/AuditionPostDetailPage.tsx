@@ -1,12 +1,14 @@
 import { QueryClient, useQuery } from '@tanstack/react-query';
 import { useAtom } from 'jotai';
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { applicationVisibilityAtom } from '../atoms/changeElementVIsibilityAtoms';
 import { currentUserAtom } from '../atoms/localStorageAtoms';
 import ApplicationDetail from '../components/ApplicationDetail';
 import AuditionPost from '../components/AuditionPost';
-import { IApplication } from '../services/applicationService';
+import {
+  getApplicationsForAuditionPosts,
+  IApplication,
+} from '../services/applicationService';
 import {
   getAuditionPostById,
   IAuditionPost,
@@ -34,18 +36,27 @@ export const loader =
   };
 
 function AuditionPostDetailPage() {
-  const dispatch = useDispatch();
   const { id } = useParams();
   const [currentUser] = useAtom(currentUserAtom);
+  const [{ display, application }, setApplicationVisibility] = useAtom(
+    applicationVisibilityAtom
+  );
 
   const { error, data: auditionPost } = useQuery<IAuditionPost, Error>(
     auditionPostDetailQuery(id!)
   );
+  const {
+    error: applicationError,
+    data: applications,
+    isLoading,
+  } = useQuery<IApplication[], Error>(['applications', id], () =>
+    getApplicationsForAuditionPosts(id!)
+  );
 
-  const applicationList: IApplication[] = [];
-  const ap = { applications: applicationList, loading: false, error: false };
+  // const applicationList: IApplication[] = [];
+  // const ap = { applications: applicationList, loading: false, error: false };
   // const { hidden, application } = useSelector((state) => state.hideDiv);
-  const hidden = true;
+  // const hidden = true;
 
   // const { loading, error, auditionPost } = detailAuditionPost;
   // useEffect(() => {
@@ -53,12 +64,7 @@ function AuditionPostDetailPage() {
   // dispatch(listApplications(id));
   // dispatch(hideDiv());
   // }, [dispatch, id]);
-
-  let width = 'max-w-7xl';
-
-  if (currentUser?.id === auditionPost?.author?.id) {
-    width = 'max-w-5xl';
-  }
+  console.log(currentUser?.id === auditionPost?.author?.id);
 
   if (error && error.message === 'Not Authenticated') {
     localStorage && localStorage.removeItem('currentUser');
@@ -70,23 +76,31 @@ function AuditionPostDetailPage() {
   if (!auditionPost) return <p>null</p>;
 
   return (
-    <div className={width + ' h-screen mx-auto mt-10'}>
-      {/* <div
+    <div
+      className={`${
+        currentUser?.id === auditionPost?.author?.id ? 'max-w-5xl' : 'max-w-7xl'
+      } mx-auto mt-10`}
+    >
+      <div
         className={
           'bg-transparent items-center justify-center ' +
-          hidden +
+          display +
           ' absolute inset-x-0 inset-y-0 '
         }
       >
         <ApplicationDetail application={application} />
-      </div> */}
+      </div>
 
       <div>
         <AuditionPost
           key={auditionPost?.id}
           auditionPost={auditionPost}
           currentUser={currentUser}
-          applicationList={ap}
+          applicationList={{
+            applications,
+            loading: isLoading,
+            error: applicationError,
+          }}
         />
       </div>
     </div>
