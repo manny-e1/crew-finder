@@ -30,7 +30,7 @@ export const getApplicationsForAuditionPosts = async (
 export const createApplication = async (data: {
   auditionPostId: string;
   applicationLetter: string;
-}): Promise<{}> => {
+}): Promise<any> => {
   const res = await axios.post('/applications', data);
   return res.data;
 };

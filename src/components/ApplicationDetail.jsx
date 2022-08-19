@@ -1,4 +1,4 @@
-import { BadgeCheckIcon } from '@heroicons/react/solid';
+// import { BadgeCheckIcon } from '@heroicons/react/solid';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
@@ -66,7 +66,7 @@ function ApplicationDetail({ application }) {
               <p className="text-sm md:text-size-sm text-blue-400">
                 {application?.applicantId?.fullName}
               </p>
-              <BadgeCheckIcon
+              {/* <BadgeCheckIcon
                 className={
                   application?.applicantId?.verification === 'FAMOUS'
                     ? 'h-4 text-blue-500'
@@ -74,7 +74,7 @@ function ApplicationDetail({ application }) {
                     ? 'h-4 text-black'
                     : 'hidden'
                 }
-              />
+              /> */}
             </div>
           </div>
           <div className="flex space-x-2">

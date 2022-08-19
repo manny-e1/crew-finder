@@ -1,4 +1,6 @@
-import { HeartIcon, SearchIcon } from '@heroicons/react/outline';
+import // HeartIcon,
+// SearchIcon,
+'@heroicons/react/outline';
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { capitalizeFirstLetter } from '../util/firstLetterCapitalizer';
@@ -157,7 +159,7 @@ function AuditionPost({
               </button>
             </Link>
             <button className="border rounded-full flex justify-center items-center border-black h-11 w-11 lg:w-full md:w-80 sm:w-64 md:space-x-2 lg:py-3">
-              <HeartIcon className="text-black h-6" />
+              {/* <HeartIcon className="text-black h-6" /> */}
               <span className="hidden md:flex">save</span>
             </button>
           </div>
@@ -208,7 +210,7 @@ function AuditionPost({
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
-              <SearchIcon className="bg-transparent h-6 text-indigo-400" />
+              {/* <SearchIcon className="bg-transparent h-6 text-indigo-400" /> */}
             </div>
             {searchApplication?.map((application) => (
               <div

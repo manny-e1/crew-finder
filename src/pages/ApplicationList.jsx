@@ -1,4 +1,4 @@
-import { BadgeCheckIcon } from '@heroicons/react/solid';
+// import { BadgeCheckIcon } from '@heroicons/react/solid';
 import { useDispatch } from 'react-redux';
 import { hideDiv, unhideDiv } from '../store/ui/hideDiv';
 import { capitalizeFirstLetter } from '../util/firstLetterCapitalizer';
@@ -23,7 +23,7 @@ function ApplicationList({ application }) {
           <div>
             <div className="flex space-x-2">
               <h4>{application?.applicantId?.currentUser?._id}</h4>
-              <BadgeCheckIcon
+              {/* <BadgeCheckIcon
                 className={
                   application?.applicantId?.verification === 'FAMOUS'
                     ? 'h-4 text-blue-500'
@@ -31,7 +31,7 @@ function ApplicationList({ application }) {
                     ? 'h-4 text-black'
                     : 'hidden'
                 }
-              />
+              /> */}
             </div>
             <p className="line-clamp-1 text-sm font-light">
               {application?.applicationLetter}

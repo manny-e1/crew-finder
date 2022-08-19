@@ -6,7 +6,9 @@ import { Route, Routes } from 'react-router-dom';
 // import AdminRole from './components/AdminRole';
 import Authenticated from './components/Authenticated';
 // import Apply from './pages/Apply';
-import AuditionPostDetailPage from './pages/AuditionPostDetailPage';
+import AuditionPostDetailPage, {
+  loader as auditionPostDetailLoader,
+} from './pages/AuditionPostDetailPage';
 // import AuditionPostSearchPage from './pages/AuditionPostSearchPage';
 // import ChatPage from './pages/ChatPage';
 // import Checkbox from './pages/Checkbox';
@@ -45,6 +47,7 @@ function App() {
         <Route
           path="/auditions/:id"
           element={<Authenticated Component={AuditionPostDetailPage} />}
+          loader={auditionPostDetailLoader(queryClient)}
         />
         {/* <Route
           path="/profile/:id"
