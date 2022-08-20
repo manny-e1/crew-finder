@@ -3,8 +3,6 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { useAtom } from 'jotai';
 import { MouseEvent } from 'react';
-import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
 import { MoonLoader } from 'react-spinners';
 import { applicationVisibilityAtom } from '../atoms/changeElementVIsibilityAtoms';
 import {
@@ -12,14 +10,10 @@ import {
   IApplication,
   updateApplication,
 } from '../services/applicationService';
-// import { updateApplication } from '../store/application/api.application';
-import { hideDiv } from '../store/ui/hideDiv';
 import { Status } from '../util/enums';
 import { capitalizeFirstLetter } from '../util/firstLetterCapitalizer';
 
 function ApplicationDetail({ id }: { id: string }) {
-  // console.log(application);
-
   // const [status, setStatus] = useState(application?.applicationStatus);
   const [_, setApplicationVisibility] = useAtom(applicationVisibilityAtom);
   const {
@@ -45,7 +39,7 @@ function ApplicationDetail({ id }: { id: string }) {
       refetch();
     },
   });
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   // const { data } = useSelector((state) => state.updateApplication);
   const clickHandler = (e: MouseEvent<SVGSVGElement>) => {
     e.preventDefault();
@@ -54,13 +48,6 @@ function ApplicationDetail({ id }: { id: string }) {
   const submitHandler = (e: MouseEvent<HTMLButtonElement>, status: Status) => {
     e.preventDefault();
     mutate({ id, applicationStatus: status });
-    // dispatch(
-    //   updateApplication(
-    //     application?._id,
-    //     application?.auditionPostId?._id,
-    //     updateData
-    //   )
-    // );
   };
 
   return (

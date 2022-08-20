@@ -78,15 +78,17 @@ function AuditionPostDetailPage() {
         currentUser?.id === auditionPost?.author?.id ? 'max-w-5xl' : 'max-w-7xl'
       } mx-auto mt-10`}
     >
-      <div
-        className={
-          'bg-transparent items-center justify-center ' +
-          display +
-          ' absolute inset-x-0 inset-y-0 '
-        }
-      >
-        <ApplicationDetail id={application?._id!} />
-      </div>
+      {display === 'flex' && (
+        <div
+          className={
+            'bg-transparent items-center justify-center ' +
+            display +
+            ' absolute inset-x-0 inset-y-0 '
+          }
+        >
+          <ApplicationDetail id={application?._id!} />
+        </div>
+      )}
 
       <div>
         <AuditionPost

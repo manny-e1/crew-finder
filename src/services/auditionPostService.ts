@@ -37,7 +37,7 @@ export const getAuditionPosts = async (
   if (query && query.startsWith('?search')) {
     res = await axios.get(`/auditionPosts/search${query}`);
   } else {
-    res = await axios.get(`/auditionPosts${query}`);
+    res = await axios.get(`/auditionPosts`);
   }
   return res.data;
 };

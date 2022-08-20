@@ -29,6 +29,8 @@ export const getApplicationsForAuditionPosts = async (
 export const getApplicationById = async (
   applicationId: string
 ): Promise<IApplication> => {
+  console.log('applicationid:', applicationId);
+
   const res = await axios.get(`/applications/${applicationId}`);
   return res.data;
 };
@@ -39,9 +41,13 @@ export const createApplication = async (data: {}): Promise<any> => {
 };
 
 export const updateApplication = async (data: {
-  applicationId: string;
+  id: string;
   applicationStatus: Status;
 }): Promise<any> => {
-  const res = await axios.put(`/applications/${data.applicationId}`, data);
+  console.log('data in update:', data);
+
+  const res = await axios.put(`/applications/${data.id}`, {
+    applicationStatus: data.applicationStatus,
+  });
   return res.data;
 };
