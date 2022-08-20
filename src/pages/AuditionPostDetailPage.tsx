@@ -38,9 +38,7 @@ export const loader =
 function AuditionPostDetailPage() {
   const { id } = useParams();
   const [currentUser] = useAtom(currentUserAtom);
-  const [{ display, application }, setApplicationVisibility] = useAtom(
-    applicationVisibilityAtom
-  );
+  const [{ display, application }] = useAtom(applicationVisibilityAtom);
 
   const { error, data: auditionPost } = useQuery<IAuditionPost, Error>(
     auditionPostDetailQuery(id!)
@@ -64,7 +62,6 @@ function AuditionPostDetailPage() {
   // dispatch(listApplications(id));
   // dispatch(hideDiv());
   // }, [dispatch, id]);
-  console.log(currentUser?.id === auditionPost?.author?.id);
 
   if (error && error.message === 'Not Authenticated') {
     localStorage && localStorage.removeItem('currentUser');
@@ -88,7 +85,7 @@ function AuditionPostDetailPage() {
           ' absolute inset-x-0 inset-y-0 '
         }
       >
-        <ApplicationDetail application={application} />
+        <ApplicationDetail id={application?._id!} />
       </div>
 
       <div>

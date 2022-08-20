@@ -9,6 +9,7 @@ interface IAuditionPostId {
 }
 
 export interface IApplication {
+  _id: string;
   auditionPostId: IAuditionPostId;
   applicantId: IUser;
   applicationLetter: string;
@@ -23,15 +24,24 @@ export const getApplicationsForAuditionPosts = async (
   auditionPostId: string
 ): Promise<IApplication[]> => {
   const res = await axios.get(`/applications/audition/${auditionPostId}`);
-  console.log(res.data);
-
+  return res.data;
+};
+export const getApplicationById = async (
+  applicationId: string
+): Promise<IApplication> => {
+  const res = await axios.get(`/applications/${applicationId}`);
   return res.data;
 };
 
-export const createApplication = async (data: {
-  auditionPostId: string;
-  applicationLetter: string;
-}): Promise<any> => {
+export const createApplication = async (data: {}): Promise<any> => {
   const res = await axios.post('/applications', data);
+  return res.data;
+};
+
+export const updateApplication = async (data: {
+  applicationId: string;
+  applicationStatus: Status;
+}): Promise<any> => {
+  const res = await axios.put(`/applications/${data.applicationId}`, data);
   return res.data;
 };

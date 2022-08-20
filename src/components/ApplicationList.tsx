@@ -1,13 +1,17 @@
-// import { BadgeCheckIcon } from '@heroicons/react/solid';
-import { useDispatch } from 'react-redux';
-import { hideDiv, unhideDiv } from '../store/ui/hideDiv';
+import { CheckBadgeIcon } from '@heroicons/react/24/solid';
+
+import { useAtom } from 'jotai';
+import { MouseEvent } from 'react';
+import { applicationVisibilityAtom } from '../atoms/changeElementVIsibilityAtoms';
+import { IApplication } from '../services/applicationService';
+import { Status, Verification } from '../util/enums';
 import { capitalizeFirstLetter } from '../util/firstLetterCapitalizer';
 
-function ApplicationList({ application }) {
-  const dispatch = useDispatch();
-  const clickHandler = (e) => {
+function ApplicationList({ application }: { application: IApplication }) {
+  const [_, setApplicationVisibility] = useAtom(applicationVisibilityAtom);
+  const clickHandler = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    dispatch(unhideDiv(application));
+    setApplicationVisibility({ display: 'flex', application });
   };
 
   return (
@@ -22,33 +26,34 @@ function ApplicationList({ application }) {
 
           <div>
             <div className="flex space-x-2">
-              <h4>{application?.applicantId?.currentUser?.id}</h4>
-              {/* <BadgeCheckIcon
+              <h4>{application?.applicantId?.id}</h4>
+              <CheckBadgeIcon
                 className={
-                  application?.applicantId?.verification === 'FAMOUS'
+                  application?.applicantId?.verification === Verification.FAMOUS
                     ? 'h-4 text-blue-500'
-                    : application?.applicantId?.verification === 'ENDORSED'
+                    : application?.applicantId?.verification ===
+                      Verification.ENDORSED
                     ? 'h-4 text-black'
                     : 'hidden'
                 }
-              /> */}
+              />
             </div>
             <p className="line-clamp-1 text-sm font-light">
               {application?.applicationLetter}
             </p>
-            <p
-              className="text-blue-400 font-light text-size-sm"
+            <button
+              className="text-blue-400 cursor-pointer hover:underline font-light text-size-sm"
               onClick={(e) => clickHandler(e)}
             >
               read more...
-            </p>
+            </button>
           </div>
         </div>
         <p
           className={
-            application.applicationStatus === 'PENDING'
+            application.applicationStatus === Status.PENDING
               ? 'text-white border rounded-full px-5 ml-1 py-1 bg-yellow-500'
-              : application.applicationStatus === 'APPROVED'
+              : application.applicationStatus === Status.APPROVED
               ? 'text-white border rounded-full px-5 py-1 bg-green-500'
               : 'text-white border rounded-full px-5 py-1 bg-red-500'
           }
