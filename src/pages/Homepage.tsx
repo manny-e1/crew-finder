@@ -128,37 +128,37 @@ function Homepage() {
 
   return (
     <div>
-      <main className="max-w-7xl h-screen mx-auto">
+      <main className="mx-auto h-screen max-w-7xl">
         <section
-          className="text-xl lg:hidden text-center cursor-pointer"
+          className="cursor-pointer text-center text-xl lg:hidden"
           onClick={(e) =>
             hidden === 'hidden' ? setHidden('flex') : setHidden('hidden')
           }
         >
           Filters
         </section>
-        <div className="flex flex-wrap lg:space-x-6 mt-8">
+        <div className="mt-8 flex flex-wrap lg:space-x-6">
           <section
             className={
-              'w-full pt-5 h-full md:rounded-2xl lg:w-2/6 mb-5 ' +
+              'mb-5 h-full w-full pt-5 md:rounded-2xl lg:w-2/6 ' +
               hidden +
-              ' px-5 lg:inline-block lg:justify-end bg-white '
+              ' bg-white px-5 lg:inline-block lg:justify-end '
             }
           >
-            <h2 className="text-3xl lg:flex hidden justify-center">Filters</h2>
-            <form className="w-full flex justify-center">
-              <div className="py-10 space-y-6">
+            <h2 className="hidden justify-center text-3xl lg:flex">Filters</h2>
+            <form className="flex w-full justify-center">
+              <div className="space-y-6 py-10">
                 <div>
                   <label
                     htmlFor="catagory"
-                    className="block text sm font-medium text-gray-700"
+                    className="text sm block font-medium text-gray-700"
                   >
                     Catagory
                   </label>
                   <div className="mt-1">
                     <Select
                       options={options}
-                      className="lg:w-64 w-full"
+                      className="w-full lg:w-64"
                       isMulti
                       onChange={(e) =>
                         Array.isArray(e)
@@ -172,7 +172,7 @@ function Homepage() {
                 <div>
                   <label
                     htmlFor="location"
-                    className="block text sm font-medium text-gray-700"
+                    className="text sm block font-medium text-gray-700"
                   >
                     Location
                   </label>
@@ -191,7 +191,7 @@ function Homepage() {
                 <div>
                   <label
                     htmlFor="application-count"
-                    className="block text sm font-medium text-gray-700"
+                    className="text sm block font-medium text-gray-700"
                   >
                     Application Count
                   </label>
@@ -258,7 +258,7 @@ function Homepage() {
                 <div>
                   <label
                     htmlFor="gender"
-                    className="block text sm font-medium text-gray-700"
+                    className="text sm block font-medium text-gray-700"
                   >
                     Gender
                   </label>
@@ -279,7 +279,7 @@ function Homepage() {
               </div>
             </form>
           </section>
-          <section className="w-full pt-5 md:mx-2 md:rounded-2xl  lg:w-3/6 bg-white">
+          <section className="w-full bg-white pt-5 md:mx-2  md:rounded-2xl lg:w-3/6">
             {/* <div className="flex flex-wrap">
                             {query && talents?.map(talent => (
                                 <Tag text={talent.replace(/%20/g, " ").toUpperCase()} removeTag={removeTag} />
@@ -294,7 +294,7 @@ function Homepage() {
                 <Label label="Recent">
                   {data?.map((auditionPost) => (
                     <PostCard
-                      key={auditionPost.id}
+                      key={auditionPost._id}
                       auditionPost={auditionPost}
                       fromSearch=""
                     />
@@ -303,7 +303,7 @@ function Homepage() {
                 <Label label="For You">
                   {filteredAuditionPosts?.map((auditionPost) => (
                     <PostCard
-                      key={auditionPost.id}
+                      key={auditionPost._id}
                       auditionPost={auditionPost}
                       fromSearch=""
                     />
@@ -312,7 +312,7 @@ function Homepage() {
               </Tabs>
             )}
           </section>
-          <section className="w-1/6 hidden lg:flex "></section>
+          <section className="hidden w-1/6 lg:flex "></section>
         </div>
       </main>
     </div>

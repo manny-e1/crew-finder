@@ -4,7 +4,7 @@ import { Gender, Talent } from '../util/enums';
 import { IUser } from './userService';
 
 export interface IAuditionPost {
-  id: string;
+  _id: string;
   author: IUser;
   title: string;
   text: string;

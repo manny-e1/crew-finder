@@ -27,7 +27,7 @@ const auditionPostDetailQuery = (id: string) => ({
 export const loader =
   (queryClient: QueryClient) =>
   async ({ params }: any) => {
-    const query = auditionPostDetailQuery(params.id);
+    const query = auditionPostDetailQuery(params._id);
 
     return (
       queryClient.getQueryData(query.queryKey) ??
@@ -75,13 +75,15 @@ function AuditionPostDetailPage() {
   return (
     <div
       className={`${
-        currentUser?.id === auditionPost?.author?.id ? 'max-w-5xl' : 'max-w-7xl'
+        currentUser?._id === auditionPost?.author?._id
+          ? 'max-w-5xl'
+          : 'max-w-7xl'
       } mx-auto mt-10`}
     >
       {display === 'flex' && (
         <div
           className={
-            'bg-transparent items-center justify-center ' +
+            'items-center justify-center bg-transparent ' +
             display +
             ' absolute inset-x-0 inset-y-0 '
           }
@@ -92,7 +94,7 @@ function AuditionPostDetailPage() {
 
       <div>
         <AuditionPost
-          key={auditionPost?.id}
+          key={auditionPost?._id}
           auditionPost={auditionPost}
           currentUser={currentUser}
           applicationList={{

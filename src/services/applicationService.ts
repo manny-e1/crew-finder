@@ -1,16 +1,17 @@
 import { AxiosResponse } from 'axios';
 import axios from '../axios';
 import { Gender, Status, Talent } from '../util/enums';
+import { IAuditionPost } from './auditionPostService';
 import { IUser } from './userService';
 
-interface IAuditionPostId {
-  _id: string;
-  author: IUser;
-}
+// interface IAuditionPostId {
+//   _id: string;
+//   author: IUser;
+// }
 
 export interface IApplication {
   _id: string;
-  auditionPostId: IAuditionPostId;
+  auditionPostId: IAuditionPost;
   applicantId: IUser;
   applicationLetter: string;
   applicationStatus: Status;
@@ -44,8 +45,6 @@ export const updateApplication = async (data: {
   id: string;
   applicationStatus: Status;
 }): Promise<any> => {
-  console.log('data in update:', data);
-
   const res = await axios.put(`/applications/${data.id}`, {
     applicationStatus: data.applicationStatus,
   });
