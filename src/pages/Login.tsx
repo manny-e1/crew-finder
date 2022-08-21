@@ -48,7 +48,7 @@ function Login(): ReactElement {
             <div>
               <label
                 htmlFor="email"
-                className="block text sm font-medium text-gray-700"
+                className=" text-sm font-medium text-gray-700"
               >
                 Email Address
               </label>
@@ -70,7 +70,7 @@ function Login(): ReactElement {
             <div>
               <label
                 htmlFor="password"
-                className="block text sm font-medium text-gray-700"
+                className="text-sm font-medium text-gray-700"
               >
                 Password
               </label>

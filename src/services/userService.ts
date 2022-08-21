@@ -8,4 +8,6 @@ export interface IUser {
   verification?: Verification;
   talent?: Talent;
   username?: string;
+  phoneNumber?: string;
+  otherTalents?: Talent[];
 }

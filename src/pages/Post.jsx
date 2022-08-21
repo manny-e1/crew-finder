@@ -67,31 +67,31 @@ function Post() {
       <h1 className="absolute inset-1/3 w-full text-5xl">Author's own posts</h1>
       <div
         className={
-          'bg-transparent inline:block items-center justify-center ' +
+          'inline:block items-center justify-center bg-transparent ' +
           hidden +
           ' absolute inset-x-0'
         }
       >
         <div
           onClick={(e) => setHidden('hidden')}
-          className="absolute right-10 text-black text-5xl inset-y-10 cursor-pointer"
+          className="absolute inset-y-10 right-10 cursor-pointer text-5xl text-black"
         >
           x
         </div>
         <form
           method=""
-          className="w-full lg:w-1/2  bg-gray-100 p-28 rounded-xl"
+          className="w-full rounded-xl  bg-gray-100 p-28 lg:w-1/2"
         >
           <div className="mb-3">
             <label
               htmlFor="title"
-              className="block text sm font-medium text-gray-700"
+              className="text sm block font-medium text-gray-700"
             >
               Title
             </label>
             <div className="mt-2">
               <input
-                className="w-full border-gray-300  rounded-lg shadow-sm
+                className="w-full rounded-lg  border-gray-300 shadow-sm
                                         focus:border-indigo-500 focus:ring-indigo-500"
                 type="text"
                 name="title"
@@ -107,15 +107,14 @@ function Post() {
           <div className="mb-3">
             <label
               htmlFor="text"
-              className="block text sm font-medium text-gray-700"
+              className="text sm block font-medium text-gray-700"
             >
               Text
             </label>
             <div className="mt-2">
               <textarea
-                className="w-full border-gray-300  rounded-lg shadow-sm
+                className="w-full rounded-lg  border-gray-300 shadow-sm
                                         focus:border-indigo-500 focus:ring-indigo-500"
-                type="text"
                 name="text"
                 id="text"
                 autoComplete="text"
@@ -140,14 +139,11 @@ function Post() {
             </div>
           </div>
           <div className="mb-3">
-            <label
-              htmlFor="text"
-              className="block text sm font-medium text-gray-700"
-            >
+            <label htmlFor="text" className="text-sm font-medium text-gray-700">
               Talents
             </label>
             <div className="mt-1">
-              <div className="flex flex-wrap mb-5">
+              <div className="mb-5 flex flex-wrap">
                 {tags?.map((tag) => (
                   <Tag text={tag} removeTag={removeTag} />
                 ))}
@@ -155,7 +151,7 @@ function Post() {
             </div>
           </div>
 
-          <div className="flex flex-wrap mb-5">
+          <div className="mb-5 flex flex-wrap">
             {catagories?.map((catagory) => (
               <Tag text={catagory} addTag={addTag} />
             ))}
@@ -173,12 +169,12 @@ function Post() {
           <div className="mt-20 flex items-center justify-center">
             <button
               type="submit"
-              className="w-full py-2 px-4 
-                                    border border-transparent rounded-md shadow-sm 
-                                    font-medium text-white bg-indigo-600 hover:bg-indigo-700 
-                                    focus:outline-none focus:ring-2 focus:ring-offset-2 
-                                    text-md
-                                    focus:ring-indigo-500"
+              className="text-md w-full rounded-md 
+                                    border border-transparent bg-indigo-600 py-2 
+                                    px-4 font-medium text-white shadow-sm 
+                                    hover:bg-indigo-700 focus:outline-none focus:ring-2 
+                                    focus:ring-indigo-500
+                                    focus:ring-offset-2"
               onClick={submitHandler}
             >
               Post

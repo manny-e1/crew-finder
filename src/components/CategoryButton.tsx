@@ -1,10 +1,10 @@
 import { capitalizeFirstLetter } from '../util/firstLetterCapitalizer';
 
-function CatagoryButton({ text }) {
+function CatagoryButton({ text }: { text: string }) {
   return (
     <span
-      className="bg-gray-200 rounded-full px-3 
-        py-1 text-sm font-semibold text-gray-500 mr-2 mb-2"
+      className="mr-2 mb-2 rounded-full 
+        bg-gray-200 px-3 py-1 text-sm font-semibold text-gray-500"
     >
       {capitalizeFirstLetter(text)}{' '}
     </span>
