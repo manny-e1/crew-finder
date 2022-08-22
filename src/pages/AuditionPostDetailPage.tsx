@@ -40,25 +40,6 @@ function AuditionPostDetailPage() {
   const { error, data: auditionPost } = useQuery<IAuditionPost, Error>(
     auditionPostDetailQuery(id!)
   );
-  const {
-    error: applicationError,
-    data: applications,
-    isLoading,
-  } = useQuery<IApplication[], Error>(['applications', id], () =>
-    getApplicationsForAuditionPosts(id!)
-  );
-
-  // const applicationList: IApplication[] = [];
-  // const ap = { applications: applicationList, loading: false, error: false };
-  // const { hidden, application } = useSelector((state) => state.hideDiv);
-  // const hidden = true;
-
-  // const { loading, error, auditionPost } = detailAuditionPost;
-  // useEffect(() => {
-  // dispatch(auditionPostDetail(id));
-  // dispatch(listApplications(id));
-  // dispatch(hideDiv());
-  // }, [dispatch, id]);
 
   if (error && error.message === 'Not Authenticated') {
     localStorage && localStorage.removeItem('currentUser');
@@ -85,7 +66,10 @@ function AuditionPostDetailPage() {
             ' absolute inset-x-0 inset-y-0 '
           }
         >
-          <ApplicationDetail id={application?._id!} />
+          <ApplicationDetail
+            applicationId={application?._id!}
+            auditionPostId={auditionPost._id}
+          />
         </div>
       )}
 

@@ -42,7 +42,7 @@ function AuditionPost({
           </h2>
           <div className="flex justify-between sm:justify-start sm:space-x-2">
             <p className="text-sm font-light sm:text-base">Gender:</p>
-            <div className="x-space-2 flex">
+            <div className="flex space-x-2">
               <p className="text-sm sm:text-base">
                 {' '}
                 {capitalizeFirstLetter(auditionPost?.gender?.join(',  '))}
@@ -113,10 +113,11 @@ function AuditionPost({
           </h2>
           <div className="flex cursor-pointer justify-between sm:justify-start sm:space-x-2 ">
             <p className="text-sm font-light sm:text-base">Name:</p>
-            <Link to={`/profile/${auditionPost?.author?._id}`}>
-              <a className="text-sm text-blue-500 sm:text-base">
-                {auditionPost.author?.fullName}
-              </a>
+            <Link
+              to={`/profile/${auditionPost?.author?._id}`}
+              className="text-sm text-blue-500 sm:text-base"
+            >
+              {auditionPost.author?.fullName}
             </Link>
           </div>
           <div className="flex justify-between sm:justify-start sm:space-x-2">
