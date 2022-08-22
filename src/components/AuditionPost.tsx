@@ -1,5 +1,6 @@
 import { HeartIcon } from '@heroicons/react/24/solid';
 import { Link, useNavigate } from 'react-router-dom';
+import { CurrentUser } from '../atoms/localStorageAtoms';
 import { IAuditionPost } from '../services/auditionPostService';
 import { IUser } from '../services/userService';
 import { capitalizeFirstLetter } from '../util/firstLetterCapitalizer';
@@ -10,14 +11,14 @@ function AuditionPost({
   currentUser,
 }: {
   auditionPost: IAuditionPost;
-  currentUser: IUser;
+  currentUser: CurrentUser | null;
 }) {
   const navigate = useNavigate();
 
   return (
     <div
       className={`${
-        currentUser?._id === auditionPost?.author?._id
+        currentUser?.id === auditionPost?.author?._id
           ? 'lg:inline-block lg:w-full'
           : 'lg:flex'
       }`}
@@ -136,7 +137,7 @@ function AuditionPost({
           </div>
         </div>
       </div>
-      {currentUser?._id !== auditionPost?.author?._id && (
+      {currentUser?.id !== auditionPost?.author?._id && (
         <div className="rounded-r-xl  border bg-white py-5 px-5">
           <div className="flex w-full justify-around border-b py-3 lg:inline-block lg:space-y-5 lg:pt-5  lg:pb-8">
             <Link to={`/auditions/${auditionPost._id}/apply`}>

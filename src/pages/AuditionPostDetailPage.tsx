@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { applicationVisibilityAtom } from '../atoms/changeElementVIsibilityAtoms';
 import { currentUserAtom } from '../atoms/localStorageAtoms';
 import ApplicationDetail from '../components/ApplicationDetail';
+import ApplicationList from '../components/ApplicationList';
 import AuditionPost from '../components/AuditionPost';
 import {
   getApplicationsForAuditionPosts,
@@ -13,10 +14,6 @@ import {
   getAuditionPostById,
   IAuditionPost,
 } from '../services/auditionPostService';
-import { listApplications } from '../store/application/api.application';
-import { auditionPostDetail } from '../store/auditionPost/api.auditionpost';
-import { hideDiv } from '../store/ui/hideDiv';
-import { logout } from '../store/user/api.user';
 
 const auditionPostDetailQuery = (id: string) => ({
   queryKey: ['auditionPost', 'detail', id],
@@ -75,7 +72,7 @@ function AuditionPostDetailPage() {
   return (
     <div
       className={`${
-        currentUser?._id === auditionPost?.author?._id
+        currentUser?.id === auditionPost?.author?._id
           ? 'max-w-5xl'
           : 'max-w-7xl'
       } mx-auto mt-10`}
@@ -97,13 +94,11 @@ function AuditionPostDetailPage() {
           key={auditionPost?._id}
           auditionPost={auditionPost}
           currentUser={currentUser}
-          applicationList={{
-            applications,
-            loading: isLoading,
-            error: applicationError,
-          }}
         />
       </div>
+      {currentUser?.id === auditionPost.author._id && (
+        <ApplicationList auditionPostId={auditionPost._id} />
+      )}
     </div>
   );
 }
