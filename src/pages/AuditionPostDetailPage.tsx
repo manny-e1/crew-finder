@@ -7,10 +7,6 @@ import ApplicationDetail from '../components/ApplicationDetail';
 import ApplicationList from '../components/ApplicationList';
 import AuditionPost from '../components/AuditionPost';
 import {
-  getApplicationsForAuditionPosts,
-  IApplication,
-} from '../services/applicationService';
-import {
   getAuditionPostById,
   IAuditionPost,
 } from '../services/auditionPostService';

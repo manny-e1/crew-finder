@@ -17,10 +17,10 @@ function SearchDropdownRow({
   icon: (props: ComponentProps<'svg'>) => ReactElement;
 }) {
   return (
-    <div className="flex gap-2 p-2 items-center " onClick={onClick}>
+    <div className="flex items-center gap-2 p-2 " onClick={onClick}>
       <Icon className="h-5" />
       <div>
-        <p className="font-light text-size-sm">{type}</p>
+        <p className="text-size-sm font-light">{type}</p>
         <p className="text-sm font-light">{description}</p>
       </div>
     </div>
@@ -56,19 +56,19 @@ function Header() {
     <nav
       className="sticky top-0 z-50 
                 grid grid-cols-3 bg-white
-                shadow-md p-2 md:px-10"
+                p-2 shadow-md md:px-10"
     >
       <Link
         to="/"
-        className="relative flex items-center 
-                h-10 cursor-pointer my-auto"
+        className="relative my-auto flex 
+                h-10 cursor-pointer items-center"
       >
         <p className="text-xl">Crew Finder</p>
       </Link>
       {currentUser ? (
-        <div className="md:flex md:flex-col hidden  items-center py-2 ">
+        <div className="hidden items-center py-2  md:flex md:flex-col ">
           <input
-            className="w-full pl-5 mx-2 rounded-full border-none bg-gray-100 text-sm text-gray-600 placeholder-gray-400 "
+            className="mx-2 w-full rounded-full border-none bg-gray-100 pl-5 text-sm text-gray-600 placeholder-gray-400 "
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
             type="text"
@@ -76,7 +76,7 @@ function Header() {
             placeholder="start your search"
           />
           {searchInput && (
-            <div className="w-1/4 rounded-sm absolute top-14 bg-white mx-auto p-3 ">
+            <div className="absolute top-14 mx-auto w-1/4 rounded-sm bg-white p-3 ">
               <SearchDropdownRow
                 type="Talent"
                 description="lorem ipsum"
@@ -97,23 +97,29 @@ function Header() {
       )}
 
       {currentUser ? (
-        <div className="flex items-center space-x-4 justify-end text-gray-500">
+        <div className="flex items-center justify-end space-x-4 text-gray-500">
           {currentUser.role === Role.proDirector && (
             <Link to="/post/title-description">
-              <p className="hidden md:inline-flex text-red-400">Post</p>
+              <p className="hidden text-red-400 md:inline-flex">Post</p>
             </Link>
           )}
+          <Link
+            to={`/profile/${currentUser.id}`}
+            className="hidden text-red-400 md:inline-flex"
+          >
+            Profile
+          </Link>
           <p
-            className="hidden md:inline-flex text-red-400"
+            className="hidden text-red-400 md:inline-flex"
             onClick={logoutHandler}
           >
             Logout
           </p>
         </div>
       ) : (
-        <div className="flex items-center space-x-4 justify-end text-gray-500">
+        <div className="flex items-center justify-end space-x-4 text-gray-500">
           <Link to="/login">
-            <p className="flex md:inline text-red-400">Sign In</p>
+            <p className="flex text-red-400 md:inline">Sign In</p>
           </Link>
           <Link to="/signup">
             <p className="flex text-red-400">Sign up</p>

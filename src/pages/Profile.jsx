@@ -1,8 +1,4 @@
-import {
-  LocationMarkerIcon,
-  PencilAltIcon,
-  PencilIcon,
-} from '@heroicons/react/solid';
+import { MapPinIcon, PencilIcon } from '@heroicons/react/24/solid';
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -62,7 +58,6 @@ function Profile() {
 
   return (
     <div>
-      <Header />
       <div className="relative mx-auto mt-5 border lg:max-w-5xl">
         <div
           className={
@@ -104,7 +99,7 @@ function Profile() {
           <div className="items-center pl-4  sm:pl-8">
             <h1 className="text-2xl">{user?.fullName}</h1>
             <p className="flex items-center text-sm">
-              <LocationMarkerIcon className="h-4 pr-1 text-blue-600" />{' '}
+              <MapPinIcon className="h-4 pr-1 text-blue-600" />{' '}
               {user?.address?.region ?? user?.address?.city},{' '}
               {user?.address?.country === 'ET'
                 ? 'Ethiopia'
@@ -139,7 +134,7 @@ function Profile() {
           <h2 className="font-bold">Other Talents</h2>
           <div className="mt-1">
             {user?.otherTalents?.map((talent) => (
-              <CatagoryButton text="talent" />
+              <CatagoryButton text={talent} />
             ))}
           </div>
         </div>
@@ -157,9 +152,7 @@ function Profile() {
             </div>
             <div className="flex space-x-4 pl-3 text-sm">
               <h4>Country:</h4>
-              <p className="font-light">
-                {user?.address?.country === 'ET' && 'Ethiopia'}
-              </p>
+              <p className="font-light">{user?.address?.country}</p>
             </div>
             <div className="flex space-x-4 pl-3 text-sm">
               <h4>Region:</h4>
