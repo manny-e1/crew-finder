@@ -98,9 +98,7 @@ function Homepage() {
   const { isLoading, error, isSuccess, data } = useQuery<
     IAuditionPost[],
     Error
-  >(['auditionPosts', query !== '' ? query : ''], () =>
-    getAuditionPosts(query !== '' ? query : '')
-  );
+  >(['auditionPosts'], () => getAuditionPosts(query));
   const filteredAuditionPosts = data?.filter((auditionPost) =>
     auditionPost?.talents?.includes(currentUser!.talent)
   );

@@ -10,6 +10,9 @@ export interface IUser {
   username?: string;
   phoneNumber?: string;
   otherTalents?: Talent[];
+  bio?: string;
+  avatar?: string;
+  gender?: string;
   address?: {
     country: string;
     region: string;

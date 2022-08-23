@@ -9,3 +9,15 @@ export type ApplicationVisiblity = {
 export const applicationVisibilityAtom = atom<ApplicationVisiblity>({
   display: 'hidden',
 });
+
+export type ButtonVisibility = {
+  display: 'hidden' | 'flex';
+};
+
+export const editButtonVisibilityAtom = atom<ButtonVisibility>({
+  display: 'hidden',
+});
+
+export const imageUploadVisibilityAtom = atom<ButtonVisibility>({
+  display: 'hidden',
+});
