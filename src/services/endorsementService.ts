@@ -17,3 +17,10 @@ export const getReceivedEndorsements = async (
   const res = await axios.get(`/endorsements/received/${endorseeId}`);
   return res.data;
 };
+
+export const endorseUser = async (data: {
+  endorseeId: string;
+}): Promise<any> => {
+  const res = await axios.post('/endorsements', data);
+  return res.data;
+};
