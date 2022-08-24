@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import { useAtom } from 'jotai';
+import { MouseEvent, useState } from 'react';
 import { RegionDropdown } from 'react-country-region-selector';
 import { useDispatch } from 'react-redux';
+import { editButtonVisibilityAtom } from '../atoms/changeElementVIsibilityAtoms';
 import { hideEdit } from '../store/ui/hideDiv';
 import { updateUserProfile } from '../store/user/api.user';
 
@@ -10,24 +12,29 @@ function EditProfile() {
   const [region, setRegion] = useState('');
   const dispatch = useDispatch();
 
-  const submitHandler = (e) => {
+  const [_, setEditButtonVisibility] = useAtom(editButtonVisibilityAtom);
+
+  const hideEditForm = (e: MouseEvent<HTMLDivElement | HTMLButtonElement>) => {
+    e.preventDefault();
+    setEditButtonVisibility({ display: 'hidden' });
+  };
+
+  const submitHandler = (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     const user = {
       fullName,
       bio,
       region,
     };
-    dispatch(updateUserProfile(user));
-    dispatch(hideEdit());
+    // dispatch(updateUserProfile(user));
+    hideEditForm(e);
   };
 
   return (
-    <div className="absolute inset-x-6 md:inset-x-10 lg:inset-x-1/3 bg-white">
+    <div className="absolute inset-x-6 bg-white md:inset-x-10 lg:inset-x-1/3">
       <div className="flex justify-between border-b p-5 ">
         <h2>Edit Profile</h2>
-        <div
-          onClick={() => dispatch(hideEdit())}
-          className="cursor-pointer text-xl"
-        >
+        <div onClick={hideEditForm} className="cursor-pointer text-xl">
           X
         </div>
       </div>
@@ -36,13 +43,13 @@ function EditProfile() {
           <div>
             <label
               htmlFor="fullName"
-              className="block text sm font-medium text-gray-700"
+              className="text sm block font-medium text-gray-700"
             >
               Full Name
             </label>
             <div className="mt-1">
               <input
-                className="w-full border-gray-300  rounded-lg shadow-sm
+                className="w-full rounded-lg  border-gray-300 shadow-sm
                                         focus:border-indigo-500 focus:ring-indigo-500"
                 type="text"
                 name="fullName"
@@ -57,13 +64,13 @@ function EditProfile() {
           <div>
             <label
               htmlFor="bio"
-              className="block text sm font-medium text-gray-700"
+              className="text sm block font-medium text-gray-700"
             >
               Full Name
             </label>
             <div className="mt-1">
               <input
-                className="w-full border-gray-300  rounded-lg shadow-sm
+                className="w-full rounded-lg  border-gray-300 shadow-sm
                                         focus:border-indigo-500 focus:ring-indigo-500"
                 type="text"
                 name="bio"
@@ -75,19 +82,18 @@ function EditProfile() {
               />
             </div>
           </div>
-          <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+          <div className="mb-6 w-full px-3 md:mb-0 md:w-1/2">
             <label
-              className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-              for="grid-state"
+              className="mb-2 block text-xs font-bold uppercase tracking-wide text-gray-700"
+              htmlFor="grid-state"
             >
               Region
             </label>
             <div className="relative">
               <RegionDropdown
-                required
                 disableWhenEmpty={false}
                 countryValueType="short"
-                className='block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"'
+                classes='block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"'
                 country="ET"
                 value={region}
                 onChange={(val) => setRegion(val)}
@@ -96,9 +102,9 @@ function EditProfile() {
           </div>
         </form>
       </div>
-      <div className="flex justify-end py-3 border-b px-5">
+      <div className="flex justify-end border-b py-3 px-5">
         <button
-          className="py-1 px-5 rounded-full  bg-indigo-400"
+          className="rounded-full bg-indigo-400 py-1  px-5"
           onClick={(e) => submitHandler(e)}
         >
           Save Image
