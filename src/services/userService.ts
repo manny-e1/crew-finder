@@ -12,6 +12,7 @@ export interface IUser {
   otherTalents?: Talent[];
   bio?: string;
   avatar?: string;
+  birthdate?: Date;
   gender?: string;
   address?: {
     country: string;
@@ -21,5 +22,10 @@ export interface IUser {
 
 export const getUserDetail = async (id: string): Promise<IUser> => {
   const res = await axios.get(`/users/${id}`);
+  return res.data;
+};
+
+export const getUsers = async (query: string): Promise<IUser[]> => {
+  const res = await axios.get(`/users/${query}`);
   return res.data;
 };
