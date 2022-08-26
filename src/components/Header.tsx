@@ -109,12 +109,12 @@ function Header() {
           >
             Profile
           </Link>
-          <p
+          <button
             className="hidden text-red-400 md:inline-flex"
             onClick={logoutHandler}
           >
             Logout
-          </p>
+          </button>
         </div>
       ) : (
         <div className="flex items-center justify-end space-x-4 text-gray-500">
