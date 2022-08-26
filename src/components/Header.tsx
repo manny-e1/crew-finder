@@ -1,7 +1,15 @@
 import { UserIcon, DocumentIcon } from '@heroicons/react/24/solid';
 import { useAtom } from 'jotai';
-import { ComponentProps, MouseEvent, ReactElement, useState } from 'react';
+import {
+  ChangeEvent,
+  ComponentProps,
+  MouseEvent,
+  ReactElement,
+  useEffect,
+  useState,
+} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { searchDropDownVisibilityAtom } from '../atoms/changeElementVIsibilityAtoms';
 import { currentUserAtom } from '../atoms/localStorageAtoms';
 import { Role } from '../util/enums';
 
@@ -31,7 +39,9 @@ function Header() {
   const [searchInput, setSearchInput] = useState('');
   const navigate = useNavigate();
   const [currentUser, setCurrentUser] = useAtom(currentUserAtom);
-
+  const [searchDropDownVisibility, setSearchDropDownVisibllity] = useAtom(
+    searchDropDownVisibilityAtom
+  );
   const logoutHandler = () => {
     localStorage.removeItem('currentUser');
     setCurrentUser(null);
@@ -51,6 +61,14 @@ function Header() {
       search: `search=${searchInput}`,
     });
   };
+
+  useEffect(() => {
+    if (searchInput) {
+      setSearchDropDownVisibllity('block');
+    } else {
+      setSearchDropDownVisibllity('hidden');
+    }
+  }, [searchInput]);
 
   return (
     <nav
@@ -75,22 +93,23 @@ function Header() {
             name="search"
             placeholder="start your search"
           />
-          {searchInput && (
-            <div className="absolute top-14 mx-auto w-1/4 rounded-sm bg-white p-3 ">
-              <SearchDropdownRow
-                type="Talent"
-                description="lorem ipsum"
-                onClick={userSearchHandler}
-                icon={UserIcon}
-              />
-              <SearchDropdownRow
-                type="Audition posts"
-                description="lorem ipsum"
-                onClick={auditionPostSeachHandler}
-                icon={DocumentIcon}
-              />
-            </div>
-          )}
+
+          <div
+            className={`absolute top-14 mx-auto w-80 rounded-sm bg-white p-3 ${searchDropDownVisibility}`}
+          >
+            <SearchDropdownRow
+              type="Talent"
+              description="lorem ipsum"
+              onClick={userSearchHandler}
+              icon={UserIcon}
+            />
+            <SearchDropdownRow
+              type="Audition posts"
+              description="lorem ipsum"
+              onClick={auditionPostSeachHandler}
+              icon={DocumentIcon}
+            />
+          </div>
         </div>
       ) : (
         <div className="flex items-center "></div>

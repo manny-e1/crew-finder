@@ -1,8 +1,10 @@
 import { atom } from 'jotai';
 import { IApplication } from '../services/applicationService';
 
+type Visibility = 'flex' | 'hidden' | 'block';
+
 export type ApplicationVisiblity = {
-  display: 'hidden' | 'flex';
+  display: Visibility;
   application?: IApplication;
 };
 
@@ -11,7 +13,7 @@ export const applicationVisibilityAtom = atom<ApplicationVisiblity>({
 });
 
 export type ButtonVisibility = {
-  display: 'hidden' | 'flex';
+  display: Visibility;
 };
 
 export const editButtonVisibilityAtom = atom<ButtonVisibility>({
@@ -21,3 +23,5 @@ export const editButtonVisibilityAtom = atom<ButtonVisibility>({
 export const imageUploadVisibilityAtom = atom<ButtonVisibility>({
   display: 'hidden',
 });
+
+export const searchDropDownVisibilityAtom = atom<Visibility>('hidden');
