@@ -73,20 +73,20 @@ function Header() {
   return (
     <nav
       className="sticky top-0 z-50 
-                grid grid-cols-3 bg-white
+                flex justify-between bg-white
                 p-2 shadow-md md:px-10"
     >
       <Link
         to="/"
-        className="relative my-auto flex 
-                h-10 cursor-pointer items-center"
+        className="relative my-auto flex h-10 
+                flex-shrink-0 cursor-pointer items-center"
       >
         <p className="text-xl">Crew Finder</p>
       </Link>
       {currentUser ? (
         <div className="hidden items-center py-2  md:flex md:flex-col ">
           <input
-            className="mx-2 w-full rounded-full border-none bg-gray-100 pl-5 text-sm text-gray-600 placeholder-gray-400 "
+            className="mx-2 w-80 rounded-full border-none bg-gray-100 pl-5 text-sm text-gray-600 placeholder-gray-400 "
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
             type="text"

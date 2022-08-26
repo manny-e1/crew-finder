@@ -26,6 +26,6 @@ export const getUserDetail = async (id: string): Promise<IUser> => {
 };
 
 export const getUsers = async (query: string): Promise<IUser[]> => {
-  const res = await axios.get(`/users/${query}`);
+  const res = await axios.get(`/users?search=${query}`);
   return res.data;
 };

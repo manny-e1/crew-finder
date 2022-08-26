@@ -19,7 +19,7 @@ import Login from './pages/Login';
 // import Post from './pages/Post';
 import Profile from './pages/Profile';
 import Signup from './pages/Signup';
-// import UserSearchPage from './pages/UserSearchPage';
+import UserSearchPage from './pages/UserSearchPage';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useRef, useState } from 'react';
 import Header from './components/Header';
@@ -41,10 +41,16 @@ function App() {
 
         <Route
           path="/post/title-description"
-          element={<TitleAndDescriptionPage />}
+          element={<Authenticated Component={TitleAndDescriptionPage} />}
         />
-        <Route path="/post/talents" element={<TalentsPage />} />
-        <Route path="/post/others" element={<OthersPage />} />
+        <Route
+          path="/post/talents"
+          element={<Authenticated Component={TalentsPage} />}
+        />
+        <Route
+          path="/post/others"
+          element={<Authenticated Component={OthersPage} />}
+        />
         <Route
           path="/auditions/:id"
           element={<Authenticated Component={AuditionPostDetailPage} />}
@@ -57,6 +63,10 @@ function App() {
         <Route
           path="/profile/:id"
           element={<Authenticated Component={Profile} />}
+        />
+        <Route
+          path="/users"
+          element={<Authenticated Component={UserSearchPage} />}
         />
         {/* 
         <Route path="/hh" element={<Authenticated Component={HH} />} />
@@ -79,7 +89,6 @@ function App() {
           path="/adminpage"
           element={<AdminRole Component={AdminPage} />}
         />
-        <Route path="/users" element={<UserSearchPage />} />
         <Route path="/mark" element={<Mark />} />
         <Route path="/auditionposts" element={<AuditionPostSearchPage />} />
         <Route path="/chat" element={<ChatPage />} />*/}
