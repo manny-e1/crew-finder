@@ -11,7 +11,7 @@ import AuditionPostDetailPage, {
 } from './pages/AuditionPostDetailPage';
 // import AuditionPostSearchPage from './pages/AuditionPostSearchPage';
 // import ChatPage from './pages/ChatPage';
-// import Checkbox from './pages/Checkbox';
+import Checkbox from './pages/Checkbox';
 // import HH from './pages/HH';
 import Homepage from './pages/Homepage';
 import Login from './pages/Login';
@@ -68,11 +68,11 @@ function App() {
           path="/users"
           element={<Authenticated Component={UserSearchPage} />}
         />
+        <Route path="/checkbox" element={<Checkbox />} />
         {/* 
         <Route path="/hh" element={<Authenticated Component={HH} />} />
 
 
-        <Route path="/checkbox" element={<Checkbox />} />
         <Route
           path="/admin"
           element={<AdminRole Component={AdminUsersList} />}

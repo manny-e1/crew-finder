@@ -36,8 +36,8 @@ function ChatPage() {
     <div>
       <Header />
       <div className="content-container flex">
-        <div className="flex border-r w-1/4">
-          <div className="p-2.5 w-full h-full ">
+        <div className="flex w-1/4 border-r">
+          <div className="h-full w-full p-2.5 ">
             {conversations?.map((c) => (
               <div onClick={() => setCurrentChat(c)}>
                 <Conversations conversation={c} currentUser={currentUser} />
@@ -46,7 +46,7 @@ function ChatPage() {
           </div>
         </div>
         <div className="w-1/2 border-r">
-          <div className="flex flex-col relative justify-between h-full p-2.5">
+          <div className="relative flex h-full flex-col justify-between p-2.5">
             {currentChat ? (
               <>
                 <div className="h-full overflow-y-scroll pr-2.5">
@@ -61,13 +61,13 @@ function ChatPage() {
                 </div>
                 <div className="mt-1 flex items-center justify-between ">
                   <textarea
-                    className="w-4/5 h-[90px] p-2.5 rounded-lg"
+                    className="h-[90px] w-4/5 rounded-lg p-2.5"
                     placeholder="write something..."
                     onChange={(e) => setNewMessage(e.target.value)}
                     value={newMessage}
-                  ></textarea>
+                  />
                   <button
-                    className="w-20 h-10 border-none rounded-md cursor-pointer bg-green-700 text-white"
+                    className="h-10 w-20 cursor-pointer rounded-md border-none bg-green-700 text-white"
                     onClick={handleSubmit}
                   >
                     Send

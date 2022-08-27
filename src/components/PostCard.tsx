@@ -1,23 +1,23 @@
 import { Link } from 'react-router-dom';
 import CatagoryButton from './CategoryButton';
+import { IAuditionPost } from '../services/auditionPostService';
 
-function PostCard({ key, auditionPost, fromSearch }) {
+function PostCard({
+  auditionPost,
+  fromSearch,
+}: {
+  auditionPost: IAuditionPost;
+  fromSearch?: boolean;
+}) {
   return (
     <div
-      className="flex py-4 px-2 pr-4 border-b
-       opacity-200 first:border-t"
-      key={key}
+      className="opacity-200 flex border-b py-4 px-2
+       pr-4 first:border-t"
     >
-      <div className="flex flex-col flex-grow pl-5 mb-10 ">
+      <div className="mb-10 flex flex-grow flex-col pl-5 ">
         <div className=" pb-5">
           <h2 className="text-xl ">
-            <Link
-              className=""
-              to={{
-                pathname: `/auditions/${auditionPost._id}`,
-                state: { auditionPost },
-              }}
-            >
+            <Link className="" to={`/auditions/${auditionPost._id}`}>
               {auditionPost.title}
             </Link>
           </h2>
@@ -28,8 +28,7 @@ function PostCard({ key, auditionPost, fromSearch }) {
           )}
         </div>
 
-        {/* <div className="border-b w-10 pt-2"/> */}
-        <p className="text-sm pt-2 flex-grow text-gray-500 line-clamp-1 sm:line-clamp-2 lg:line-clamp-3">
+        <p className="flex-grow pt-2 text-sm text-gray-500 line-clamp-1 sm:line-clamp-2 lg:line-clamp-3">
           {auditionPost.text}
         </p>
         <div className="flex">
