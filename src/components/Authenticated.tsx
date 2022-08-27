@@ -6,9 +6,7 @@ import { Role } from '../util/enums';
 
 function Authenticated({ Component }: { Component: FC }) {
   const [currentUser] = useAtom(currentUserAtom);
-  const location = useLocation();
   const navigate = useNavigate();
-  console.log(location.pathname);
 
   useEffect(() => {
     if (!currentUser) navigate('/login');
