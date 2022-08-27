@@ -1,19 +1,30 @@
-import { useState, useEffect } from 'react';
+import {
+  useState,
+  useEffect,
+  ReactNode,
+  ComponentProps,
+  MouseEvent,
+} from 'react';
 import { slugify } from '../util/slugify';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-const Tabs = ({ children, initialTab }) => {
-  const [activeTab, setActiveTab] = useState(children[0].props.label);
+function Tabs({
+  children,
+  initialTab,
+}: {
+  children: JSX.Element[];
+  initialTab: string | null;
+}) {
+  const [activeTab, setActiveTab] = useState<string>(children[0].props.label);
   const naviagte = useNavigate();
   const location = useLocation();
 
-  const handleClick = (e, newActiveTab) => {
+  const handleClick = (e: MouseEvent<HTMLLIElement>, newActiveTab: string) => {
     e.preventDefault();
     setActiveTab(slugify(newActiveTab));
   };
 
   useEffect(() => {
-    console.log(initialTab);
     if (initialTab) {
       setActiveTab(initialTab);
     }
@@ -25,15 +36,15 @@ const Tabs = ({ children, initialTab }) => {
 
   return (
     <>
-      <ul className="p-0 m-0 flex justify-center">
+      <ul className="m-0 flex justify-center p-0">
         {children.map((tab) => {
           const label = tab.props.label;
           return (
             <li
               onClick={(e) => handleClick(e, label)}
-              className={`hover:bg-slate-200 py-1/5 px-5 my-0 mx-2 ${
+              className={`py-1/5 my-0 mx-2 px-5 hover:bg-slate-200 ${
                 slugify(label) === activeTab
-                  ? ' font-bold border-b-2 border-blue-900 relative'
+                  ? ' relative border-b-2 border-blue-900 font-bold'
                   : 'cursor-pointer transition duration-200'
               }`}
               key={label}
@@ -54,6 +65,6 @@ const Tabs = ({ children, initialTab }) => {
       })}
     </>
   );
-};
+}
 
 export { Tabs };

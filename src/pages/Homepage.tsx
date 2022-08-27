@@ -294,7 +294,6 @@ function Homepage() {
                     <PostCard
                       key={auditionPost._id}
                       auditionPost={auditionPost}
-                      fromSearch=""
                     />
                   ))}
                 </Label>
@@ -303,7 +302,6 @@ function Homepage() {
                     <PostCard
                       key={auditionPost._id}
                       auditionPost={auditionPost}
-                      fromSearch=""
                     />
                   ))}
                 </Label>
