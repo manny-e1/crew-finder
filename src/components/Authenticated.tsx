@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react';
+import { FC, ReactElement, useEffect } from 'react';
 import { matchRoutes, useLocation, useNavigate } from 'react-router-dom';
 import { useAtom } from 'jotai';
 import { currentUserAtom } from '../atoms/localStorageAtoms';
@@ -14,6 +14,7 @@ function Authenticated({ Component }: { Component: FC }) {
   }, [currentUser]);
 
   if (currentUser && currentUser.role !== Role.admin) return <Component />;
+  return <></>;
 }
 
 export default Authenticated;

@@ -43,3 +43,15 @@ export enum Status {
   APPROVED = 'APPROVED',
   REJECTED = 'REJECTED',
 }
+
+export enum Language {
+  AMHARIC = 'Amharic',
+  AFAAN_OROMO = 'Afaan Oromo',
+  TIGRIGNA = 'Tigrigna',
+  SIDAMIGNA = 'Sidamigna',
+  WOLAYTIGNA = 'Wolaytigna',
+  ENGLISH = 'English',
+  MANDARIN = 'Mandrin',
+  SPANISH = 'Spanish',
+  DEUTCH = 'Deutch',
+}

@@ -1,22 +1,11 @@
 import { Route, Routes } from 'react-router-dom';
-// import AdminApplicationsList from './components/Admin/AdminApplicationsList';
-// import AdminPage from './components/Admin/AdminPage';
-// import AdminPostsList from './components/Admin/AdminPostsList';
-// import AdminUsersList from './components/Admin/AdminUsersList';
-// import AdminRole from './components/AdminRole';
 import Authenticated from './components/Authenticated';
 import Apply from './pages/Apply';
 import AuditionPostDetailPage, {
   loader as auditionPostDetailLoader,
 } from './pages/AuditionPostDetailPage';
-// import AuditionPostSearchPage from './pages/AuditionPostSearchPage';
-// import ChatPage from './pages/ChatPage';
-import Checkbox from './pages/Checkbox';
-// import HH from './pages/HH';
 import Homepage from './pages/Homepage';
 import Login from './pages/Login';
-// import Mark from './pages/Markdown';
-// import Post from './pages/Post';
 import Profile from './pages/Profile';
 import Signup from './pages/Signup';
 import UserSearchPage from './pages/UserSearchPage';
@@ -26,7 +15,6 @@ import Header from './components/Header';
 import TitleAndDescriptionPage from './pages/TitleAndDescriptionPage';
 import TalentsPage from './pages/TalentsPage';
 import OthersPage from './pages/OthersPage';
-import { set } from 'date-fns';
 
 function App() {
   const queryClient = useRef(new QueryClient());
@@ -54,7 +42,7 @@ function App() {
         <Route
           path="/auditions/:id"
           element={<Authenticated Component={AuditionPostDetailPage} />}
-          loader={auditionPostDetailLoader(queryClient)}
+          loader={auditionPostDetailLoader(queryClient.current)}
         />
         <Route
           path="/auditions/:id/apply"
@@ -68,7 +56,7 @@ function App() {
           path="/users"
           element={<Authenticated Component={UserSearchPage} />}
         />
-        <Route path="/checkbox" element={<Checkbox />} />
+        {/* <Route path="/checkbox" element={<Checkbox />} /> */}
         {/* 
         <Route path="/hh" element={<Authenticated Component={HH} />} />
 
@@ -102,7 +90,7 @@ function App() {
 
 export default App;
 
-const sett = new Set();
+const sett = new Set<number>();
 function Squares() {
   const [squares, setSquares] = useState([0, 0, 0, 0, 0, 0]);
 
@@ -110,15 +98,15 @@ function Squares() {
     if (sett.size === 0 && !squares.includes(1)) return;
     const last = Array.from(sett).pop();
     let newSquares = squares;
-    newSquares[last] = 0;
-    sett.delete(last);
+    newSquares[last!] = 0;
+    sett.delete(last!);
     setTimeout(() => {
       setSquares([...newSquares]);
       turnWhite();
     }, 500);
   };
 
-  const turnGreen = (index) => {
+  const turnGreen = (index: number) => {
     if (!squares.includes(0)) return;
     sett.add(index);
     let newSquares = squares;

@@ -1,36 +1,34 @@
+import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { Navigate } from 'react-router-dom';
-import Tag from '../components/Tag';
-import { applicant, pro_director } from '../constants/talents';
-import { postAudition } from '../store/auditionPost/api.auditionpost';
+import Tag, { AddAndRemoveTagType } from '../../components/Tag';
+import { Gender, Talent } from '../../util/enums';
 
 function Post() {
-  const [hidden, setHidden] = useState('hidden');
+  const [hidden, setHidden] = useState<'hidden' | 'flex'>('hidden');
   const [title, setTitle] = useState('');
   const [text, setText] = useState('');
-  const [tags, setTags] = useState([]);
-  const [catagories, setCatagories] = useState([...pro_director, ...applicant]);
+  const [tags, setTags] = useState<Talent[]>([]);
+  const [catagories, setCatagories] = useState([...Object.values(Talent)]);
 
-  const removeTag = (tag) => {
+  const removeTag = (tag: AddAndRemoveTagType) => {
     setTags([...tags.filter((tobeRemoved) => tobeRemoved !== tag)]);
-    setCatagories([...catagories, tag]);
+    setCatagories([...catagories, tag as Talent]);
   };
 
-  const dispatch = useDispatch();
-
-  const addTag = (tag) => {
-    setTags([...tags, tag.toUpperCase()]);
+  const addTag = (tag: AddAndRemoveTagType) => {
+    setTags([...tags, tag as Talent]);
     setCatagories([...catagories.filter((tobeRemoved) => tobeRemoved !== tag)]);
   };
 
+  // const {isLoading,error, mutate} = useMutation<>
+
   const submitHandler = () => {
-    dispatch(postAudition({ title, text, talents: tags }));
+    // dispatch(postAudition({ title, text, talents: tags }));
     return <Navigate to="/" />;
   };
 
-  const items = ['male', 'female'];
-  const [applicationCount, setApplicationCount] = useState([]);
+  const [applicationCount, setApplicationCount] = useState<string[]>([]);
   let query = '';
   if (applicationCount.length > 0) {
     applicationCount.forEach((applicationCoun) => {
@@ -41,7 +39,7 @@ function Post() {
     });
   }
   console.log(applicationCount);
-  const onChangeItem = (id) => {
+  const onChangeItem = (id: Gender) => {
     let selected = applicationCount;
     let find = selected.indexOf(id);
 
@@ -157,7 +155,7 @@ function Post() {
             ))}
           </div>
           <div className="mt-1 flex lg:inline-block">
-            {items.map((item) => (
+            {Object.values(Gender).map((item) => (
               <div key={item}>
                 <label className="inline-flex items-center">
                   <input type="checkbox" onChange={() => onChangeItem(item)} />

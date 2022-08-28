@@ -1,16 +1,14 @@
-
-import styles from "../styles/Home.module.css";
-import { Tabs } from "../components/Tab";
-import { useLocation } from "react-router-dom";
+import styles from '../styles/Home.module.css';
+import { Tabs } from '../../components/Tab';
+import { useLocation } from 'react-router-dom';
 
 export default function HH() {
-    const search = useLocation().search;
-    const tab = new URLSearchParams(search)
+  const search = useLocation().search;
+  const tab = new URLSearchParams(search);
   return (
     <div className={styles.container}>
-   
       <main>
-        <Tabs initialTab={tab.get("tab")}>
+        <Tabs initialTab={tab.get('tab')}>
           <div label="Tab 1">
             <h2>Tab 1</h2>
             <p>
@@ -49,4 +47,3 @@ export default function HH() {
     </div>
   );
 }
-

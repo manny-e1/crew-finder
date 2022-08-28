@@ -6,7 +6,6 @@ import {
 import { useAtom } from 'jotai';
 import { FormEvent, useState } from 'react';
 import { RegionDropdown } from 'react-country-region-selector';
-import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { BeatLoader } from 'react-spinners';
 import {
@@ -14,15 +13,13 @@ import {
   titleAndDescriptionAtom,
 } from '../atoms/localStorageAtoms';
 import PostSteps from '../components/PostSteps';
-import Tag from '../components/Tag';
-import { langs } from '../constants/languages';
+import Tag, { AddAndRemoveTagType } from '../components/Tag';
 import {
   createAuditionPost,
   IAuditionPost,
   ICreateAuditionPostParams,
 } from '../services/auditionPostService';
-import { postAudition } from '../store/auditionPost/api.auditionpost';
-import { Gender } from '../util/enums';
+import { Gender, Language } from '../util/enums';
 import { capitalizeFirstLetter } from '../util/firstLetterCapitalizer';
 
 function OthersPage() {
@@ -32,22 +29,24 @@ function OthersPage() {
   });
   const [endorsementCount, setEndorsementCount] = useState(0);
   const [searchedLang, setSearchedLang] = useState('');
-  const [addedLanguages, setAddedLanguages] = useState<string[]>([]);
-  const [languages, setLanguages] = useState<string[]>([...langs]);
+  const [addedLanguages, setAddedLanguages] = useState<Language[]>([]);
+  const [languages, setLanguages] = useState<Language[]>([
+    ...Object.values(Language),
+  ]);
   const [gender, setGender] = useState<Gender[]>([]);
   const [region, setRegion] = useState('');
   const [titleAndDescription] = useAtom(titleAndDescriptionAtom);
   const [talents] = useAtom(talentsAtom);
   const navigate = useNavigate();
-  const removeLanguage = (language: string) => {
+  const removeLanguage = (language: AddAndRemoveTagType) => {
     setAddedLanguages([
       ...addedLanguages.filter((tobeRemoved) => tobeRemoved !== language),
     ]);
-    setLanguages([...languages, language]);
+    setLanguages([...languages, language as Language]);
   };
 
-  const addLanguage = (language: string) => {
-    setAddedLanguages([...addedLanguages, language.toUpperCase()]);
+  const addLanguage = (language: AddAndRemoveTagType) => {
+    setAddedLanguages([...addedLanguages, language as Language]);
     setLanguages([
       ...languages.filter((tobeRemoved) => tobeRemoved !== language),
     ]);
@@ -107,9 +106,9 @@ function OthersPage() {
   return (
     <div>
       <PostSteps step1 step2 step3 />
-      <div className="px-5 md:px-0 md:max-w-4xl md:mx-auto md:mt-20 mt-10">
+      <div className="mt-10 px-5 md:mx-auto md:mt-20 md:max-w-4xl md:px-0">
         <form onSubmit={submitHandler}>
-          <div className="py-3 border-b border-indigo-300 space-y-2">
+          <div className="space-y-2 border-b border-indigo-300 py-3">
             <label htmlFor="ageRange" className="block font-medium ">
               Age range
             </label>
@@ -151,7 +150,7 @@ function OthersPage() {
               <p className="">{ageRange.max}</p>
             </div>
           </div>
-          <div className="py-3 border-b border-indigo-300 space-y-2">
+          <div className="space-y-2 border-b border-indigo-300 py-3">
             <label htmlFor="endorsementCount" className="block font-medium ">
               Endorsement count
             </label>
@@ -173,7 +172,7 @@ function OthersPage() {
               <p className="">{endorsementCount}</p>
             </div>
           </div>
-          <div className="py-3 border-b border-indigo-300 space-y-2">
+          <div className="space-y-2 border-b border-indigo-300 py-3">
             <label htmlFor="ageRange" className="block font-medium ">
               Languages
             </label>
@@ -183,7 +182,7 @@ function OthersPage() {
               </p>
               <input
                 type="text"
-                className="w-full h-8 rounded-full border-indigo-500 outline-none focus:border-indigo-700"
+                className="h-8 w-full rounded-full border-indigo-500 outline-none focus:border-indigo-700"
                 value={searchedLang}
                 onChange={(e) => setSearchedLang(e.target.value)}
               />
@@ -192,26 +191,20 @@ function OthersPage() {
                   <p className="text-sm text-gray-600">Selected talents</p>
                 )}
 
-                <div className="flex flex-wrap mb-5">
+                <div className="mb-5 flex flex-wrap">
                   {addedLanguages?.map((lang) => (
-                    <Tag
-                      text={capitalizeFirstLetter(lang)}
-                      removeTag={removeLanguage}
-                    />
+                    <Tag text={lang} removeTag={removeLanguage} />
                   ))}
                 </div>
               </div>
-              <div className="flex flex-wrap mb-5">
+              <div className="mb-5 flex flex-wrap">
                 {filteredLangs?.map((lang) => (
-                  <Tag
-                    text={capitalizeFirstLetter(lang)}
-                    addTag={addLanguage}
-                  />
+                  <Tag text={lang} addTag={addLanguage} />
                 ))}
               </div>
             </div>
           </div>
-          <div className="py-3 border-b border-indigo-300 space-y-2">
+          <div className="space-y-2 border-b border-indigo-300 py-3">
             <label htmlFor="ageRange" className="block font-medium ">
               Gender
             </label>
@@ -237,7 +230,7 @@ function OthersPage() {
               ))}
             </div>
           </div>
-          <div className="py-3 border-b border-indigo-300 space-y-2">
+          <div className="space-y-2 border-b border-indigo-300 py-3">
             <label htmlFor="region" className="block font-medium">
               Region
             </label>
@@ -259,15 +252,15 @@ function OthersPage() {
           <div className="mt-4 flex items-center justify-end">
             <button
               type="submit"
-              className="w-48 py-2 px-4 
+              className="text-md w-48 rounded-full 
             
-                                    border border-transparent rounded-full shadow-sm 
-                                    font-medium text-white bg-indigo-600 
-                                    disabled:opacity-50
+                                    border border-transparent bg-indigo-600 py-2 
+                                    px-4 font-medium text-white 
+                                    shadow-sm
                                     hover:bg-indigo-700 
-                                    focus:outline-none focus:ring-2 focus:ring-offset-2 
-                                    text-md
-                                    focus:ring-indigo-500"
+                                    focus:outline-none focus:ring-2 focus:ring-indigo-500 
+                                    focus:ring-offset-2
+                                    disabled:opacity-50"
               disabled={
                 gender.length <= 0 ||
                 region === '' ||
