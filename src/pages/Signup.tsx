@@ -1,18 +1,12 @@
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import Header from '../components/Header';
 import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
-
 import PhoneInput from 'react-phone-number-input';
 import 'react-phone-number-input/style.css';
-import { register } from '../store/user/api.user';
-import { applicant, pro_director, rolechoice } from '../constants/talents';
 import { ISignUpParams, signUpUser } from '../services/authService';
 import { useMutation, UseMutationResult } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { AxiosError } from 'axios';
-
-const genderList = ['Male', 'Female'];
+import { Gender, Role, Talent } from '../enums/enums';
 
 type signupErrorResponse = {
   fullName?: string;
@@ -39,10 +33,9 @@ function Signup() {
   const [country, setCountry] = useState('');
   const [region, setRegion] = useState('');
   const [phoneNumber, setPhoneNumber] = useState<any>();
-  const [gender, setGender] = useState('');
-  const [role, setRole] = useState('');
-  const [talent, setTalent] = useState('');
-  console.log(gender);
+  const [gender, setGender] = useState<Gender>();
+  const [role, setRole] = useState<Role>();
+  const [talent, setTalent] = useState<Talent>();
 
   const {
     isLoading,
@@ -64,22 +57,24 @@ function Signup() {
 
   const submitHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    const user = {
-      fullName,
-      username,
-      email,
-      password,
-      birthdate,
-      address: {
-        country,
-        region,
-      },
-      phoneNumber: phoneNumber?.toString(),
-      role,
-      talent,
-      gender,
-    };
-    mutate(user);
+    if (role !== undefined && talent !== undefined && gender !== undefined) {
+      const user = {
+        fullName,
+        username,
+        email,
+        password,
+        birthdate,
+        address: {
+          country,
+          region,
+        },
+        phoneNumber: phoneNumber?.toString(),
+        role,
+        talent,
+        gender,
+      };
+      mutate(user);
+    }
   };
 
   return (
@@ -346,16 +341,18 @@ function Signup() {
                 </label>
                 <div className="relative">
                   <select
-                    onChange={(e) => setRole(e.target.value)}
+                    onChange={(e) => setRole(e.target.value as Role)}
                     className="block w-full appearance-none rounded border border-gray-200 bg-gray-200 py-3 px-4 pr-8 leading-tight text-gray-700 focus:border-gray-500 focus:bg-white focus:outline-none"
                     id="grid-state"
                   >
                     <option value="">Select Role</option>
-                    {rolechoice?.map((role) => (
-                      <option key={role} value={role.toUpperCase()}>
-                        {role}
-                      </option>
-                    ))}
+                    {Object.values(Role)
+                      .filter((role) => role !== Role.admin)
+                      ?.map((role) => (
+                        <option key={role} value={role}>
+                          {role}
+                        </option>
+                      ))}
                   </select>
                 </div>
                 {error?.response?.data &&
@@ -380,29 +377,41 @@ function Signup() {
                   Talent
                 </label>
                 <div className="relative">
-                  {role === rolechoice[0].toUpperCase() ? (
+                  {role === Role.applicant ? (
                     <select
-                      onChange={(e) => setTalent(e.target.value)}
+                      onChange={(e) => setTalent(e.target.value as Talent)}
                       className="block w-full appearance-none rounded border border-gray-200 bg-gray-200 py-3 px-4 pr-8 leading-tight text-gray-700 focus:border-gray-500 focus:bg-white focus:outline-none"
                       id="grid-state"
                     >
-                      {applicant?.map((talent) => (
-                        <option key={talent} value={talent.toUpperCase()}>
-                          {talent}
-                        </option>
-                      ))}
+                      {Object.values(Talent)
+                        .filter(
+                          (talent) =>
+                            talent !== Talent.PRODUCER &&
+                            talent !== Talent.DIRECTOR
+                        )
+                        ?.map((talent) => (
+                          <option key={talent} value={talent}>
+                            {talent}
+                          </option>
+                        ))}
                     </select>
-                  ) : role === rolechoice[1].toUpperCase() ? (
+                  ) : role === Role.proDirector ? (
                     <select
-                      onChange={(e) => setTalent(e.target.value)}
+                      onChange={(e) => setTalent(e.target.value as Talent)}
                       className="block w-full appearance-none rounded border border-gray-200 bg-gray-200 py-3 px-4 pr-8 leading-tight text-gray-700 focus:border-gray-500 focus:bg-white focus:outline-none"
                       id="grid-state"
                     >
-                      {pro_director?.map((talent) => (
-                        <option key={talent} value={talent.toUpperCase()}>
-                          {talent}
-                        </option>
-                      ))}
+                      {Object.values(Talent)
+                        .filter(
+                          (talent) =>
+                            talent === Talent.PRODUCER ||
+                            talent === Talent.DIRECTOR
+                        )
+                        ?.map((talent) => (
+                          <option key={talent} value={talent}>
+                            {talent}
+                          </option>
+                        ))}
                     </select>
                   ) : (
                     <select
@@ -438,15 +447,15 @@ function Signup() {
                 Gender
               </label>
               <select
-                onChange={(e) => setGender(e.target.value)}
+                onChange={(e) => setGender(e.target.value as Gender)}
                 className="w-full rounded-lg border-gray-300 shadow-sm
                                 focus:border-indigo-500 focus:ring-indigo-500"
                 // defaultValue={genderList[0].toUpperCase()}
                 id="phone"
               >
                 <option value="">Select Gender</option>
-                {genderList?.map((gender) => (
-                  <option key={gender} value={gender.toUpperCase()}>
+                {Object.values(Gender)?.map((gender) => (
+                  <option key={gender} value={gender}>
                     {gender}
                   </option>
                 ))}

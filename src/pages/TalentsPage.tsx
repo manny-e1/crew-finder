@@ -5,12 +5,9 @@ import { useNavigate } from 'react-router';
 import { talentsAtom } from '../atoms/localStorageAtoms';
 import PostSteps from '../components/PostSteps';
 import Tag from '../components/Tag';
-import { applicant, pro_director } from '../constants/talents';
-import { saveTalents } from '../store/post_data_local/actions.post_data';
 import { Talent } from '../enums/enums';
 
 function TalentsPage() {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [tags, setTags] = useState<Talent[]>([]);
   const [catagories, setCatagories] = useState([...Object.values(Talent)]);
@@ -28,7 +25,6 @@ function TalentsPage() {
 
   const submitHandler = (e: MouseEvent<HTMLElement>) => {
     e.preventDefault();
-    // dispatch(saveTalents(tags));
     setTalents(tags);
     navigate('/post/others');
   };

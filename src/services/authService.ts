@@ -1,5 +1,6 @@
 import { CurrentUser } from '../atoms/localStorageAtoms';
 import axios from '../axios';
+import { Gender, Role, Talent } from '../enums/enums';
 
 export interface ISignInParams {
   email: string;
@@ -16,9 +17,9 @@ export interface ISignUpParams {
     region: string;
   };
   phoneNumber: string;
-  role: string;
-  talent: string;
-  gender: string;
+  role: Role;
+  talent: Talent;
+  gender: Gender;
 }
 
 export const signInUser = async (
