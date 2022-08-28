@@ -2,7 +2,7 @@ import { useAtom } from 'jotai';
 import { FC, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { currentUserAtom } from '../atoms/localStorageAtoms';
-import { Role } from '../util/enums';
+import { Role } from '../enums/enums';
 
 function AdminRole({ Component }: { Component: FC }) {
   const navigate = useNavigate();

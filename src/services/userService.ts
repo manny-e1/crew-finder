@@ -1,4 +1,4 @@
-import { Role, Talent, Verification } from '../util/enums';
+import { Role, Talent, Verification } from '../enums/enums';
 import axios from '../axios';
 export interface IUser {
   _id: string;

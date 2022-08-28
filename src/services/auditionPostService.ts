@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios';
 import axios from '../axios';
-import { Gender, Talent } from '../util/enums';
+import { Gender, Talent } from '../enums/enums';
 import { IUser } from './userService';
 
 export interface IAuditionPost {

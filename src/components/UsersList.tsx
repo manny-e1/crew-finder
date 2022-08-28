@@ -1,6 +1,6 @@
 import { CheckBadgeIcon } from '@heroicons/react/24/solid';
 import { IUser } from '../services/userService';
-import { Verification } from '../util/enums';
+import { Verification } from '../enums/enums';
 import { capitalizeFirstLetter } from '../util/firstLetterCapitalizer';
 import CatagoryButton from './CategoryButton';
 

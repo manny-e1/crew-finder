@@ -33,7 +33,7 @@ import {
   unhideEdit,
 } from '../store/ui/hideDiv';
 import { getUserDetails, updateUserProfile } from '../store/user/api.user';
-import { Role } from '../util/enums';
+import { Role } from '../enums/enums';
 import { capitalizeFirstLetter } from '../util/firstLetterCapitalizer';
 
 type EndorsementError = AxiosError<{ message: string } | any>;

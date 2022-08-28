@@ -8,7 +8,7 @@ import {
   getApplicationsForAuditionPosts,
   IApplication,
 } from '../services/applicationService';
-import { Status, Verification } from '../util/enums';
+import { Status, Verification } from '../enums/enums';
 import { capitalizeFirstLetter } from '../util/firstLetterCapitalizer';
 
 function ApplicationList({ auditionPostId }: { auditionPostId: string }) {

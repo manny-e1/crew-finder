@@ -1,5 +1,5 @@
 import { atom } from 'jotai';
-import { Talent } from '../util/enums';
+import { Talent } from '../enums/enums';
 
 export type CurrentUser = {
   id: string;

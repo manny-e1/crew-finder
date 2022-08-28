@@ -1,4 +1,4 @@
-import { Language, Talent } from '../util/enums';
+import { Language, Talent } from '../enums/enums';
 
 export type AddAndRemoveTagType = Language | Talent;
 

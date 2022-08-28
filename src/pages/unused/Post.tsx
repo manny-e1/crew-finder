@@ -2,7 +2,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import Tag, { AddAndRemoveTagType } from '../../components/Tag';
-import { Gender, Talent } from '../../util/enums';
+import { Gender, Talent } from '../../enums/enums';
 
 function Post() {
   const [hidden, setHidden] = useState<'hidden' | 'flex'>('hidden');

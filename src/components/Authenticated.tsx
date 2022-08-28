@@ -2,7 +2,7 @@ import { FC, ReactElement, useEffect } from 'react';
 import { matchRoutes, useLocation, useNavigate } from 'react-router-dom';
 import { useAtom } from 'jotai';
 import { currentUserAtom } from '../atoms/localStorageAtoms';
-import { Role } from '../util/enums';
+import { Role } from '../enums/enums';
 
 function Authenticated({ Component }: { Component: FC }) {
   const [currentUser] = useAtom(currentUserAtom);

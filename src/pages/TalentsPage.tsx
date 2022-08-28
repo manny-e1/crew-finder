@@ -7,7 +7,7 @@ import PostSteps from '../components/PostSteps';
 import Tag from '../components/Tag';
 import { applicant, pro_director } from '../constants/talents';
 import { saveTalents } from '../store/post_data_local/actions.post_data';
-import { Talent } from '../util/enums';
+import { Talent } from '../enums/enums';
 
 function TalentsPage() {
   const dispatch = useDispatch();
@@ -36,18 +36,18 @@ function TalentsPage() {
   return (
     <div>
       <PostSteps step1={true} step2={true} />
-      <div className="px-5 md:max-w-4xl md:mx-auto md:mt-20 mt-10">
+      <div className="mt-10 px-5 md:mx-auto md:mt-20 md:max-w-4xl">
         <div className="mb-3">
-          <label htmlFor="text" className="block font-medium text-lg">
+          <label htmlFor="text" className="block text-lg font-medium">
             What type of talents does this job requires?
           </label>
           <div className="mt-1">
             {tags.length > 0 && (
-              <p className="text-size-sm text-gray-600 pt-2">
+              <p className="text-size-sm pt-2 text-gray-600">
                 Selected talents
               </p>
             )}
-            <div className="flex flex-wrap mb-5">
+            <div className="mb-5 flex flex-wrap">
               {tags?.map((tag) => (
                 <Tag text={tag} removeTag={removeTag} />
               ))}
@@ -55,7 +55,7 @@ function TalentsPage() {
           </div>
         </div>
 
-        <div className="flex flex-wrap mb-5">
+        <div className="mb-5 flex flex-wrap">
           {catagories?.map((catagory) => (
             <Tag text={catagory} addTag={addTag} />
           ))}
@@ -64,14 +64,14 @@ function TalentsPage() {
         <div className="mt-2 flex items-center justify-end">
           <button
             type="submit"
-            className="w-48 py-2 px-4      
-              border border-transparent rounded-full shadow-sm 
-              font-medium text-white bg-indigo-600 
-              disabled:opacity-50
+            className="text-md w-48 rounded-full      
+              border border-transparent bg-indigo-600 py-2 
+              px-4 font-medium text-white 
+              shadow-sm
               hover:bg-indigo-700 
-              focus:outline-none focus:ring-2 focus:ring-offset-2 
-              text-md
-              focus:ring-indigo-500"
+              focus:outline-none focus:ring-2 focus:ring-indigo-500 
+              focus:ring-offset-2
+              disabled:opacity-50"
             disabled={tags.length <= 0}
             onClick={submitHandler}
           >

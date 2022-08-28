@@ -19,7 +19,7 @@ import {
   IAuditionPost,
   ICreateAuditionPostParams,
 } from '../services/auditionPostService';
-import { Gender, Language } from '../util/enums';
+import { Gender, Language } from '../enums/enums';
 import { capitalizeFirstLetter } from '../util/firstLetterCapitalizer';
 
 function OthersPage() {

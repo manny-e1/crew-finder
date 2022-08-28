@@ -10,7 +10,7 @@ import {
   IApplication,
   updateApplication,
 } from '../services/applicationService';
-import { Status } from '../util/enums';
+import { Status } from '../enums/enums';
 import { capitalizeFirstLetter } from '../util/firstLetterCapitalizer';
 
 function ApplicationDetail({

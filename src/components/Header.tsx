@@ -11,7 +11,7 @@ import {
 import { Link, useNavigate } from 'react-router-dom';
 import { searchDropDownVisibilityAtom } from '../atoms/changeElementVIsibilityAtoms';
 import { currentUserAtom } from '../atoms/localStorageAtoms';
-import { Role } from '../util/enums';
+import { Role } from '../enums/enums';
 
 function SearchDropdownRow({
   type,
