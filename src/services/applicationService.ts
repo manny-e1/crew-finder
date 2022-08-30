@@ -36,6 +36,11 @@ export const getApplicationById = async (
   return res.data;
 };
 
+export const getAllApplications = async (): Promise<IApplication[]> => {
+  const res = await axios.get(`/applications`);
+  return res.data;
+};
+
 export const createApplication = async (data: {}): Promise<any> => {
   const res = await axios.post('/applications', data);
   return res.data;
@@ -48,5 +53,10 @@ export const updateApplication = async (data: {
   const res = await axios.put(`/applications/${data.id}`, {
     applicationStatus: data.applicationStatus,
   });
+  return res.data;
+};
+
+export const deleteApplication = async (id: string): Promise<any> => {
+  const res = await axios.put(`/applications/${id}`);
   return res.data;
 };
