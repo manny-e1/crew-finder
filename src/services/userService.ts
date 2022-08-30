@@ -50,12 +50,12 @@ export const getAllUsers = async (): Promise<IUser[]> => {
   return res.data;
 };
 
-export const updateUser = async (data: UserUpdateType): Promise<IUser[]> => {
+export const updateUser = async (data: UserUpdateType): Promise<any> => {
   const res = await axios.put('/users/update', data);
   return res.data;
 };
 
-export const deleteUser = async (id: string): Promise<IUser[]> => {
+export const deleteUser = async (id: string): Promise<any> => {
   const res = await axios.delete(`/users/${id}`);
   return res.data;
 };

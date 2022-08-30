@@ -24,3 +24,8 @@ export const endorseUser = async (data: {
   const res = await axios.post('/endorsements', data);
   return res.data;
 };
+
+export const deleteEndorsement = async (id: string): Promise<any> => {
+  const res = await axios.delete(`/endorsements/${id}`);
+  return res.data;
+};
