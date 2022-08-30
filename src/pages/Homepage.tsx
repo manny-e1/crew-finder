@@ -1,5 +1,4 @@
-import { ChangeEvent, FormEvent, MouseEvent, ReactNode, useState } from 'react';
-import { useEffect } from 'react';
+import { ChangeEvent, ReactNode, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import Select from 'react-select';
 import PostCard from '../components/PostCard';
