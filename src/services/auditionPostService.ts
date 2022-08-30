@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios';
 import axios from '../axios';
-import { Gender, Talent } from '../enums/enums';
+import { Gender, Language, Talent } from '../enums/enums';
 import { IUser } from './userService';
 
 export interface IAuditionPost {
@@ -20,14 +20,14 @@ export interface IAuditionPost {
 }
 
 export interface ICreateAuditionPostParams {
-  title: string;
-  text: string;
-  talents: Talent[];
-  ageRange: { min: number; max: number };
-  languages: string[];
-  gender: Gender[];
-  region: string;
-  endorsementCount: number;
+  title?: string;
+  text?: string;
+  talents?: Talent[];
+  ageRange?: { min: number; max: number };
+  languages?: string[];
+  gender?: Gender[];
+  region?: string;
+  endorsementCount?: number;
 }
 
 export const getAuditionPosts = async (
@@ -37,7 +37,7 @@ export const getAuditionPosts = async (
   if (query && query.startsWith('?search')) {
     res = await axios.get(`/auditionPosts/search${query}`);
   } else {
-    res = await axios.get(`/auditionPosts`);
+    res = await axios.get(`/auditionPosts${query}`);
   }
   return res.data;
 };
@@ -56,8 +56,21 @@ export const getAuditionPostById = async (
 };
 
 export const createAuditionPost = async (
-  auditionPost: ICreateAuditionPostParams
+  auditionPost: Required<ICreateAuditionPostParams>
 ): Promise<IAuditionPost> => {
   let res: AxiosResponse = await axios.post('/auditionPosts', auditionPost);
+  return res.data;
+};
+
+export const deleteAuditionPost = async (id: string): Promise<any> => {
+  let res: AxiosResponse = await axios.delete(`/auditionPosts/${id}`);
+  return res.data;
+};
+
+export const updateAuditionPost = async (
+  params: ICreateAuditionPostParams,
+  id: string
+): Promise<any> => {
+  let res: AxiosResponse = await axios.put(`/auditionPosts/${id}`, params);
   return res.data;
 };
