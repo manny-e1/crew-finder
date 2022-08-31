@@ -64,8 +64,8 @@ function ApplicationDetail({
 
   return (
     <>
-      <div className="z-100 fixed inset-0   bg-black opacity-70"></div>
-      <div className="z-100 fixed top-[50%] left-[50%] w-[80%] -translate-x-[50%] -translate-y-[50%] transform  rounded bg-gray-200 md:w-[30%]">
+      <div className="z-100 fixed inset-0 bg-black opacity-70"></div>
+      <div className="z-100 fixed top-[50%] left-[50%] w-[80%] -translate-x-[50%] -translate-y-[50%] transform  rounded bg-gray-200 md:w-[40%]">
         <div className="flex justify-end ">
           <XMarkIcon
             className="mt-2 mr-2 h-7 w-7 cursor-pointer hover:text-red-500 "
@@ -87,7 +87,7 @@ function ApplicationDetail({
         {isSuccess && (
           <div className="px-5 py-5">
             <p className="">Application Letter:</p>
-            <p className="text-size-sm pt-1  font-light">
+            <p className="text-size-sm pt-1 font-light line-clamp-3">
               {application?.applicationLetter}
             </p>
             <div className="my-2 flex items-center space-x-2">

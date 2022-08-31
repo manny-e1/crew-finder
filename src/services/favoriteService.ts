@@ -5,10 +5,19 @@ export interface IFavorite {
   auditionPost: IAuditionPost;
 }
 
-export const favoriteAuditionPost = async (
-  auditionPostId: string
-): Promise<any> => {
-  const res = await axios.post('/favorites', { auditionPostId });
+export type CheckFavorite = { message: 'Found' | 'Not Found' };
+export type FavoriteParams = {
+  favorited: boolean;
+  auditionPostId: string;
+};
+
+export const favoriteAuditionPost = async ({
+  auditionPostId,
+  favorited,
+}: FavoriteParams): Promise<any> => {
+  const res = favorited
+    ? await axios.delete(`/favorites/${auditionPostId}`)
+    : await axios.post('/favorites', { auditionPostId });
   return res.data;
 };
 
@@ -24,9 +33,11 @@ export const getFavoriteById = async (
   return res.data;
 };
 
-export const removeFavorite = async (
-  favoriteId: string
-): Promise<IFavorite> => {
-  const res = await axios.delete(`/favorites/${favoriteId}`);
+export const checkFavorite = async (
+  auditionPostId: string
+): Promise<CheckFavorite> => {
+  console.log('check', auditionPostId);
+
+  const res = await axios.get(`/favorites/check/${auditionPostId}`);
   return res.data;
 };

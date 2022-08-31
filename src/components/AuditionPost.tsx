@@ -1,7 +1,21 @@
 import { HeartIcon } from '@heroicons/react/24/solid';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
+import { MouseEvent, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { CurrentUser } from '../atoms/localStorageAtoms';
+import { Status } from '../enums/enums';
+import {
+  getApplicationsForAuditionPosts,
+  IApplication,
+} from '../services/applicationService';
 import { IAuditionPost } from '../services/auditionPostService';
+import {
+  checkFavorite,
+  CheckFavorite,
+  favoriteAuditionPost,
+  FavoriteParams,
+} from '../services/favoriteService';
 import { IUser } from '../services/userService';
 import { capitalizeFirstLetter } from '../util/firstLetterCapitalizer';
 import CategoryButton from './CategoryButton';
@@ -14,6 +28,55 @@ function AuditionPost({
   currentUser: CurrentUser | null;
 }) {
   const navigate = useNavigate();
+
+  const { data: applications } = useQuery<IApplication[], Error>(
+    ['applications', auditionPost._id],
+    () => getApplicationsForAuditionPosts(auditionPost._id),
+    {
+      enabled: auditionPost._id !== undefined,
+    }
+  );
+
+  const { data: checkResponse, refetch } = useQuery<CheckFavorite, Error>(
+    ['favorites', auditionPost._id],
+    () => checkFavorite(auditionPost._id),
+    {
+      enabled: auditionPost._id !== undefined,
+    }
+  );
+
+  const { isLoading, mutate, error } = useMutation<
+    any,
+    AxiosError<{ message: string }>,
+    FavoriteParams
+  >(favoriteAuditionPost, {
+    onSuccess: (_) => {
+      refetch();
+    },
+  });
+
+  const acceptedApplicationsCount = useMemo(
+    () =>
+      applications?.filter(
+        (application) => application.applicationStatus === Status.APPROVED
+      ).length,
+    [applications]
+  );
+  const rejectedApplicationsCount = useMemo(
+    () =>
+      applications?.filter(
+        (application) => application.applicationStatus === Status.REJECTED
+      ).length,
+    [applications]
+  );
+
+  console.log(auditionPost);
+
+  const favoriteHandler = (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    const favorited = checkResponse?.message === 'Found';
+    mutate({ auditionPostId: auditionPost._id, favorited });
+  };
 
   return (
     <div
@@ -31,14 +94,16 @@ function AuditionPost({
               <CategoryButton key={talent} text={talent} />
             ))}
           </div>
-          <p className="text-md font-light">Posted 13 days ago</p>
+          <p className="text-md font-light">
+            {auditionPost.createdAt.toString()}
+          </p>
         </div>
         <p className="border-b p-5 text-sm font-light sm:text-base">
           {auditionPost.text}
         </p>
         <div className="space-y-2 border-b p-5 text-sm">
           <h2 className="mb-2 text-sm font-medium sm:text-base">
-            Preffered Qualifications
+            Preferred Qualifications
           </h2>
           <div className="flex justify-between sm:justify-start sm:space-x-2">
             <p className="text-sm font-light sm:text-base">Gender:</p>
@@ -90,20 +155,20 @@ function AuditionPost({
           </div>
           <div className="flex justify-between sm:justify-start sm:space-x-2">
             <p className="text-sm font-light sm:text-base">Interviewing:</p>
-            <p className="text-sm sm:text-base">0</p>
+            <p className="text-sm sm:text-base">{acceptedApplicationsCount}</p>
           </div>
           <div className="flex justify-between sm:justify-start sm:space-x-2">
             <p className="text-sm font-light sm:text-base">
-              Cancelled Applications:
+              Rejected Applications:
             </p>
-            <p className="text-sm sm:text-base">0</p>
+            <p className="text-sm sm:text-base">{rejectedApplicationsCount}</p>
           </div>
           <div className="flex justify-between sm:justify-start sm:space-x-2">
             <p className="text-sm font-light sm:text-base">
               Accepting Applications:
             </p>
             <p className="text-sm sm:text-base">
-              {auditionPost.isAcceptingApplication ? 'No' : 'Yes'}
+              {auditionPost.isAcceptingApplication ? 'Yes' : 'No'}
             </p>
           </div>
         </div>
@@ -146,10 +211,32 @@ function AuditionPost({
                 Submit an application
               </button>
             </Link>
-            <button className="flex h-11 w-11 items-center justify-center rounded-full border border-black sm:w-64 md:w-80 md:space-x-2 lg:w-full lg:py-3">
-              <HeartIcon className="h-6 text-black" />
-              <span className="hidden md:flex">save</span>
+            <button
+              className="flex h-11 w-11 items-center justify-center rounded-full border border-black sm:w-64 md:w-80 md:space-x-2 lg:w-full lg:py-3"
+              onClick={favoriteHandler}
+            >
+              {isLoading ? (
+                <p>Loading... </p>
+              ) : (
+                <>
+                  <HeartIcon
+                    className={`h-6 ${
+                      checkResponse?.message === 'Found'
+                        ? 'text-red-500'
+                        : 'text-black'
+                    }`}
+                  />
+                  <span className="hidden md:flex">
+                    {checkResponse?.message === 'Found' ? 'Unsave' : 'Save'}
+                  </span>
+                </>
+              )}
             </button>
+            {error && (
+              <p className="text-sm text-red-500">
+                {error.response?.data['message']}
+              </p>
+            )}
           </div>
 
           <div className="hidden w-full space-y-2 border-b p-5 text-sm lg:inline-block">
