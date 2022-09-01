@@ -16,7 +16,6 @@ import {
   favoriteAuditionPost,
   FavoriteParams,
 } from '../services/favoriteService';
-import { IUser } from '../services/userService';
 import { capitalizeFirstLetter } from '../util/firstLetterCapitalizer';
 import CategoryButton from './CategoryButton';
 

@@ -15,6 +15,7 @@ import Header from './components/Header';
 import TitleAndDescriptionPage from './pages/TitleAndDescriptionPage';
 import TalentsPage from './pages/TalentsPage';
 import OthersPage from './pages/OthersPage';
+import AuditionPostSearchPage from './pages/AuditionPostSearchPage';
 
 function App() {
   const queryClient = useRef(new QueryClient());
@@ -56,6 +57,10 @@ function App() {
           path="/users"
           element={<Authenticated Component={UserSearchPage} />}
         />
+        <Route
+          path="/auditionposts"
+          element={<Authenticated Component={AuditionPostSearchPage} />}
+        />
         {/* <Route path="/checkbox" element={<Checkbox />} /> */}
         {/* 
         <Route path="/hh" element={<Authenticated Component={HH} />} />
@@ -78,7 +83,6 @@ function App() {
           element={<AdminRole Component={AdminPage} />}
         />
         <Route path="/mark" element={<Mark />} />
-        <Route path="/auditionposts" element={<AuditionPostSearchPage />} />
         <Route path="/chat" element={<ChatPage />} />*/}
 
         <Route path="/login" element={<Login />} />

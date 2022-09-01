@@ -9,7 +9,6 @@ import {
   useState,
 } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { searchDropDownVisibilityAtom } from '../atoms/changeElementVIsibilityAtoms';
 import { currentUserAtom } from '../atoms/localStorageAtoms';
 import { Role } from '../enums/enums';
 
@@ -21,17 +20,17 @@ function SearchDropdownRow({
 }: {
   type: string;
   description: string;
-  onClick: (e: MouseEvent<HTMLElement>) => void;
+  onClick: string;
   icon: (props: ComponentProps<'svg'>) => ReactElement;
 }) {
   return (
-    <div className="flex items-center gap-2 p-2 " onClick={onClick}>
+    <Link className="flex items-center gap-2 p-2 " to={onClick}>
       <Icon className="h-5" />
       <div>
         <p className="text-size-sm font-light">{type}</p>
         <p className="text-sm font-light">{description}</p>
       </div>
-    </div>
+    </Link>
   );
 }
 
@@ -39,9 +38,9 @@ function Header() {
   const [searchInput, setSearchInput] = useState('');
   const navigate = useNavigate();
   const [currentUser, setCurrentUser] = useAtom(currentUserAtom);
-  const [searchDropDownVisibility, setSearchDropDownVisibllity] = useAtom(
-    searchDropDownVisibilityAtom
-  );
+  const [searchDropDownVisibility, setSearchDropDownVisibllity] = useState<
+    'hidden' | 'block'
+  >('hidden');
   const logoutHandler = () => {
     localStorage.removeItem('currentUser');
     setCurrentUser(null);
@@ -49,6 +48,7 @@ function Header() {
 
   const userSearchHandler = (e: MouseEvent<HTMLElement>) => {
     e.preventDefault();
+    e.stopPropagation();
     navigate({
       pathname: '/users',
       search: `search=${searchInput}`,
@@ -56,19 +56,12 @@ function Header() {
   };
   const auditionPostSeachHandler = (e: MouseEvent<HTMLElement>) => {
     e.preventDefault();
+    e.stopPropagation();
     navigate({
       pathname: '/auditionposts',
       search: `search=${searchInput}`,
     });
   };
-
-  useEffect(() => {
-    if (searchInput) {
-      setSearchDropDownVisibllity('block');
-    } else {
-      setSearchDropDownVisibllity('hidden');
-    }
-  }, [searchInput]);
 
   return (
     <nav
@@ -88,6 +81,12 @@ function Header() {
           <input
             className="mx-2 w-80 rounded-full border-none bg-gray-100 pl-5 text-sm text-gray-600 placeholder-gray-400 "
             value={searchInput}
+            onFocus={(e) => setSearchDropDownVisibllity('block')}
+            onBlur={(e) =>
+              setTimeout(() => {
+                setSearchDropDownVisibllity('hidden');
+              }, 200)
+            }
             onChange={(e) => setSearchInput(e.target.value)}
             type="text"
             name="search"
@@ -100,13 +99,13 @@ function Header() {
             <SearchDropdownRow
               type="Talent"
               description="lorem ipsum"
-              onClick={userSearchHandler}
+              onClick={`/users?search=${searchInput}`}
               icon={UserIcon}
             />
             <SearchDropdownRow
               type="Audition posts"
               description="lorem ipsum"
-              onClick={auditionPostSeachHandler}
+              onClick={`/auditionposts?search=${searchInput}`}
               icon={DocumentIcon}
             />
           </div>

@@ -48,8 +48,11 @@ function UsersList({ user }: { user: IUser }) {
           <div className="flex items-center space-x-2">
             <p className="md:text-size-sm text-sm">Other Talents: </p>
             <div className="flex items-center">
-              {user.otherTalents?.map((otherTalent) => (
-                <CatagoryButton text={capitalizeFirstLetter(otherTalent)} />
+              {user.otherTalents?.map((otherTalent, idx) => (
+                <CatagoryButton
+                  key={`${otherTalent}${idx}`}
+                  text={capitalizeFirstLetter(otherTalent)}
+                />
               ))}
             </div>
           </div>

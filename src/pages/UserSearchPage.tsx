@@ -8,13 +8,10 @@ import { AxiosError } from 'axios';
 import { useAtom } from 'jotai';
 import { searchDropDownVisibilityAtom } from '../atoms/changeElementVIsibilityAtoms';
 
+let oldSearch = '';
 function UserSearchPage() {
   const location = useLocation();
   const search = new URLSearchParams(location.search).get('search') ?? '';
-
-  const [_, setSearchDropDownVisibllity] = useAtom(
-    searchDropDownVisibilityAtom
-  );
 
   const [min, setMin] = useState(0);
   const [max, setMax] = useState(80);
@@ -25,10 +22,18 @@ function UserSearchPage() {
     isLoading,
     data: users,
     error,
-  } = useQuery<IUser[], AxiosError<{ message: string }>>(
-    ['users', search],
-    () => getUsers(search)
+    refetch,
+  } = useQuery<IUser[], AxiosError<{ message: string }>>(['searchUsers'], () =>
+    getUsers(search)
   );
+
+  useEffect(() => {
+    if (oldSearch !== search) {
+      console.log(oldSearch !== search);
+      refetch();
+      oldSearch = search;
+    }
+  }, [search]);
 
   const filteredUsers = useMemo(
     () =>
@@ -41,10 +46,6 @@ function UserSearchPage() {
       ),
     [users, min, max, region, sex]
   );
-
-  useEffect(() => {
-    setSearchDropDownVisibllity('hidden');
-  }, [search]);
 
   if (isLoading) return <p className="flex justify-center">Loading...</p>;
   if (error)

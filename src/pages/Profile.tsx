@@ -216,8 +216,8 @@ function Profile() {
         <div className="border-b-2 py-3 px-5">
           <h2 className="font-bold">Other Talents</h2>
           <div className="mt-1">
-            {user?.otherTalents?.map((talent) => (
-              <CatagoryButton text={talent} />
+            {user?.otherTalents?.map((talent, idx) => (
+              <CatagoryButton key={`${talent}${idx}`} text={talent} />
             ))}
           </div>
         </div>
