@@ -16,6 +16,8 @@ import TitleAndDescriptionPage from './pages/TitleAndDescriptionPage';
 import TalentsPage from './pages/TalentsPage';
 import OthersPage from './pages/OthersPage';
 import AuditionPostSearchPage from './pages/AuditionPostSearchPage';
+import RecentPostsPage from './pages/RecentPostsPage';
+import Personalized from './pages/PersonalizedPostsPage';
 
 function App() {
   const queryClient = useRef(new QueryClient());
@@ -26,7 +28,16 @@ function App() {
 
       <Routes>
         <Route path="/squares" element={<Squares />} />
-        <Route path="/" element={<Authenticated Component={Homepage} />} />
+        <Route path="/" element={<Authenticated Component={Homepage} />}>
+          <Route
+            path="/recent"
+            element={<Authenticated Component={RecentPostsPage} />}
+          />
+          <Route
+            path="/for-you"
+            element={<Authenticated Component={Personalized} />}
+          />
+        </Route>
 
         <Route
           path="/post/title-description"

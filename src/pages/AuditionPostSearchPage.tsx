@@ -8,8 +8,6 @@ import {
   IAuditionPost,
 } from '../services/auditionPostService';
 
-let oldSearch = '';
-
 function AuditionPostSearchPage() {
   const location = useLocation();
   const search = new URLSearchParams(location.search).get('search') ?? '';
@@ -18,18 +16,10 @@ function AuditionPostSearchPage() {
     isLoading,
     data: auditionPosts,
     error,
-    refetch,
   } = useQuery<IAuditionPost[], AxiosError<{ message: string }>>(
-    ['searchAudition'],
+    ['searchAudition', search],
     () => getAuditionPosts(`?search=${search}`)
   );
-  useEffect(() => {
-    if (oldSearch !== search) {
-      console.log(oldSearch !== search);
-      refetch();
-      oldSearch = search;
-    }
-  }, [search]);
 
   if (isLoading) return <p className="flex justify-center">Loading...</p>;
   if (error)

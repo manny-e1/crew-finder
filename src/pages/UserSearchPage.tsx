@@ -5,10 +5,7 @@ import { useLocation } from 'react-router-dom';
 import { getUsers, IUser } from '../services/userService';
 import { useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import { useAtom } from 'jotai';
-import { searchDropDownVisibilityAtom } from '../atoms/changeElementVIsibilityAtoms';
 
-let oldSearch = '';
 function UserSearchPage() {
   const location = useLocation();
   const search = new URLSearchParams(location.search).get('search') ?? '';
@@ -22,18 +19,10 @@ function UserSearchPage() {
     isLoading,
     data: users,
     error,
-    refetch,
-  } = useQuery<IUser[], AxiosError<{ message: string }>>(['searchUsers'], () =>
-    getUsers(search)
+  } = useQuery<IUser[], AxiosError<{ message: string }>>(
+    ['searchUsers', search],
+    () => getUsers(search)
   );
-
-  useEffect(() => {
-    if (oldSearch !== search) {
-      console.log(oldSearch !== search);
-      refetch();
-      oldSearch = search;
-    }
-  }, [search]);
 
   const filteredUsers = useMemo(
     () =>

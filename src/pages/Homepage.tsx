@@ -1,5 +1,5 @@
-import { ChangeEvent, ReactNode, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { ChangeEvent, ReactNode, useEffect, useMemo, useState } from 'react';
+import { NavLink, Outlet, useLocation } from 'react-router-dom';
 import Select from 'react-select';
 import PostCard from '../components/PostCard';
 // import Tag from "../components/Tag";
@@ -12,13 +12,15 @@ import {
 } from '../services/auditionPostService';
 import { useAtom } from 'jotai';
 import { currentUserAtom } from '../atoms/localStorageAtoms';
+import { slugify } from '../util/slugify';
+import { queryAtom } from '../atoms/queryAtom';
 
 function Homepage() {
   const location = useLocation();
   const search = location.search;
   const tab = new URLSearchParams(search);
 
-  let [query, setQuery] = useState('');
+  let [query, setQuery] = useAtom(queryAtom);
   const [applicationCount, setApplicationCount] = useState('');
   const [region, setRegion] = useState('');
   // const [talents, setTalents] = useState(location.search && location.search.split("=")[1].split(',').map(talent => talent));
@@ -43,14 +45,7 @@ function Homepage() {
 
   const items = ['male', 'female'];
   const [gender, setGender] = useState<string[]>([]);
-  if (gender.length > 0) {
-    gender.forEach((gen: string) => {
-      query =
-        query !== ''
-          ? query + `&gender[in]=${gen.toUpperCase()}`
-          : `?gender[in]=${gen.toUpperCase()}`;
-    });
-  }
+
   const onChangeItem = (id: string) => {
     let selected = gender;
     let find = selected.indexOf(id);
@@ -63,43 +58,22 @@ function Homepage() {
     setGender([...selected]);
   };
 
-  if (applicationCount === '30+')
-    query =
-      query !== ''
-        ? query + `&applicationCount[gte]=${30}`
-        : `?applicationCount[gte]=${30}`;
-  else if (applicationCount !== '') {
-    const count = applicationCount.split('-').map((num) => +num);
-    query =
-      query !== ''
-        ? query +
-          `&applicationCount[gte]=${count[0]}&applicationCount[lte]=${count[1]}`
-        : `?applicationCount[gte]=${count[0]}&applicationCount[lte]=${count[1]}`;
-  }
-  if (region !== '')
-    query = query !== '' ? query + `&region=${region}` : `?region=${region}`;
+  const memoedGender = useMemo(() => gender, [gender]);
+  const memoedD = useMemo(() => d, [d]);
 
-  if (d.length > 0) {
-    const len = d.length;
-    let str = '';
-    for (let i = 0; i < len; i++) {
-      if (i === len - 1) {
-        str += d[i];
-        break;
-      }
-      str += `${d[i]},`;
-    }
-    query =
-      query !== '' ? query + `&talents[in]=${str}` : `?talents[in]=${str}`;
-  }
   const [hidden, setHidden] = useState('hidden');
 
-  const { isLoading, error, isSuccess, data } = useQuery<
-    IAuditionPost[],
-    Error
-  >(['auditionPosts'], () => getAuditionPosts(query));
-  const filteredAuditionPosts = data?.filter((auditionPost) =>
-    auditionPost?.talents?.includes(currentUser!.talent)
+  const { isLoading, error, data } = useQuery<IAuditionPost[], Error>(
+    ['auditionPosts', query],
+    () => getAuditionPosts(query),
+    { refetchOnWindowFocus: false }
+  );
+  const filteredAuditionPosts = useMemo(
+    () =>
+      data?.filter((auditionPost) =>
+        auditionPost?.talents?.includes(currentUser!.talent)
+      ),
+    [data]
   );
   // const ClearIndicator = props => {
   //     const {
@@ -122,6 +96,53 @@ function Homepage() {
   //     cursor: 'pointer',
   //     color: state.isFocused ? 'blue' : 'black',
   // });
+
+  useEffect(() => {
+    let newQuery = query;
+
+    if (gender.length > 0) {
+      gender.forEach((gen: string) => {
+        newQuery =
+          query !== ''
+            ? query + `&gender[in]=${gen.toUpperCase()}`
+            : `?gender[in]=${gen.toUpperCase()}`;
+      });
+    }
+
+    if (applicationCount === '30+')
+      newQuery =
+        query !== ''
+          ? query + `&applicationCount[gte]=${30}`
+          : `?applicationCount[gte]=${30}`;
+    else if (applicationCount !== '') {
+      const count = applicationCount.split('-').map((num) => +num);
+      newQuery =
+        query !== ''
+          ? query +
+            `&applicationCount[gte]=${count[0]}&applicationCount[lte]=${count[1]}`
+          : `?applicationCount[gte]=${count[0]}&applicationCount[lte]=${count[1]}`;
+    }
+    if (region !== '')
+      newQuery =
+        query !== '' ? query + `&region=${region}` : `?region=${region}`;
+
+    if (d.length > 0) {
+      const len = d.length;
+      let str = '';
+      for (let i = 0; i < len; i++) {
+        if (i === len - 1) {
+          str += d[i];
+          break;
+        }
+        str += `${d[i]},`;
+      }
+      newQuery =
+        query !== '' ? query + `&talents[in]=${str}` : `?talents[in]=${str}`;
+    }
+    if (newQuery !== query) {
+      setQuery(newQuery);
+    }
+  }, [memoedGender, memoedD, region, applicationCount]);
 
   return (
     <div>
@@ -282,29 +303,50 @@ function Homepage() {
                                 <Tag text={talent.replace(/%20/g, " ").toUpperCase()} removeTag={removeTag} />
                             ))}
                         </div> */}
-            {isLoading ? (
-              <h1>Loading...</h1>
-            ) : error && error.message.includes('Not Authenticated') ? (
+            {error && error.message.includes('Not Authenticated') ? (
               <div>{error.message}</div>
             ) : (
-              <Tabs initialTab={tab.get('tab')}>
-                <Label label="Recent">
-                  {data?.map((auditionPost) => (
-                    <PostCard
-                      key={auditionPost._id}
-                      auditionPost={auditionPost}
-                    />
+              <>
+                <ul className="flex justify-center gap-8">
+                  {['Recent', 'For You'].map((tab) => (
+                    <li key={tab}>
+                      <NavLink
+                        to={slugify(tab)}
+                        className={({ isActive, isPending }) =>
+                          ` px-5 ${
+                            isActive
+                              ? 'border-b-2 border-blue-500 pb-1 font-bold text-blue-500'
+                              : isPending
+                              ? 'border-b-2 border-blue-200 '
+                              : ''
+                          }`
+                        }
+                      >
+                        {tab}
+                      </NavLink>
+                    </li>
                   ))}
-                </Label>
-                <Label label="For You">
-                  {filteredAuditionPosts?.map((auditionPost) => (
-                    <PostCard
-                      key={auditionPost._id}
-                      auditionPost={auditionPost}
-                    />
-                  ))}
-                </Label>
-              </Tabs>
+                </ul>
+                <Outlet />
+                {/* <Tabs initialTab={tab.get('tab')}>
+                  <Label label="Recent">
+                    {data?.map((auditionPost) => (
+                      <PostCard
+                        key={auditionPost._id}
+                        auditionPost={auditionPost}
+                      />
+                    ))}
+                  </Label>
+                  <Label label="For You">
+                    {filteredAuditionPosts?.map((auditionPost) => (
+                      <PostCard
+                        key={auditionPost._id}
+                        auditionPost={auditionPost}
+                      />
+                    ))}
+                  </Label>
+                </Tabs> */}
+              </>
             )}
           </section>
           <section className="hidden w-1/6 lg:flex "></section>

@@ -42,6 +42,14 @@ export const getAuditionPosts = async (
   return res.data;
 };
 
+export const getPersonalizedAuditionPosts = async (): Promise<
+  IAuditionPost[]
+> => {
+  let res = await axios.get('/auditionPosts/personalized');
+
+  return res.data;
+};
+
 export const getAuditionPostById = async (
   id: string
 ): Promise<IAuditionPost> => {
