@@ -3,6 +3,7 @@ import { matchRoutes, useLocation, useNavigate } from 'react-router-dom';
 import { useAtom } from 'jotai';
 import { currentUserAtom } from '../atoms/localStorageAtoms';
 import { Role } from '../enums/enums';
+import Header from './Header';
 
 function Authenticated({ Component }: { Component: FC }) {
   const [currentUser] = useAtom(currentUserAtom);
@@ -13,7 +14,13 @@ function Authenticated({ Component }: { Component: FC }) {
     else if (currentUser && currentUser.role === Role.admin) navigate('/admin');
   }, [currentUser]);
 
-  if (currentUser && currentUser.role !== Role.admin) return <Component />;
+  if (currentUser && currentUser.role !== Role.admin)
+    return (
+      <>
+        <Header />
+        <Component />;
+      </>
+    );
   return <></>;
 }
 

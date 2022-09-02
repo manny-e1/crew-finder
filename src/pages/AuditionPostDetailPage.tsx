@@ -1,6 +1,6 @@
 import { QueryClient, useQuery } from '@tanstack/react-query';
 import { useAtom } from 'jotai';
-import { useParams } from 'react-router-dom';
+import { LoaderFunctionArgs, useLoaderData, useParams } from 'react-router-dom';
 import { applicationVisibilityAtom } from '../atoms/changeElementVIsibilityAtoms';
 import { currentUserAtom } from '../atoms/localStorageAtoms';
 import ApplicationDetail from '../components/ApplicationDetail';
@@ -19,11 +19,13 @@ const auditionPostDetailQuery = (id: string) => ({
 
 export const loader =
   (queryClient: QueryClient) =>
-  async ({ params }: any) => {
-    const query = auditionPostDetailQuery(params._id);
+  async ({ params }: LoaderFunctionArgs) => {
+    console.log('params', params);
+
+    const query = auditionPostDetailQuery(params.id!);
 
     return (
-      queryClient.getQueryData(query.queryKey) ??
+      queryClient.getQueryData<IAuditionPost>(query.queryKey) ??
       (await queryClient.fetchQuery<IAuditionPost, Error>(query))
     );
   };
@@ -32,10 +34,13 @@ function AuditionPostDetailPage() {
   const { id } = useParams();
   const [currentUser] = useAtom(currentUserAtom);
   const [{ display, application }] = useAtom(applicationVisibilityAtom);
-
-  const { error, data: auditionPost } = useQuery<IAuditionPost, Error>(
-    auditionPostDetailQuery(id!)
-  );
+  const initialData = useLoaderData() as Awaited<
+    ReturnType<ReturnType<typeof loader>>
+  >;
+  const { error, data: auditionPost } = useQuery<IAuditionPost, Error>({
+    ...auditionPostDetailQuery(id!),
+    initialData,
+  });
 
   if (error && error.message === 'Not Authenticated') {
     localStorage && localStorage.removeItem('currentUser');
@@ -43,8 +48,6 @@ function AuditionPostDetailPage() {
   if (error && error.message !== 'Not Authenticated') {
     <p>{error.message}</p>;
   }
-
-  if (!auditionPost) return <p>null</p>;
 
   return (
     <div

@@ -69,8 +69,6 @@ function AuditionPost({
     [applications]
   );
 
-  console.log(auditionPost);
-
   const favoriteHandler = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     const favorited = checkResponse?.message === 'Found';

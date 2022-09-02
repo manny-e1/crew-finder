@@ -7,6 +7,7 @@ import { useMutation, UseMutationResult } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { AxiosError } from 'axios';
 import { Gender, Role, Talent } from '../enums/enums';
+import Header from '../components/Header';
 
 type signupErrorResponse = {
   fullName?: string;
@@ -78,7 +79,8 @@ function Signup() {
   };
 
   return (
-    <div>
+    <>
+      <Header />
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="rounded-lg bg-white py-8 px-6 shadow sm:px-10">
           <form action="" className="mb-0 space-y-6">
@@ -490,7 +492,7 @@ function Signup() {
           </form>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

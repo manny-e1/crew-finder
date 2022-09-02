@@ -41,9 +41,10 @@ function Login(): ReactElement {
     mutate({ email, password });
   };
   return (
-    <div>
+    <>
+      <Header />
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="bg-white py-8 px-6 shadow rounded-lg sm:px-10">
+        <div className="rounded-lg bg-white py-8 px-6 shadow sm:px-10">
           <div className="mb-0 space-y-6">
             <div>
               <label
@@ -61,7 +62,7 @@ function Login(): ReactElement {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full border-gray-300  rounded-lg shadow-sm
+                  className="w-full rounded-lg  border-gray-300 shadow-sm
                   focus:border-indigo-500 focus:ring-indigo-500"
                 />
               </div>
@@ -83,7 +84,7 @@ function Login(): ReactElement {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full border-gray-300  rounded-lg shadow-sm
+                  className="w-full rounded-lg  border-gray-300 shadow-sm
                 focus:border-indigo-500 focus:ring-indigo-500"
                 />
               </div>
@@ -91,11 +92,11 @@ function Login(): ReactElement {
 
             <div>
               <button
-                className="w-full flex justify-center py-2 px-4 
-              border border-transparent rounded-md shadow-sm text-sm 
-              font-medium text-white bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50
-              focus:outline-none focus:ring-2 focus:ring-offset-2 
-              focus:ring-indigo-500"
+                className="flex w-full justify-center rounded-md border 
+              border-transparent bg-indigo-600 py-2 px-4 text-sm 
+              font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none
+              focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 
+              disabled:opacity-50"
                 onClick={submitHandler}
                 disabled={isLoading}
               >
@@ -106,7 +107,7 @@ function Login(): ReactElement {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
