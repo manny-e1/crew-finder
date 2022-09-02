@@ -20,7 +20,9 @@ import TalentsPage from './pages/TalentsPage';
 import OthersPage from './pages/OthersPage';
 import AuditionPostSearchPage from './pages/AuditionPostSearchPage';
 import RecentPostsPage from './pages/RecentPostsPage';
-import Personalized from './pages/PersonalizedPostsPage';
+import PersonalizedPostsPage, {
+  loader as personalizedPostsPageLoader,
+} from './pages/PersonalizedPostsPage';
 
 const store = configureStore();
 
@@ -41,7 +43,8 @@ const router = (queryClient: QueryClient) =>
             },
             {
               path: '/for-you',
-              element: <Personalized />,
+              loader: personalizedPostsPageLoader(queryClient),
+              element: <PersonalizedPostsPage />,
             },
           ],
         },

@@ -1,10 +1,7 @@
 import { ChangeEvent, ReactNode, useEffect, useMemo, useState } from 'react';
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
 import Select from 'react-select';
-import PostCard from '../components/PostCard';
-// import Tag from "../components/Tag";
 import { RegionDropdown } from 'react-country-region-selector';
-import { Tabs } from '../components/Tab';
 import { useQuery } from '@tanstack/react-query';
 import {
   getAuditionPosts,
@@ -16,10 +13,6 @@ import { slugify } from '../util/slugify';
 import { queryAtom } from '../atoms/queryAtom';
 
 function Homepage() {
-  const location = useLocation();
-  const search = location.search;
-  const tab = new URLSearchParams(search);
-
   let [query, setQuery] = useAtom(queryAtom);
   const [applicationCount, setApplicationCount] = useState('');
   const [region, setRegion] = useState('');
@@ -328,24 +321,6 @@ function Homepage() {
                   ))}
                 </ul>
                 <Outlet />
-                {/* <Tabs initialTab={tab.get('tab')}>
-                  <Label label="Recent">
-                    {data?.map((auditionPost) => (
-                      <PostCard
-                        key={auditionPost._id}
-                        auditionPost={auditionPost}
-                      />
-                    ))}
-                  </Label>
-                  <Label label="For You">
-                    {filteredAuditionPosts?.map((auditionPost) => (
-                      <PostCard
-                        key={auditionPost._id}
-                        auditionPost={auditionPost}
-                      />
-                    ))}
-                  </Label>
-                </Tabs> */}
               </>
             )}
           </section>
