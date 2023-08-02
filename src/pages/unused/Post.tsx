@@ -126,13 +126,13 @@ function Post() {
             <div className="">
               <label htmlFor="min">Min</label>
               <div className="mt-1">
-                <input type="number" name="min" id="min" />
+                <input inputMode="numeric" name="min" id="min" />
               </div>
             </div>
             <div className="">
               <label htmlFor="max">Max</label>
               <div className="mt-1">
-                <input type="number" name="max" id="max" />
+                <input inputMode="numeric" name="max" id="max" />
               </div>
             </div>
           </div>

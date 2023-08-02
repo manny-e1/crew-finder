@@ -49,14 +49,14 @@ function UserSearchPage() {
           <p>age:</p>
           <input
             className="h-7 w-20"
-            type="number"
+            inputMode="numeric"
             placeholder="min"
             value={min}
             onChange={(e) => setMin(+e.target.value)}
           />
           <input
             className="h-7 w-20"
-            type="number"
+            inputMode="numeric"
             placeholder="max"
             value={max}
             onChange={(e) =>
